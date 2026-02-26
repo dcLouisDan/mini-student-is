@@ -10,7 +10,7 @@ export default class SessionController {
 
     await auth.use('web').login(user)
 
-    return response.ok({ message: 'Login successfull' })
+    return response.ok({ success: true, message: 'Login successfull' })
   }
 
   async destroy({ auth, response }: HttpContext) {

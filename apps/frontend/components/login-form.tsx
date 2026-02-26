@@ -1,17 +1,12 @@
 'use client'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-  FieldSeparator,
-} from '@/components/ui/field'
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { client } from '@/lib/api'
+import { useRouter } from 'next/navigation'
+import { handleRequestError } from './handle-request-error'
 
 type LoginFormInputs = {
   email: string
@@ -19,15 +14,22 @@ type LoginFormInputs = {
 }
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'form'>) {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>()
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
-    const response = await client.api.auth.session.store({ body: data })
+    try {
+      const response = await client.api.auth.session.store({ body: data })
 
-    console.log(response)
+      if (response.success) {
+        router.push('/dashboard')
+      }
+    } catch (e) {
+      handleRequestError(e)
+    }
   }
   return (
     <form

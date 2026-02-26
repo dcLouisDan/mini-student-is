@@ -2,11 +2,13 @@
 
 import { client } from '@/lib/api'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
 
 const AUTH_QUERY_KEY = 'auth'
 
 export default function useAuth() {
   const queryClient = useQueryClient()
+  const router = useRouter()
 
   const {
     data: user,
@@ -29,6 +31,7 @@ export default function useAuth() {
     if (success) {
       queryClient.setQueryData([AUTH_QUERY_KEY], null)
       queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] })
+      router.push('/auth/login')
     }
   }
 
