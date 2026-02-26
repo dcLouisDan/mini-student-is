@@ -15,6 +15,6 @@ export default class SessionController {
 
   async destroy({ auth, response }: HttpContext) {
     await auth.use('web').logout()
-    return response.ok({ message: 'Logout successfull' })
+    return response.ok({ success: true, message: 'Logout successfull' })
   }
 }

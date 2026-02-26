@@ -22,6 +22,7 @@ router
         router.post('signup', [controllers.NewAccount, 'store'])
         router.post('login', [controllers.Session, 'store'])
         router.post('logout', [controllers.Session, 'destroy']).use(middleware.auth())
+        router.get('/me', [controllers.Profile, 'show'])
       })
       .prefix('auth')
       .as('auth')

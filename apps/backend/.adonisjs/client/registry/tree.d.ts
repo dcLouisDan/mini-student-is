@@ -10,6 +10,9 @@ export interface ApiDefinition {
       store: typeof routes['auth.session.store']
       destroy: typeof routes['auth.session.destroy']
     }
+    profile: {
+      show: typeof routes['auth.profile.show']
+    }
   }
   profile: {
     profile: {

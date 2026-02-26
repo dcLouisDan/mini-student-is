@@ -7,12 +7,15 @@ export type ScannedRoutes = {
     'auth.new_account.store': { paramsTuple?: []; params?: {} }
     'auth.session.store': { paramsTuple?: []; params?: {} }
     'auth.session.destroy': { paramsTuple?: []; params?: {} }
+    'auth.profile.show': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
   }
   GET: {
+    'auth.profile.show': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
+    'auth.profile.show': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
   }
   POST: {
