@@ -1,5 +1,6 @@
 import vine from '@vinejs/vine'
 import { SORT_ORDER_ARR } from '../../lib/constants.ts'
+import { uniqueRule } from './rules/unique.ts'
 
 const SORTABLE_COLUMNS = ['createdAt', 'code', 'name']
 
@@ -18,7 +19,10 @@ const courseValidatorBase = {
   description: vine.string(),
 }
 
-export const createCourseValidator = vine.create(courseValidatorBase)
+export const createCourseValidator = vine.create({
+  ...courseValidatorBase,
+  code: vine.string().use(uniqueRule({ table: 'courses', column: 'code' })),
+})
 
 export const updateCourseValidator = vine.create({
   ...courseValidatorBase,

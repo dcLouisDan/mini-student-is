@@ -39,7 +39,7 @@ export const showStudentValidator = vine.create({
 export const showStudentReservationValidator = vine.create({
   params: vine.object({
     id: vine.string(),
-    reservationId: vine.string(),
+    subjectId: vine.string(),
   }),
 })
 
@@ -47,5 +47,5 @@ export const attachStudentReservationValidator = vine.create({
   params: vine.object({
     id: vine.string(),
   }),
-  reservationIds: vine.array(vine.string()),
+  subjectIds: vine.array(vine.string()),
 })

@@ -59,5 +59,18 @@ router
       .resource('students', controllers.Students)
       .apiOnly()
       .use(['store', 'update', 'destroy'], middleware.auth())
+
+    router
+      .group(() => {
+        router.get('/', [controllers.SubjectReservations, 'index'])
+        router.post('/', [controllers.SubjectReservations, 'store']).use(middleware.auth())
+        router
+          .delete('/:subjectId', [controllers.SubjectReservations, 'destroy'])
+          .use(middleware.auth())
+        router
+          .post('/:subjectId/cancel', [controllers.SubjectReservations, 'cancel'])
+          .use(middleware.auth())
+      })
+      .prefix('/students/:id/reservations')
   })
   .prefix('/api/v1')
