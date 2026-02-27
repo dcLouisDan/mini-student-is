@@ -34,5 +34,10 @@ router
       .prefix('account')
       .as('profile')
       .use(middleware.auth())
+
+    router
+      .resource('courses', controllers.Courses)
+      .apiOnly()
+      .use(['store', 'update', 'destroy'], middleware.auth())
   })
   .prefix('/api/v1')

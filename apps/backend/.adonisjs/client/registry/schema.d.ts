@@ -62,4 +62,59 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/profile_controller').default['show']>>>
     }
   }
+  'courses.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/courses'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/course').indexCourseValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['index']>>>
+    }
+  }
+  'courses.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/courses'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/course').createCourseValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/course').createCourseValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['store']>>>
+    }
+  }
+  'courses.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/courses/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/course').showCourseValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['show']>>>
+    }
+  }
+  'courses.update': {
+    methods: ["PUT","PATCH"]
+    pattern: '/api/v1/courses/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/course').updateCourseValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/course').updateCourseValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['update']>>>
+    }
+  }
+  'courses.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/courses/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/course').showCourseValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/course').showCourseValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['destroy']>>>
+    }
+  }
 }

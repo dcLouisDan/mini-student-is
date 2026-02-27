@@ -19,4 +19,11 @@ export interface ApiDefinition {
       show: typeof routes['profile.profile.show']
     }
   }
+  courses: {
+    index: typeof routes['courses.index']
+    store: typeof routes['courses.store']
+    show: typeof routes['courses.show']
+    update: typeof routes['courses.update']
+    destroy: typeof routes['courses.destroy']
+  }
 }
