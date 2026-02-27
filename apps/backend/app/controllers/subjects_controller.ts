@@ -101,6 +101,6 @@ export default class SubjectsController {
 
     await subject.delete()
 
-    return response.status(200).send({ success: true, message: 'Course deleted' })
+    return response.status(200).send({ success: true, message: 'Subject deleted' })
   }
 }

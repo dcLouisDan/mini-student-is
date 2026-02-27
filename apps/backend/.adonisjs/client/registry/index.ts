@@ -114,6 +114,36 @@ const routes = {
     tokens: [{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":1,"val":"id","end":""},{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":0,"val":"prerequisites","end":""},{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":1,"val":"prerequisiteSubjectId","end":""}],
     types: placeholder as Registry['subject_prerequisites.destroy']['types'],
   },
+  'students.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/students',
+    tokens: [{"old":"/api/v1/students","type":0,"val":"api","end":""},{"old":"/api/v1/students","type":0,"val":"v1","end":""},{"old":"/api/v1/students","type":0,"val":"students","end":""}],
+    types: placeholder as Registry['students.index']['types'],
+  },
+  'students.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/students',
+    tokens: [{"old":"/api/v1/students","type":0,"val":"api","end":""},{"old":"/api/v1/students","type":0,"val":"v1","end":""},{"old":"/api/v1/students","type":0,"val":"students","end":""}],
+    types: placeholder as Registry['students.store']['types'],
+  },
+  'students.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/students/:id',
+    tokens: [{"old":"/api/v1/students/:id","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['students.show']['types'],
+  },
+  'students.update': {
+    methods: ["PUT","PATCH"],
+    pattern: '/api/v1/students/:id',
+    tokens: [{"old":"/api/v1/students/:id","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['students.update']['types'],
+  },
+  'students.destroy': {
+    methods: ["DELETE"],
+    pattern: '/api/v1/students/:id',
+    tokens: [{"old":"/api/v1/students/:id","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['students.destroy']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

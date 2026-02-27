@@ -1,7 +1,7 @@
 import vine from '@vinejs/vine'
 import { SORT_ORDER_ARR } from '../../lib/constants.ts'
 
-const SORTABLE_COLUMNS = ['courseId', 'created_at', 'code', 'title']
+const SORTABLE_COLUMNS = ['courseId', 'createdAt', 'code', 'title']
 
 export const indexSubjectValidator = vine.create({
   qs: vine.object({

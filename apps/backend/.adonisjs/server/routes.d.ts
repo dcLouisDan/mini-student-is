@@ -22,6 +22,11 @@ export type ScannedRoutes = {
     'subject_prerequisites.index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_prerequisites.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_prerequisites.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'prerequisiteSubjectId': ParamValue} }
+    'students.index': { paramsTuple?: []; params?: {} }
+    'students.store': { paramsTuple?: []; params?: {} }
+    'students.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'students.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'students.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   GET: {
     'auth.profile.show': { paramsTuple?: []; params?: {} }
@@ -31,6 +36,8 @@ export type ScannedRoutes = {
     'subjects.index': { paramsTuple?: []; params?: {} }
     'subjects.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_prerequisites.index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'students.index': { paramsTuple?: []; params?: {} }
+    'students.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   HEAD: {
     'auth.profile.show': { paramsTuple?: []; params?: {} }
@@ -40,6 +47,8 @@ export type ScannedRoutes = {
     'subjects.index': { paramsTuple?: []; params?: {} }
     'subjects.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_prerequisites.index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'students.index': { paramsTuple?: []; params?: {} }
+    'students.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   POST: {
     'auth.new_account.store': { paramsTuple?: []; params?: {} }
@@ -48,19 +57,23 @@ export type ScannedRoutes = {
     'courses.store': { paramsTuple?: []; params?: {} }
     'subjects.store': { paramsTuple?: []; params?: {} }
     'subject_prerequisites.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'students.store': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'courses.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'students.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {
     'courses.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'students.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
     'courses.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_prerequisites.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'prerequisiteSubjectId': ParamValue} }
+    'students.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }
 declare module '@adonisjs/core/types/http' {

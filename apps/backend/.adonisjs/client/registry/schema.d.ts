@@ -198,11 +198,66 @@ export interface Registry {
     methods: ["DELETE"]
     pattern: '/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId'
     types: {
-      body: ExtractBody<InferInput<(typeof import('#validators/subject').attachSubjectPrerequisiteValidator)>>
+      body: ExtractBody<InferInput<(typeof import('#validators/subject').showSubjectPrerequisiteValidator)>>
       paramsTuple: [ParamValue, ParamValue]
       params: { id: ParamValue; prerequisiteSubjectId: ParamValue }
-      query: ExtractQuery<InferInput<(typeof import('#validators/subject').attachSubjectPrerequisiteValidator)>>
+      query: ExtractQuery<InferInput<(typeof import('#validators/subject').showSubjectPrerequisiteValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/subject_prerequisites_controller').default['destroy']>>>
+    }
+  }
+  'students.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/students'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/student').indexStudentValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/students_controller').default['index']>>>
+    }
+  }
+  'students.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/students'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/student').createStudentValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/student').createStudentValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/students_controller').default['store']>>>
+    }
+  }
+  'students.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/students/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/student').showStudentValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/students_controller').default['show']>>>
+    }
+  }
+  'students.update': {
+    methods: ["PUT","PATCH"]
+    pattern: '/api/v1/students/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/student').updateStudentValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/student').updateStudentValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/students_controller').default['update']>>>
+    }
+  }
+  'students.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/students/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/student').showStudentValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/student').showStudentValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/students_controller').default['destroy']>>>
     }
   }
 }

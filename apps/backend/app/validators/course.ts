@@ -1,9 +1,14 @@
 import vine from '@vinejs/vine'
+import { SORT_ORDER_ARR } from '../../lib/constants.ts'
+
+const SORTABLE_COLUMNS = ['createdAt', 'code', 'name']
 
 export const indexCourseValidator = vine.create({
   qs: vine.object({
     page: vine.number().nonNegative().withoutDecimals().optional(),
     perPage: vine.number().nonNegative().withoutDecimals().optional(),
+    sortBy: vine.string().in(SORTABLE_COLUMNS),
+    sortOrder: vine.string().in(SORT_ORDER_ARR),
   }),
 })
 

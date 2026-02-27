@@ -7,7 +7,7 @@ import {
   updateCourseValidator,
 } from '#validators/course'
 import type { HttpContext } from '@adonisjs/core/http'
-import { DEFAULT_PER_PAGE_LIMIT } from '../../lib/constants.ts'
+import { DEFAULT_PER_PAGE_LIMIT, SortOrder } from '../../lib/constants.ts'
 
 export default class CoursesController {
   /**
@@ -15,9 +15,14 @@ export default class CoursesController {
    */
   async index({ serialize, request }: HttpContext) {
     const {
-      qs: { page, perPage },
+      qs: { page, perPage, sortBy, sortOrder },
     } = await request.validateUsing(indexCourseValidator)
-    const courses = await Course.query().paginate(page ?? 1, perPage ?? DEFAULT_PER_PAGE_LIMIT)
+
+    const sortColumn = sortBy ?? 'createdAt'
+    const order: SortOrder = (sortOrder as SortOrder) ?? 'asc'
+    const courses = await Course.query()
+      .orderBy(sortColumn, order)
+      .paginate(page ?? 1, perPage ?? DEFAULT_PER_PAGE_LIMIT)
 
     const data = courses.all()
     const metadata = courses.getMeta()
