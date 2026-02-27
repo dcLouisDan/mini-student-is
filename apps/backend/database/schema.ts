@@ -43,6 +43,147 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare expiresAt: DateTime | null
 }
 
+export class CourseSchema extends BaseModel {
+  static $columns = ['id', 'code', 'name', 'description', 'createdAt', 'updatedAt'] as const
+  $columns = CourseSchema.$columns
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare code: string
+  @column()
+  declare name: string | null
+  @column()
+  declare description: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class GradeSchema extends BaseModel {
+  static $columns = [
+    'id',
+    'studentId',
+    'subjectId',
+    'courseId',
+    'prelim',
+    'midterm',
+    'finals',
+    'finalGrade',
+    'remarks',
+    'encodedByUserId',
+    'createdAt',
+    'updatedAt',
+  ] as const
+  $columns = GradeSchema.$columns
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare studentId: string
+  @column()
+  declare subjectId: string
+  @column()
+  declare courseId: string
+  @column()
+  declare prelim: number | null
+  @column()
+  declare midterm: number | null
+  @column()
+  declare finals: number | null
+  @column()
+  declare finalGrade: number | null
+  @column()
+  declare remarks: string | null
+  @column()
+  declare encodedByUserId: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class StudentSchema extends BaseModel {
+  static $columns = [
+    'id',
+    'studentNo',
+    'firstName',
+    'lastName',
+    'email',
+    'birthDate',
+    'courseId',
+    'createdAt',
+    'updatedAt',
+  ] as const
+  $columns = StudentSchema.$columns
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare studentNo: string
+  @column()
+  declare firstName: string | null
+  @column()
+  declare lastName: string | null
+  @column()
+  declare email: string | null
+  @column.date()
+  declare birthDate: DateTime | null
+  @column()
+  declare courseId: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class SubjectPrerequisiteSchema extends BaseModel {
+  static $columns = ['id', 'subjectId', 'prerequisiteSubjectId', 'createdAt', 'updatedAt'] as const
+  $columns = SubjectPrerequisiteSchema.$columns
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare subjectId: string
+  @column()
+  declare prerequisiteSubjectId: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class SubjectReservationSchema extends BaseModel {
+  static $columns = ['id', 'studentId', 'subjectId', 'reservedAt', 'status'] as const
+  $columns = SubjectReservationSchema.$columns
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare studentId: string
+  @column()
+  declare subjectId: string
+  @column.dateTime({ autoCreate: true })
+  declare reservedAt: DateTime
+  @column()
+  declare status: string | null
+}
+
+export class SubjectSchema extends BaseModel {
+  static $columns = ['id', 'courseId', 'code', 'title', 'units', 'createdAt', 'updatedAt'] as const
+  $columns = SubjectSchema.$columns
+  @column({ isPrimary: true })
+  declare id: string
+  @column()
+  declare courseId: string
+  @column()
+  declare code: string
+  @column()
+  declare title: string
+  @column()
+  declare units: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class UserSchema extends BaseModel {
   static $columns = [
     'id',

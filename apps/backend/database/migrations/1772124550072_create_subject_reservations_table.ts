@@ -18,7 +18,7 @@ export default class extends BaseSchema {
         .references('id')
         .inTable('subjects')
         .onDelete('CASCADE')
-      table.timestamp('reserved_at')
+      table.timestamp('reserved_at').notNullable().defaultTo(this.now())
       table.text('status').defaultTo('reserved') // reserved | cancelled
     })
   }

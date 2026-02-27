@@ -3,6 +3,9 @@ import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { type AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import { hasMany } from '@adonisjs/lucid/orm'
+import Grade from './grade.ts'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
 
 export default class User extends compose(
   UserSchema,
@@ -13,6 +16,11 @@ export default class User extends compose(
 ) {
   static accessTokens = DbAccessTokensProvider.forModel(User)
   declare currentAccessToken?: AccessToken
+
+  @hasMany(() => Grade, {
+    foreignKey: 'encodedByUserId',
+  })
+  declare encodedGrades: HasMany<typeof Grade>
 
   get initials() {
     const [first, last] = this.fullName ? this.fullName.split(' ') : this.email.split('@')
