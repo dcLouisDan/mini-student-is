@@ -18,7 +18,7 @@ export default class Subject extends SubjectSchema {
     relatedKey: 'id',
     pivotRelatedForeignKey: 'prerequisiteSubjectId',
     pivotTable: 'subjectPrerequisites',
-    pivotColumns: ['createdAt', 'updatedAt'],
+    pivotTimestamps: true,
   })
   declare prerequisites: ManyToMany<typeof Subject>
 
@@ -28,7 +28,7 @@ export default class Subject extends SubjectSchema {
     relatedKey: 'id',
     pivotRelatedForeignKey: 'subjectId',
     pivotTable: 'subjectPrerequisites',
-    pivotColumns: ['createdAt', 'updatedAt'],
+    pivotTimestamps: true,
   })
   declare prerequisiteTo: ManyToMany<typeof Subject>
 
@@ -38,7 +38,11 @@ export default class Subject extends SubjectSchema {
     relatedKey: 'id',
     pivotRelatedForeignKey: 'studentId',
     pivotTable: 'subjectReservations',
-    pivotColumns: ['reservedAt', 'status'],
+    pivotColumns: ['status'],
+    pivotTimestamps: {
+      createdAt: 'reserved_at',
+      updatedAt: false,
+    },
   })
   declare students: ManyToMany<typeof Student>
 }

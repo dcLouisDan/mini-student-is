@@ -66,6 +66,54 @@ const routes = {
     tokens: [{"old":"/api/v1/courses/:id","type":0,"val":"api","end":""},{"old":"/api/v1/courses/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/courses/:id","type":0,"val":"courses","end":""},{"old":"/api/v1/courses/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['courses.destroy']['types'],
   },
+  'subjects.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/subjects',
+    tokens: [{"old":"/api/v1/subjects","type":0,"val":"api","end":""},{"old":"/api/v1/subjects","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects","type":0,"val":"subjects","end":""}],
+    types: placeholder as Registry['subjects.index']['types'],
+  },
+  'subjects.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/subjects',
+    tokens: [{"old":"/api/v1/subjects","type":0,"val":"api","end":""},{"old":"/api/v1/subjects","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects","type":0,"val":"subjects","end":""}],
+    types: placeholder as Registry['subjects.store']['types'],
+  },
+  'subjects.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/subjects/:id',
+    tokens: [{"old":"/api/v1/subjects/:id","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/:id","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['subjects.show']['types'],
+  },
+  'subjects.update': {
+    methods: ["PUT","PATCH"],
+    pattern: '/api/v1/subjects/:id',
+    tokens: [{"old":"/api/v1/subjects/:id","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/:id","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['subjects.update']['types'],
+  },
+  'subjects.destroy': {
+    methods: ["DELETE"],
+    pattern: '/api/v1/subjects/:id',
+    tokens: [{"old":"/api/v1/subjects/:id","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/:id","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['subjects.destroy']['types'],
+  },
+  'subject_prerequisites.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/subjects/:id/prerequisites',
+    tokens: [{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":1,"val":"id","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"prerequisites","end":""}],
+    types: placeholder as Registry['subject_prerequisites.index']['types'],
+  },
+  'subject_prerequisites.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/subjects/:id/prerequisites',
+    tokens: [{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":1,"val":"id","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"prerequisites","end":""}],
+    types: placeholder as Registry['subject_prerequisites.store']['types'],
+  },
+  'subject_prerequisites.destroy': {
+    methods: ["DELETE"],
+    pattern: '/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId',
+    tokens: [{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":1,"val":"id","end":""},{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":0,"val":"prerequisites","end":""},{"old":"/api/v1/subjects/:id/prerequisites/:prerequisiteSubjectId","type":1,"val":"prerequisiteSubjectId","end":""}],
+    types: placeholder as Registry['subject_prerequisites.destroy']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

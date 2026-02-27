@@ -26,4 +26,16 @@ export interface ApiDefinition {
     update: typeof routes['courses.update']
     destroy: typeof routes['courses.destroy']
   }
+  subjects: {
+    index: typeof routes['subjects.index']
+    store: typeof routes['subjects.store']
+    show: typeof routes['subjects.show']
+    update: typeof routes['subjects.update']
+    destroy: typeof routes['subjects.destroy']
+  }
+  subjectPrerequisites: {
+    index: typeof routes['subject_prerequisites.index']
+    store: typeof routes['subject_prerequisites.store']
+    destroy: typeof routes['subject_prerequisites.destroy']
+  }
 }

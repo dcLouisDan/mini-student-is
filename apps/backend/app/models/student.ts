@@ -18,7 +18,11 @@ export default class Student extends StudentSchema {
     relatedKey: 'id',
     pivotRelatedForeignKey: 'subjectId',
     pivotTable: 'subjectReservations',
-    pivotColumns: ['reservedAt', 'status'],
+    pivotColumns: ['status'],
+    pivotTimestamps: {
+      createdAt: 'reserved_at',
+      updatedAt: false,
+    },
   })
   declare reservedSubjects: ManyToMany<typeof Subject>
 }

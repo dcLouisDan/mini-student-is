@@ -39,5 +39,18 @@ router
       .resource('courses', controllers.Courses)
       .apiOnly()
       .use(['store', 'update', 'destroy'], middleware.auth())
+
+    router
+      .resource('subjects', controllers.Subjects)
+      .apiOnly()
+      .use(['store', 'update', 'destroy'], middleware.auth())
+
+    router
+      .group(() => {
+        router.get('/', [controllers.SubjectPrerequisites, 'index'])
+        router.post('/', [controllers.SubjectPrerequisites, 'store'])
+        router.delete('/:prerequisiteSubjectId', [controllers.SubjectPrerequisites, 'destroy'])
+      })
+      .prefix('/subjects/:id/prerequisites')
   })
   .prefix('/api/v1')
