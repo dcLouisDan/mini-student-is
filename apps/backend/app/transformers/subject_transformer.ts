@@ -5,7 +5,7 @@ import CourseTransformer from './course_transformer.ts'
 export default class SubjectTransformer extends BaseTransformer<Subject> {
   toObject() {
     return {
-      ...this.pick(this.resource, ['id', 'courseId', 'code', 'title', 'units']),
+      ...this.pick(this.resource, ['id', 'courseId', 'code', 'title', 'units', 'passingGrade']),
       course: CourseTransformer.transform(this.resource.course),
     }
   }

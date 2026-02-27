@@ -46,9 +46,10 @@ export default class SubjectsController {
    * Handle form submission for the create action
    */
   async store({ request, serialize }: HttpContext) {
-    const { courseId, code, title, units } = await request.validateUsing(createSubjectValidator)
+    const { courseId, code, title, units, passingGrade } =
+      await request.validateUsing(createSubjectValidator)
 
-    const subject = await Subject.create({ courseId, code, title, units })
+    const subject = await Subject.create({ courseId, code, title, units, passingGrade })
 
     return serialize(SubjectTransformer.transform(subject))
   }
@@ -80,12 +81,13 @@ export default class SubjectsController {
       code,
       title,
       units,
+      passingGrade,
       params: { id },
     } = await request.validateUsing(updateSubjectValidator)
 
     const subject = await Subject.findOrFail(id)
 
-    await subject.merge({ courseId, code, title, units }).save()
+    await subject.merge({ courseId, code, title, units, passingGrade }).save()
 
     return serialize(SubjectTransformer.transform(subject))
   }

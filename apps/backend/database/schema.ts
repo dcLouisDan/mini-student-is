@@ -8,18 +8,7 @@ import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
 export class AuthAccessTokenSchema extends BaseModel {
-  static $columns = [
-    'id',
-    'tokenableId',
-    'type',
-    'name',
-    'hash',
-    'abilities',
-    'createdAt',
-    'updatedAt',
-    'lastUsedAt',
-    'expiresAt',
-  ] as const
+  static $columns = ['id', 'tokenableId', 'type', 'name', 'hash', 'abilities', 'createdAt', 'updatedAt', 'lastUsedAt', 'expiresAt'] as const
   $columns = AuthAccessTokenSchema.$columns
   @column({ isPrimary: true })
   declare id: number
@@ -61,20 +50,7 @@ export class CourseSchema extends BaseModel {
 }
 
 export class GradeSchema extends BaseModel {
-  static $columns = [
-    'id',
-    'studentId',
-    'subjectId',
-    'courseId',
-    'prelim',
-    'midterm',
-    'finals',
-    'finalGrade',
-    'remarks',
-    'encodedByUserId',
-    'createdAt',
-    'updatedAt',
-  ] as const
+  static $columns = ['id', 'studentId', 'subjectId', 'courseId', 'prelim', 'midterm', 'finals', 'finalGrade', 'remarks', 'encodedByUserId', 'createdAt', 'updatedAt'] as const
   $columns = GradeSchema.$columns
   @column({ isPrimary: true })
   declare id: string
@@ -95,7 +71,7 @@ export class GradeSchema extends BaseModel {
   @column()
   declare remarks: string | null
   @column()
-  declare encodedByUserId: string
+  declare encodedByUserId: string | null
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
@@ -103,17 +79,7 @@ export class GradeSchema extends BaseModel {
 }
 
 export class StudentSchema extends BaseModel {
-  static $columns = [
-    'id',
-    'studentNo',
-    'firstName',
-    'lastName',
-    'email',
-    'birthDate',
-    'courseId',
-    'createdAt',
-    'updatedAt',
-  ] as const
+  static $columns = ['id', 'studentNo', 'firstName', 'lastName', 'email', 'birthDate', 'courseId', 'createdAt', 'updatedAt'] as const
   $columns = StudentSchema.$columns
   @column({ isPrimary: true })
   declare id: string
@@ -159,14 +125,14 @@ export class SubjectReservationSchema extends BaseModel {
   declare studentId: string
   @column()
   declare subjectId: string
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime()
   declare reservedAt: DateTime
   @column()
   declare status: string | null
 }
 
 export class SubjectSchema extends BaseModel {
-  static $columns = ['id', 'courseId', 'code', 'title', 'units', 'createdAt', 'updatedAt'] as const
+  static $columns = ['id', 'courseId', 'code', 'title', 'units', 'createdAt', 'updatedAt', 'passingGrade'] as const
   $columns = SubjectSchema.$columns
   @column({ isPrimary: true })
   declare id: string
@@ -182,18 +148,12 @@ export class SubjectSchema extends BaseModel {
   declare createdAt: DateTime | null
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+  @column()
+  declare passingGrade: number
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = [
-    'id',
-    'fullName',
-    'email',
-    'passwordHash',
-    'role',
-    'createdAt',
-    'updatedAt',
-  ] as const
+  static $columns = ['id', 'fullName', 'email', 'passwordHash', 'role', 'createdAt', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column({ isPrimary: true })
   declare id: string

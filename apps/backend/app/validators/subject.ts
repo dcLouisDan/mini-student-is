@@ -19,6 +19,7 @@ const subjectValidatorBase = {
   code: vine.string(),
   title: vine.string(),
   units: vine.number().nonNegative().withoutDecimals(),
+  passingGrade: vine.number().nonNegative(),
 }
 
 export const createSubjectValidator = vine.create({
