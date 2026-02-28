@@ -260,4 +260,103 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/students_controller').default['destroy']>>>
     }
   }
+  'subject_reservations.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/students/:id/reservations'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/student').showStudentValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/subject_reservations_controller').default['index']>>>
+    }
+  }
+  'subject_reservations.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/students/:id/reservations'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/student').attachStudentReservationValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/student').attachStudentReservationValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/subject_reservations_controller').default['store']>>>
+    }
+  }
+  'subject_reservations.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/students/:id/reservations/:subjectId'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/student').showStudentReservationValidator)>>
+      paramsTuple: [ParamValue, ParamValue]
+      params: { id: ParamValue; subjectId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/student').showStudentReservationValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/subject_reservations_controller').default['destroy']>>>
+    }
+  }
+  'subject_reservations.cancel': {
+    methods: ["POST"]
+    pattern: '/api/v1/students/:id/reservations/:subjectId/cancel'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/student').showStudentReservationValidator)>>
+      paramsTuple: [ParamValue, ParamValue]
+      params: { id: ParamValue; subjectId: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/student').showStudentReservationValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/subject_reservations_controller').default['cancel']>>>
+    }
+  }
+  'grades.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/grades'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/grade').indexGradeValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/grades_controller').default['index']>>>
+    }
+  }
+  'grades.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/grades'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/grade').groupUpsertGradeValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/grade').groupUpsertGradeValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/grades_controller').default['store']>>>
+    }
+  }
+  'grades.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/grades/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/grades_controller').default['show']>>>
+    }
+  }
+  'grades.update': {
+    methods: ["PUT","PATCH"]
+    pattern: '/api/v1/grades/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/grade').upsertGradeValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/grade').upsertGradeValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/grades_controller').default['update']>>>
+    }
+  }
+  'grades.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/grades/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/grades_controller').default['destroy']>>>
+    }
+  }
 }

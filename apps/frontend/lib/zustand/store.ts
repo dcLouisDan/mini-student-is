@@ -1,14 +1,14 @@
 import { create, StateCreator } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import createSelectors from './create-selectors'
-import createAuthSlice, { AuthSlice } from './slices/auth-slice'
+import createUiSlice, { UiSlice } from './slices/ui-slice'
 
-type StoreType = AuthSlice
+type StoreType = UiSlice
 
 const useStoreBase = create<StoreType>()(
   persist(
     (...a) => ({
-      ...createAuthSlice(...a),
+      ...createUiSlice(...a),
     }),
     {
       name: 'mini-sis-storage', // unique name
@@ -17,5 +17,5 @@ const useStoreBase = create<StoreType>()(
   )
 )
 
-const useStore = createSelectors(useStoreBase)
-export default useStore
+const useAppStore = createSelectors(useStoreBase)
+export default useAppStore

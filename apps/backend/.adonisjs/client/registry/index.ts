@@ -144,6 +144,60 @@ const routes = {
     tokens: [{"old":"/api/v1/students/:id","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['students.destroy']['types'],
   },
+  'subject_reservations.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/students/:id/reservations',
+    tokens: [{"old":"/api/v1/students/:id/reservations","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id/reservations","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id/reservations","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id/reservations","type":1,"val":"id","end":""},{"old":"/api/v1/students/:id/reservations","type":0,"val":"reservations","end":""}],
+    types: placeholder as Registry['subject_reservations.index']['types'],
+  },
+  'subject_reservations.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/students/:id/reservations',
+    tokens: [{"old":"/api/v1/students/:id/reservations","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id/reservations","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id/reservations","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id/reservations","type":1,"val":"id","end":""},{"old":"/api/v1/students/:id/reservations","type":0,"val":"reservations","end":""}],
+    types: placeholder as Registry['subject_reservations.store']['types'],
+  },
+  'subject_reservations.destroy': {
+    methods: ["DELETE"],
+    pattern: '/api/v1/students/:id/reservations/:subjectId',
+    tokens: [{"old":"/api/v1/students/:id/reservations/:subjectId","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId","type":1,"val":"id","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId","type":0,"val":"reservations","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId","type":1,"val":"subjectId","end":""}],
+    types: placeholder as Registry['subject_reservations.destroy']['types'],
+  },
+  'subject_reservations.cancel': {
+    methods: ["POST"],
+    pattern: '/api/v1/students/:id/reservations/:subjectId/cancel',
+    tokens: [{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":1,"val":"id","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"reservations","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":1,"val":"subjectId","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"cancel","end":""}],
+    types: placeholder as Registry['subject_reservations.cancel']['types'],
+  },
+  'grades.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/grades',
+    tokens: [{"old":"/api/v1/grades","type":0,"val":"api","end":""},{"old":"/api/v1/grades","type":0,"val":"v1","end":""},{"old":"/api/v1/grades","type":0,"val":"grades","end":""}],
+    types: placeholder as Registry['grades.index']['types'],
+  },
+  'grades.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/grades',
+    tokens: [{"old":"/api/v1/grades","type":0,"val":"api","end":""},{"old":"/api/v1/grades","type":0,"val":"v1","end":""},{"old":"/api/v1/grades","type":0,"val":"grades","end":""}],
+    types: placeholder as Registry['grades.store']['types'],
+  },
+  'grades.show': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/grades/:id',
+    tokens: [{"old":"/api/v1/grades/:id","type":0,"val":"api","end":""},{"old":"/api/v1/grades/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/grades/:id","type":0,"val":"grades","end":""},{"old":"/api/v1/grades/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['grades.show']['types'],
+  },
+  'grades.update': {
+    methods: ["PUT","PATCH"],
+    pattern: '/api/v1/grades/:id',
+    tokens: [{"old":"/api/v1/grades/:id","type":0,"val":"api","end":""},{"old":"/api/v1/grades/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/grades/:id","type":0,"val":"grades","end":""},{"old":"/api/v1/grades/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['grades.update']['types'],
+  },
+  'grades.destroy': {
+    methods: ["DELETE"],
+    pattern: '/api/v1/grades/:id',
+    tokens: [{"old":"/api/v1/grades/:id","type":0,"val":"api","end":""},{"old":"/api/v1/grades/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/grades/:id","type":0,"val":"grades","end":""},{"old":"/api/v1/grades/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['grades.destroy']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

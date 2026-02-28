@@ -11,7 +11,7 @@ export const controllers = {
   Profile: () => import('#controllers/profile_controller'),
   Session: () => import('#controllers/session_controller'),
   Students: () => import('#controllers/students_controller'),
-  Subjects: () => import('#controllers/subjects_controller'),
   SubjectPrerequisites: () => import('#controllers/subject_prerequisites_controller'),
   SubjectReservations: () => import('#controllers/subject_reservations_controller'),
+  Subjects: () => import('#controllers/subjects_controller'),
 }

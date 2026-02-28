@@ -43,7 +43,7 @@ export function UnAuthGuard({ children }: { children: ReactNode }) {
 
 export function LoadingState() {
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
+    <div className="w-full h-full flex justify-center items-center">
       <Spinner />
     </div>
   )

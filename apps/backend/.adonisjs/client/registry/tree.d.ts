@@ -45,4 +45,17 @@ export interface ApiDefinition {
     update: typeof routes['students.update']
     destroy: typeof routes['students.destroy']
   }
+  subjectReservations: {
+    index: typeof routes['subject_reservations.index']
+    store: typeof routes['subject_reservations.store']
+    destroy: typeof routes['subject_reservations.destroy']
+    cancel: typeof routes['subject_reservations.cancel']
+  }
+  grades: {
+    index: typeof routes['grades.index']
+    store: typeof routes['grades.store']
+    show: typeof routes['grades.show']
+    update: typeof routes['grades.update']
+    destroy: typeof routes['grades.destroy']
+  }
 }

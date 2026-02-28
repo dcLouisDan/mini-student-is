@@ -23,6 +23,8 @@ export default function useAuth() {
     },
     retry: false,
     staleTime: 1000 * 60 * 60,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   })
 
   const logout = async () => {
