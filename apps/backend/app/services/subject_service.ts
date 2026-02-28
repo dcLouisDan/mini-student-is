@@ -5,13 +5,17 @@ export class SubjectService {
     subjectIds: string[],
     studentCourseId: string,
     studentId: string
-  ): Promise<{ valid: boolean; invalidIds: Array<{ id: string; message: string }> }> {
+  ): Promise<{
+    valid: boolean
+    invalidIds: Array<{ id: string; message: string }>
+    subjects: Subject[]
+  }> {
     const subjects = await Subject.query().preload('prerequisites').whereIn('id', subjectIds)
     const invalidIds: Array<{ id: string; message: string }> = []
     const passedSubjectIds = await this.getPassSubjectsIdArr(studentId)
 
     if (subjects.length !== subjectIds.length) {
-      return { valid: false, invalidIds: [] }
+      return { valid: false, invalidIds: [], subjects }
     }
 
     for (const subject of subjects) {
@@ -29,7 +33,7 @@ export class SubjectService {
       }
     }
 
-    return { valid: invalidIds.length == 0, invalidIds }
+    return { valid: invalidIds.length == 0, invalidIds, subjects }
   }
 
   async getPassedSubjects(studentId: string) {

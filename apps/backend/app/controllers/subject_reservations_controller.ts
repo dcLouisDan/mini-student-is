@@ -1,4 +1,6 @@
+import Grade from '#models/grade'
 import Student from '#models/student'
+import Subject from '#models/subject'
 import { SubjectService } from '#services/subject_service'
 import SubjectTransformer from '#transformers/subject_transformer'
 import {
@@ -8,6 +10,9 @@ import {
 } from '#validators/student'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
+import db from '@adonisjs/lucid/services/db'
+import { TransactionClientContract } from '@adonisjs/lucid/types/database'
+import { ModelAttributes } from '@adonisjs/lucid/types/model'
 
 @inject()
 export default class StudentReservationsController {
@@ -38,7 +43,7 @@ export default class StudentReservationsController {
       .where('id', id)
       .firstOrFail()
 
-    const { valid, invalidIds } = await this.subjectService.validateSubjects(
+    const { valid, invalidIds, subjects } = await this.subjectService.validateSubjects(
       subjectIds,
       student.courseId,
       student.id
@@ -55,7 +60,12 @@ export default class StudentReservationsController {
       })
     }
 
-    await student.related('reservedSubjects').attach(subjectIds)
+    await db.transaction(async (trx) => {
+      student.useTransaction(trx)
+      await student.related('reservedSubjects').attach(subjectIds)
+
+      await this.createGradeRecords(student, subjects)
+    })
 
     const reservedSubjects = await student.related('reservedSubjects').query()
 
@@ -98,5 +108,24 @@ export default class StudentReservationsController {
     const reservedSubjects = await student.related('reservedSubjects').query()
 
     return serialize(SubjectTransformer.transform(reservedSubjects).useVariant('withExtras'))
+  }
+
+  private async createGradeRecords(
+    student: Student,
+    subjects: Subject[],
+    trx?: TransactionClientContract
+  ) {
+    const values: Partial<ModelAttributes<Grade>>[] = []
+
+    for (const subject of subjects) {
+      values.push({
+        subjectId: subject.id,
+        courseId: student.courseId,
+      })
+    }
+    if (trx) {
+      student.useTransaction(trx)
+    }
+    await student.related('grades').createMany(values)
   }
 }

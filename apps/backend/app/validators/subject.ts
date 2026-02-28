@@ -1,6 +1,7 @@
 import vine from '@vinejs/vine'
 import { SORT_ORDER_ARR } from '../../lib/constants.ts'
 import { uniqueRule } from './rules/unique.ts'
+import { existsRule } from './rules/exists.ts'
 
 const SORTABLE_COLUMNS = ['courseId', 'createdAt', 'code', 'title']
 
@@ -15,7 +16,7 @@ export const indexSubjectValidator = vine.create({
 })
 
 const subjectValidatorBase = {
-  courseId: vine.string(),
+  courseId: vine.string().use(existsRule({ table: 'courses', column: 'id' })),
   code: vine.string(),
   title: vine.string(),
   units: vine.number().nonNegative().withoutDecimals(),
@@ -43,7 +44,7 @@ export const showSubjectValidator = vine.create({
 export const showSubjectPrerequisiteValidator = vine.create({
   params: vine.object({
     id: vine.string(),
-    prerequisiteSubjectId: vine.string(),
+    prerequisiteSubjectId: vine.string().use(existsRule({ table: 'subjects', column: 'id' })),
   }),
 })
 
@@ -51,5 +52,5 @@ export const attachSubjectPrerequisiteValidator = vine.create({
   params: vine.object({
     id: vine.string(),
   }),
-  prerequisiteSubjectId: vine.string(),
+  prerequisiteSubjectId: vine.string().use(existsRule({ table: 'subjects', column: 'id' })),
 })

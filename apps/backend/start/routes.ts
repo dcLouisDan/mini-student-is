@@ -72,5 +72,10 @@ router
           .use(middleware.auth())
       })
       .prefix('/students/:id/reservations')
+
+    router
+      .resource('grades', controllers.Grades)
+      .apiOnly()
+      .use(['store', 'update', 'destroy'], middleware.auth())
   })
   .prefix('/api/v1')

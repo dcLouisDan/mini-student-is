@@ -1,5 +1,6 @@
 import vine from '@vinejs/vine'
 import { SORT_ORDER_ARR } from '../../lib/constants.ts'
+import { existsRule } from './rules/exists.ts'
 
 const SORTABLE_COLUMNS = ['courseId', 'createdAt', 'firstName', 'lastName', 'studentNo']
 
@@ -14,7 +15,7 @@ export const indexStudentValidator = vine.create({
 })
 
 const studentValidatorBase = {
-  courseId: vine.string(),
+  courseId: vine.string().use(existsRule({ table: 'courses', column: 'id' })),
   firstName: vine.string(),
   lastName: vine.string(),
   email: vine.string().email(),
