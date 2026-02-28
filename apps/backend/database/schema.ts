@@ -32,6 +32,21 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare expiresAt: DateTime | null
 }
 
+export class CachSchema extends BaseModel {
+  static $columns = ['key', 'value', 'expiresAt', 'createdAt', 'updatedAt'] as const
+  $columns = CachSchema.$columns
+  @column()
+  declare key: string
+  @column()
+  declare value: any | null
+  @column.dateTime()
+  declare expiresAt: DateTime | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class CourseSchema extends BaseModel {
   static $columns = ['id', 'code', 'name', 'description', 'createdAt', 'updatedAt'] as const
   $columns = CourseSchema.$columns
