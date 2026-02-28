@@ -1,9 +1,11 @@
 import Subject from '#models/subject'
 import { DateTime } from 'luxon'
 import { CacheService } from './cache_service.ts'
+import { inject } from '@adonisjs/core'
 
 const GRAPH_CACHE_KEY = 'subject_dependency_graph'
 
+@inject()
 export class SubjectDependencyGraphService {
   constructor(protected cacheService: CacheService) {}
 
