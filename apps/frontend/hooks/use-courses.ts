@@ -8,6 +8,9 @@ import { PER_PAGE_DEFAULT } from '@/lib/constants'
 import { useMemo } from 'react'
 import { stringArrToBasicSelectItems } from '@/components/basic-select'
 import { camelCaseToTitleCase } from '@/lib/utils'
+import { Data } from '@api-starter-kit/backend/data'
+import { handleRequestError } from '@/components/handle-request-error'
+import { client } from '@/lib/api'
 
 const sortableColumns = ['createdAt', 'code', 'name'] as const
 const sortByOptions = stringArrToBasicSelectItems(Array.from(sortableColumns), camelCaseToTitleCase)
@@ -53,6 +56,27 @@ export default function useCourses() {
     return meta
   }, [data?.metadata])
 
+  const updateCourse = async (data: Data.Course) => {
+    try {
+      await client.api.courses.update({
+        params: {
+          id: data.id,
+        },
+        body: {
+          code: data.code,
+          name: data.name ?? '',
+          description: data.description ?? '',
+        },
+      })
+
+      invalidate()
+      return true
+    } catch (e) {
+      handleRequestError(e)
+      return false
+    }
+  }
+
   return {
     courses: data?.data ?? [],
     pagination,
@@ -62,5 +86,8 @@ export default function useCourses() {
     sortableColumns,
     sortBy,
     sortOrder,
+    code,
+    name,
+    updateCourse,
   }
 }
