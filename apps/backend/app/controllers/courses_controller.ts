@@ -15,12 +15,19 @@ export default class CoursesController {
    */
   async index({ serialize, request }: HttpContext) {
     const {
-      qs: { page, perPage, sortBy, sortOrder },
+      qs: { page, perPage, sortBy, sortOrder, code, name },
     } = await request.validateUsing(indexCourseValidator)
 
     const sortColumn = sortBy ?? 'createdAt'
     const order: SortOrder = (sortOrder as SortOrder) ?? 'asc'
-    const courses = await Course.query()
+    const ilikeFilters = { code, name }
+    const coursesRaw = Course.query()
+
+    Object.entries(ilikeFilters).forEach(([key, value]) => {
+      if (value) coursesRaw.orWhereILike(key, `%${value}%`)
+    })
+
+    const courses = await coursesRaw
       .orderBy(sortColumn, order)
       .paginate(page ?? 1, perPage ?? DEFAULT_PER_PAGE_LIMIT)
 

@@ -15,9 +15,10 @@ export default class SubjectsController {
    */
   async index({ request, serialize }: HttpContext) {
     const {
-      qs: { page, perPage, courseId, sortBy, sortOrder },
+      qs: { page, perPage, courseId, sortBy, sortOrder, code, title },
     } = await request.validateUsing(indexSubjectValidator)
     const filters = { courseId }
+    const ilikeFilters = { code, title }
     let subjectsRaw = Subject.query().preload('course')
 
     const sortColumn = sortBy ?? 'createdAt'
@@ -25,6 +26,10 @@ export default class SubjectsController {
 
     Object.entries(filters).forEach(([key, value]) => {
       if (value) subjectsRaw.where(key, value)
+    })
+
+    Object.entries(ilikeFilters).forEach(([key, value]) => {
+      if (value) subjectsRaw.orWhereILike(key, `%${value}%`)
     })
 
     subjectsRaw = subjectsRaw.orderBy(sortColumn, order)

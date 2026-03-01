@@ -36,6 +36,11 @@ router
       .use(middleware.auth())
 
     router
+      .resource('users', controllers.Users)
+      .apiOnly()
+      .use(['store', 'update', 'destroy'], middleware.auth())
+
+    router
       .resource('courses', controllers.Courses)
       .apiOnly()
       .use(['store', 'update', 'destroy'], middleware.auth())

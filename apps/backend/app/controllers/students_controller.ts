@@ -15,9 +15,10 @@ export default class StudentsController {
    */
   async index({ request, serialize }: HttpContext) {
     const {
-      qs: { page, perPage, courseId, sortBy, sortOrder },
+      qs: { page, perPage, courseId, sortBy, sortOrder, studentNo, firstName, lastName },
     } = await request.validateUsing(indexStudentValidator)
     const filters = { courseId }
+    const ilikeFilters = { studentNo, firstName, lastName }
     let studentsRaw = Student.query().preload('course')
 
     const sortColumn = sortBy ?? 'createdAt'
@@ -25,6 +26,10 @@ export default class StudentsController {
 
     Object.entries(filters).forEach(([key, value]) => {
       if (value) studentsRaw.where(key, value)
+    })
+
+    Object.entries(ilikeFilters).forEach(([key, value]) => {
+      if (value) studentsRaw.orWhereILike(key, `%${value}%`)
     })
 
     studentsRaw = studentsRaw.orderBy(sortColumn, order)
@@ -95,13 +100,15 @@ export default class StudentsController {
 
     const student = await Student.findOrFail(id)
 
-    await student.merge({
-      courseId,
-      firstName,
-      lastName,
-      email,
-      birthDate,
-    })
+    await student
+      .merge({
+        courseId,
+        firstName,
+        lastName,
+        email,
+        birthDate,
+      })
+      .save()
 
     return serialize(StudentTransformer.transform(student))
   }

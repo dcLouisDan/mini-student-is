@@ -9,6 +9,11 @@ export type ScannedRoutes = {
     'auth.session.destroy': { paramsTuple?: []; params?: {} }
     'auth.profile.show': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
+    'users.index': { paramsTuple?: []; params?: {} }
+    'users.store': { paramsTuple?: []; params?: {} }
+    'users.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'users.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'courses.index': { paramsTuple?: []; params?: {} }
     'courses.store': { paramsTuple?: []; params?: {} }
     'courses.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -40,6 +45,8 @@ export type ScannedRoutes = {
   GET: {
     'auth.profile.show': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
+    'users.index': { paramsTuple?: []; params?: {} }
+    'users.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'courses.index': { paramsTuple?: []; params?: {} }
     'courses.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.index': { paramsTuple?: []; params?: {} }
@@ -54,6 +61,8 @@ export type ScannedRoutes = {
   HEAD: {
     'auth.profile.show': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
+    'users.index': { paramsTuple?: []; params?: {} }
+    'users.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'courses.index': { paramsTuple?: []; params?: {} }
     'courses.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.index': { paramsTuple?: []; params?: {} }
@@ -69,6 +78,7 @@ export type ScannedRoutes = {
     'auth.new_account.store': { paramsTuple?: []; params?: {} }
     'auth.session.store': { paramsTuple?: []; params?: {} }
     'auth.session.destroy': { paramsTuple?: []; params?: {} }
+    'users.store': { paramsTuple?: []; params?: {} }
     'courses.store': { paramsTuple?: []; params?: {} }
     'subjects.store': { paramsTuple?: []; params?: {} }
     'subject_prerequisites.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -78,18 +88,21 @@ export type ScannedRoutes = {
     'grades.store': { paramsTuple?: []; params?: {} }
   }
   PUT: {
+    'users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'courses.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'students.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'grades.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   PATCH: {
+    'users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'courses.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'students.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'grades.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
   DELETE: {
+    'users.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'courses.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_prerequisites.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'prerequisiteSubjectId': ParamValue} }

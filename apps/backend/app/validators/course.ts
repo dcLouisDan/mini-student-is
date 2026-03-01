@@ -1,8 +1,13 @@
 import vine from '@vinejs/vine'
 import { SORT_ORDER_ARR } from '../../lib/constants.ts'
 import { uniqueRule } from './rules/unique.ts'
+import { CourseSchema } from '#database/schema'
 
-const SORTABLE_COLUMNS = ['createdAt', 'code', 'name']
+const SORTABLE_COLUMNS: Array<(typeof CourseSchema.$columns)[number]> = [
+  'createdAt',
+  'code',
+  'name',
+]
 
 export const indexCourseValidator = vine.create({
   qs: vine.object({
@@ -10,6 +15,8 @@ export const indexCourseValidator = vine.create({
     perPage: vine.number().nonNegative().withoutDecimals().optional(),
     sortBy: vine.string().in(SORTABLE_COLUMNS).optional(),
     sortOrder: vine.string().in(SORT_ORDER_ARR).optional(),
+    code: vine.string().optional(),
+    name: vine.string().optional(),
   }),
 })
 

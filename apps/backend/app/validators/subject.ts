@@ -2,8 +2,15 @@ import vine from '@vinejs/vine'
 import { SORT_ORDER_ARR } from '../../lib/constants.ts'
 import { uniqueRule } from './rules/unique.ts'
 import { existsRule } from './rules/exists.ts'
+import { SubjectSchema } from '#database/schema'
 
-const SORTABLE_COLUMNS = ['courseId', 'createdAt', 'code', 'title']
+const SORTABLE_COLUMNS: Array<(typeof SubjectSchema.$columns)[number]> = [
+  'courseId',
+  'createdAt',
+  'code',
+  'title',
+  'units',
+]
 
 export const indexSubjectValidator = vine.create({
   qs: vine.object({
@@ -12,6 +19,8 @@ export const indexSubjectValidator = vine.create({
     courseId: vine.string().optional(),
     sortBy: vine.string().in(SORTABLE_COLUMNS),
     sortOrder: vine.string().in(SORT_ORDER_ARR),
+    code: vine.string().optional(),
+    title: vine.string().optional(),
   }),
 })
 
