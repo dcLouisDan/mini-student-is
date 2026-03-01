@@ -1,13 +1,11 @@
 import { queryOptions } from '@tanstack/react-query'
 import { QUERY_KEYS } from './query-keys'
 import { client } from '../api'
-import { SortOrderOption } from '../types/ui'
+import { BaseParams } from '../types/ui'
 
-interface CoursesParams {
-  page?: number
-  perPage?: number
-  sortBy?: string
-  sortOrder?: SortOrderOption
+export interface CoursesParams extends BaseParams {
+  name?: string
+  code?: string
 }
 
 export const coursesQueryOptions = (params: CoursesParams) =>
