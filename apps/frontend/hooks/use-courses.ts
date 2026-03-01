@@ -6,6 +6,11 @@ import { SortDirection } from '@tanstack/react-table'
 import { Pagination } from '@/lib/types/ui'
 import { PER_PAGE_DEFAULT } from '@/lib/constants'
 import { useMemo } from 'react'
+import { stringArrToBasicSelectItems } from '@/components/basic-select'
+import { camelCaseToTitleCase } from '@/lib/utils'
+
+const sortableColumns = ['createdAt', 'code', 'name'] as const
+const sortByOptions = stringArrToBasicSelectItems(Array.from(sortableColumns), camelCaseToTitleCase)
 
 export default function useCourses() {
   const { getParam } = useQueryParams<CoursesParams>()
@@ -48,5 +53,14 @@ export default function useCourses() {
     return meta
   }, [data?.metadata])
 
-  return { courses: data?.data ?? [], pagination, isLoading, invalidate }
+  return {
+    courses: data?.data ?? [],
+    pagination,
+    isLoading,
+    invalidate,
+    sortByOptions,
+    sortableColumns,
+    sortBy,
+    sortOrder,
+  }
 }

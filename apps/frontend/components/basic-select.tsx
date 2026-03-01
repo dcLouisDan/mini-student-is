@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
   Select,
@@ -8,23 +8,30 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select'
 
 export interface BasicSelectItem {
-  value: string;
-  label: string;
+  value: string
+  label: string
 }
 
 interface BasicSelectProps {
-  label?: string;
-  items?: BasicSelectItem[];
-  value?: string | undefined;
-  onValueChange?: (value: string) => void;
-  className?: string;
+  label?: string
+  items?: BasicSelectItem[]
+  value?: string | undefined
+  onValueChange?: (value: string) => void
+  className?: string
+}
+
+export function stringArrToBasicSelectItems(
+  arr: string[],
+  convertStringFn?: (str: string) => string
+): BasicSelectItem[] {
+  return arr.map((item) => ({ value: item, label: convertStringFn ? convertStringFn(item) : item }))
 }
 
 export function BasicSelect({
-  label = "Select an option",
+  label = 'Select an option',
   items,
   value,
   onValueChange = () => {},
@@ -46,5 +53,5 @@ export function BasicSelect({
         </SelectGroup>
       </SelectContent>
     </Select>
-  );
+  )
 }
