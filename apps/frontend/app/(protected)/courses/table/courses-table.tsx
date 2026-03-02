@@ -1,7 +1,7 @@
 'use client'
 
-import { DataTable } from '@/components/data-table'
 import { columns } from './columns'
+import { RowSelectionState } from '@tanstack/react-table'
 import useCourses from '@/hooks/use-courses'
 import { PaginationBar } from '@/components/pagination-bar'
 import SortPopover from '@/components/sort-popover'
@@ -11,6 +11,11 @@ import { CoursesParams } from '@/lib/query-options/courses-query-options'
 import { Field, FieldLabel } from '@/components/ui/field'
 import { EditableDataTable } from '@/components/editable-data-table'
 import { Data } from '@api-starter-kit/backend/data'
+import TableSelectionBar from '@/components/table-selection-bar'
+import { useMemo, useState } from 'react'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
+import { ConfirmationDialog } from '@/components/confirmation-dialog'
 
 export default function CoursesTable() {
   const {
@@ -22,11 +27,20 @@ export default function CoursesTable() {
     code,
     name,
     updateCourse,
+    batchDeleteCourse,
   } = useCourses()
 
   const { updateParams } = useQueryParams<CoursesParams>()
   const onRowSubmit = async (data: Data.Course) => {
     return updateCourse(data)
+  }
+
+  const onCourseBatchDelete = async (selectedRows: string[]) => {
+    const success = await batchDeleteCourse(selectedRows)
+
+    if (success) {
+      toast.success(`${selectedRows.length} rows have been deleted.`)
+    }
   }
   return (
     <>
@@ -60,7 +74,16 @@ export default function CoursesTable() {
           />
         </div>
       </div>
-      <EditableDataTable onRowSubmit={onRowSubmit} data={courses} columns={columns} />
+      <EditableDataTable
+        onRowSubmit={onRowSubmit}
+        data={courses}
+        columns={columns}
+        onBatchDelete={async (rows) => {
+          const selected = rows.map((row) => row.original.id)
+
+          await onCourseBatchDelete(selected)
+        }}
+      />
     </>
   )
 }

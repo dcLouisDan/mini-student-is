@@ -46,6 +46,10 @@ router
       .use(['store', 'update', 'destroy'], middleware.auth())
 
     router
+      .post('/courses/batch-delete', [controllers.Courses, 'batchDestroy'])
+      .use(middleware.auth())
+
+    router
       .resource('subjects', controllers.Subjects)
       .apiOnly()
       .use(['store', 'update', 'destroy'], middleware.auth())

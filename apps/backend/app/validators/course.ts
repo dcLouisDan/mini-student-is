@@ -2,6 +2,7 @@ import vine from '@vinejs/vine'
 import { SORT_ORDER_ARR } from '../../lib/constants.ts'
 import { uniqueRule } from './rules/unique.ts'
 import { CourseSchema } from '#database/schema'
+import { existsRule } from './rules/exists.ts'
 
 const SORTABLE_COLUMNS: Array<(typeof CourseSchema.$columns)[number]> = [
   'createdAt',
@@ -42,4 +43,8 @@ export const showCourseValidator = vine.create({
   params: vine.object({
     id: vine.string(),
   }),
+})
+
+export const batchCourseDeleteValidator = vine.create({
+  idArr: vine.array(vine.string().use(existsRule({ table: 'courses', column: 'id' }))),
 })

@@ -172,6 +172,17 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['destroy']>>>
     }
   }
+  'courses.batch_destroy': {
+    methods: ["POST"]
+    pattern: '/api/v1/courses/batch-delete'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/course').batchCourseDeleteValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/course').batchCourseDeleteValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['batchDestroy']>>>
+    }
+  }
   'subjects.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/subjects'

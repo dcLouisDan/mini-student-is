@@ -19,6 +19,7 @@ export type ScannedRoutes = {
     'courses.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'courses.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'courses.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'courses.batch_destroy': { paramsTuple?: []; params?: {} }
     'subjects.index': { paramsTuple?: []; params?: {} }
     'subjects.store': { paramsTuple?: []; params?: {} }
     'subjects.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -80,6 +81,7 @@ export type ScannedRoutes = {
     'auth.session.destroy': { paramsTuple?: []; params?: {} }
     'users.store': { paramsTuple?: []; params?: {} }
     'courses.store': { paramsTuple?: []; params?: {} }
+    'courses.batch_destroy': { paramsTuple?: []; params?: {} }
     'subjects.store': { paramsTuple?: []; params?: {} }
     'subject_prerequisites.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'students.store': { paramsTuple?: []; params?: {} }

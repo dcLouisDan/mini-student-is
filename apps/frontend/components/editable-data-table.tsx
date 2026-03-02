@@ -4,8 +4,10 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  OnChangeFn,
   Row,
   RowData,
+  RowSelectionState,
   useReactTable,
 } from '@tanstack/react-table'
 
@@ -17,14 +19,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DefaultValues, FieldValues, FormProvider, useForm } from 'react-hook-form'
+import TableSelectionBar from './table-selection-bar'
+import { ConfirmationDialog } from './confirmation-dialog'
+import { Button } from './ui/button'
 
 declare module '@tanstack/table-core' {
   interface TableMeta<TData extends RowData> {
-    editingRowId: string | null
-    setEditingRowId: (value: string | null) => void
-    onRowSubmit: (data: TData) => Promise<boolean>
+    editingRowId?: string | null
+    setEditingRowId?: (value: string | null) => void
+    onRowSubmit?: (data: TData) => Promise<boolean>
   }
 }
 
@@ -32,15 +37,17 @@ interface DataTableProps<TData extends FieldValues, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   onRowSubmit: (data: TData) => Promise<boolean>
+  onBatchDelete?: (rows: Row<TData>[]) => void
 }
 
 export function EditableDataTable<TData extends FieldValues, TValue>({
   columns,
   data,
   onRowSubmit,
+  onBatchDelete,
 }: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = useState({})
   const [editingRowId, setEditingRowId] = useState<string | null>(null)
+  const [rowSelection, setRowSelection] = useState({})
   const table = useReactTable({
     data,
     columns,
@@ -57,38 +64,60 @@ export function EditableDataTable<TData extends FieldValues, TValue>({
   })
 
   return (
-    <div className="overflow-hidden rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
-                  </TableHead>
-                )
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table
-              .getRowModel()
-              .rows.map((row) => <EditingRow editingRowId={editingRowId} row={row} key={row.id} />)
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
+    <>
+      {table.getFilteredSelectedRowModel().rows.length > 0 && (
+        <TableSelectionBar
+          total={table.getRowModel().rows.length}
+          selectedTotal={table.getSelectedRowModel().rows.length}
+          action={
+            <ConfirmationDialog
+              title={`Delete ${table.getFilteredSelectedRowModel().rows.length} courses?`}
+              description="All related records (subjects, students, grades) will also be deleted. Are you sure you want to proceed? Note: This action cannot be undone."
+              triggerComponent={<Button variant={'destructive'}>Delete Selected</Button>}
+              submitButtonContent="Delete"
+              submitButtonVariant={{ variant: 'destructive' }}
+              onSubmit={() => {
+                onBatchDelete?.(table.getSelectedRowModel().rows)
+              }}
+            />
+          }
+        />
+      )}
+      <div className="overflow-hidden rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(header.column.columnDef.header, header.getContext())}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table
+                .getRowModel()
+                .rows.map((row) => (
+                  <EditingRow editingRowId={editingRowId} row={row} key={row.id} />
+                ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    </>
   )
 }
 

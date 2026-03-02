@@ -96,6 +96,12 @@ const routes = {
     tokens: [{"old":"/api/v1/courses/:id","type":0,"val":"api","end":""},{"old":"/api/v1/courses/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/courses/:id","type":0,"val":"courses","end":""},{"old":"/api/v1/courses/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['courses.destroy']['types'],
   },
+  'courses.batch_destroy': {
+    methods: ["POST"],
+    pattern: '/api/v1/courses/batch-delete',
+    tokens: [{"old":"/api/v1/courses/batch-delete","type":0,"val":"api","end":""},{"old":"/api/v1/courses/batch-delete","type":0,"val":"v1","end":""},{"old":"/api/v1/courses/batch-delete","type":0,"val":"courses","end":""},{"old":"/api/v1/courses/batch-delete","type":0,"val":"batch-delete","end":""}],
+    types: placeholder as Registry['courses.batch_destroy']['types'],
+  },
   'subjects.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/subjects',

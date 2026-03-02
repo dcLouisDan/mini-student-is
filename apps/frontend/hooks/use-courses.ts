@@ -77,6 +77,36 @@ export default function useCourses() {
     }
   }
 
+  const deleteCourse = async (id: string) => {
+    try {
+      await client.api.courses.destroy({
+        params: {
+          id,
+        },
+      })
+
+      invalidate()
+      return true
+    } catch (e) {
+      handleRequestError(e)
+      return false
+    }
+  }
+
+  const batchDeleteCourse = async (idArr: string[]) => {
+    try {
+      await client.api.courses.batchDestroy({
+        body: { idArr },
+      })
+
+      invalidate()
+      return true
+    } catch (e) {
+      handleRequestError(e)
+      return false
+    }
+  }
+
   return {
     courses: data?.data ?? [],
     pagination,
@@ -89,5 +119,7 @@ export default function useCourses() {
     code,
     name,
     updateCourse,
+    deleteCourse,
+    batchDeleteCourse,
   }
 }

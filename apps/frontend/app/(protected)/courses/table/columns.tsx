@@ -9,6 +9,8 @@ import { Edit, PencilOff, Save, Trash2 } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
+import { ConfirmationDialog } from '@/components/confirmation-dialog'
+import useCourses from '@/hooks/use-courses'
 
 export const columns: ColumnDef<Data.Course>[] = [
   {
@@ -86,6 +88,14 @@ export const columns: ColumnDef<Data.Course>[] = [
       const onRowSubmit = table.options.meta?.onRowSubmit
       const setEditingRowId = table.options.meta?.setEditingRowId
       const { handleSubmit } = useFormContext<typeof item>()
+      const { deleteCourse } = useCourses()
+      const onCourseDelete = async () => {
+        const success = await deleteCourse(item.id)
+
+        if (success) {
+          toast.success(`Course deleted.`)
+        }
+      }
       return (
         <div className="flex items-center gap-1">
           {isEditing && (
@@ -116,9 +126,19 @@ export const columns: ColumnDef<Data.Course>[] = [
           >
             {!isEditing ? <Edit /> : <PencilOff />}
           </Button>
-          <Button title="Delete" size="icon-sm" variant="ghost" className="text-destructive">
-            <Trash2 />
-          </Button>
+
+          <ConfirmationDialog
+            title={`Delete course?`}
+            description="All related records (subjects, students, grades) will also be deleted. Are you sure you want to proceed? Note: This action cannot be undone."
+            triggerComponent={
+              <Button title="Delete" size="icon-sm" variant="ghost" className="text-destructive">
+                <Trash2 />
+              </Button>
+            }
+            submitButtonContent="Delete"
+            submitButtonVariant={{ variant: 'destructive' }}
+            onSubmit={onCourseDelete}
+          />
         </div>
       )
     },
