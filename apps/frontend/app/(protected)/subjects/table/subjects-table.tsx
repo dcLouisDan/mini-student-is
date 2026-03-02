@@ -13,6 +13,8 @@ import { EditableDataTable } from '@/components/editable-data-table'
 import { Data } from '@api-starter-kit/backend/data'
 import { toast } from 'sonner'
 import CourseCombobox from '@/components/comboboxes/course-combobox'
+import { X } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 export default function SubjectsTable() {
   const {
@@ -25,6 +27,7 @@ export default function SubjectsTable() {
     title,
     updateSubject,
     batchDeleteSubject,
+    courseId,
   } = useSubjects()
 
   const { updateParams } = useQueryParams<SubjectsParams>()
@@ -42,27 +45,43 @@ export default function SubjectsTable() {
   return (
     <>
       <div className="flex flex-col md:flex-row items-center gap-2 justify-end">
-        <Field orientation="horizontal">
-          <FieldLabel>Subject Code</FieldLabel>
-          <DebouncedInput
-            value={code ?? ''}
-            onChange={(value) => {
-              updateParams({ code: value as string })
-            }}
-            placeholder="Search by subject code..."
-          />
-        </Field>
-        <Field orientation="horizontal">
-          <FieldLabel>Subject Title</FieldLabel>
-          <DebouncedInput
-            value={title ?? ''}
-            onChange={(value) => {
-              updateParams({ title: value as string })
-            }}
-            placeholder="Search by subject title..."
-          />
-        </Field>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col gap-1 flex-1">
+          <div className="flex flex-col md:flex-row items-center gap-2 justify-end">
+            <Field orientation="horizontal">
+              <DebouncedInput
+                value={code ?? ''}
+                onChange={(value) => {
+                  updateParams({ code: value as string })
+                }}
+                placeholder="Search by subject code..."
+              />
+            </Field>
+            <Field orientation="horizontal">
+              <DebouncedInput
+                value={title ?? ''}
+                onChange={(value) => {
+                  updateParams({ title: value as string })
+                }}
+                placeholder="Search by subject title..."
+              />
+            </Field>
+          </div>
+          <div className="min-w-60 flex gap-2 items-center overflow-hidden relative">
+            <CourseCombobox
+              value={courseId ?? ''}
+              onValueChange={(value) => updateParams({ courseId: value })}
+            />
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="absolute right-1"
+              onClick={() => updateParams({ courseId: undefined })}
+            >
+              <X />
+            </Button>
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row items-center gap-2">
           <PaginationBar total={total} page={currentPage} size={perPage} />
           <SortPopover
             sortableOptions={sortByOptions}

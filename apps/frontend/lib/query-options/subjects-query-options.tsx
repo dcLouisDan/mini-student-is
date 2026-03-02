@@ -6,6 +6,7 @@ import { BaseParams } from '../types/ui'
 export interface SubjectsParams extends BaseParams {
   title?: string
   code?: string
+  courseId?: string
 }
 
 export const subjectsQueryOptions = (params: SubjectsParams) =>

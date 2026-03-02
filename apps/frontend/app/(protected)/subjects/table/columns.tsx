@@ -12,6 +12,7 @@ import { toast } from 'sonner'
 import { ConfirmationDialog } from '@/components/confirmation-dialog'
 import useSubjects from '@/hooks/use-subjects'
 import { Input } from '@/components/ui/input'
+import CourseCombobox from '@/components/comboboxes/course-combobox'
 
 export const columns: ColumnDef<Data.Subject>[] = [
   {
@@ -56,13 +57,32 @@ export const columns: ColumnDef<Data.Subject>[] = [
     cell: ({ row, table }) => {
       const item = row.original
       const isEditing = table.options.meta?.editingRowId === row.original.id
-      const { register, watch } = useFormContext<typeof item>()
+      const { register } = useFormContext<typeof item>()
 
       if (isEditing) {
         return <Textarea {...register('title')} />
       }
 
       return <div>{item.title}</div>
+    },
+  },
+  {
+    accessorKey: 'courseId',
+    header: 'Course',
+    cell: ({ row, table }) => {
+      const item = row.original
+      const isEditing = table.options.meta?.editingRowId === row.original.id
+      const { watch, setValue } = useFormContext<typeof item>()
+
+      if (isEditing) {
+        return (
+          <CourseCombobox
+            value={watch('courseId')}
+            onValueChange={(item) => setValue('courseId', item)}
+          />
+        )
+      }
+      return <div>{item.course?.name}</div>
     },
   },
   {

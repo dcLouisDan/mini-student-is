@@ -40,8 +40,11 @@ export function QueryCombobox({
       >
         <ComboboxTrigger
           render={
-            <Button variant="outline" className="w-full justify-between font-normal">
-              <ComboboxValue />
+            <Button
+              variant="outline"
+              className="flex-1 justify-between font-normal overflow-hidden"
+            >
+              <ComboboxValue placeholder={placeholder} />
             </Button>
           }
         />

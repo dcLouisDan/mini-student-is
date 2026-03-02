@@ -21,12 +21,13 @@ export default function useSubjects() {
   const page = getParam<number>('page', 1)
   const perPage = getParam<number>('perPage', PER_PAGE_DEFAULT)
   const code = getParam<string>('code')
+  const courseId = getParam<string>('courseId')
   const title = getParam<string>('title')
   const sortBy = getParam<string>('sortBy')
   const sortOrder = getParam<SortDirection>('sortOrder')
 
   const { data, isLoading } = useQuery(
-    subjectsQueryOptions({ page, perPage, code, title, sortBy, sortOrder })
+    subjectsQueryOptions({ page, perPage, code, title, sortBy, sortOrder, courseId })
   )
 
   const invalidate = () => {
@@ -123,5 +124,6 @@ export default function useSubjects() {
     updateSubject,
     deleteSubject,
     batchDeleteSubject,
+    courseId,
   }
 }

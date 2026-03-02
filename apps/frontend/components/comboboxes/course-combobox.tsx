@@ -46,6 +46,7 @@ export default function CourseCombobox({
       options={selectOptions}
       value={selectItem}
       isLoading={isLoading}
+      placeholder="Select Course..."
     />
   )
 }
