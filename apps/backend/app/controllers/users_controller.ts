@@ -9,6 +9,7 @@ import { DEFAULT_PER_PAGE_LIMIT, SortOrder } from '../../lib/constants.ts'
 import User from '#models/user'
 import UserTransformer from '#transformers/user_transformer'
 import { ModelAttributes } from '@adonisjs/lucid/types/model'
+import { activity } from '@holoyan/adonisjs-activitylog'
 
 export default class UsersController {
   /**
@@ -72,6 +73,8 @@ export default class UsersController {
 
     const user = await User.create({ fullName, email, passwordHash: password, role })
 
+    await activity().by(authUser).making('create').on(user).log('User successfully created')
+
     return serialize(UserTransformer.transform(user))
   }
 
@@ -126,6 +129,8 @@ export default class UsersController {
 
     await user.merge(updateData).save()
 
+    await activity().by(authUser).making('update').on(user).log('User successfully updated')
+
     return serialize(UserTransformer.transform(user))
   }
 
@@ -148,6 +153,8 @@ export default class UsersController {
     const user = await User.findOrFail(id)
 
     await user.delete()
+
+    await activity().by(authUser).making('delete').on(user).log('User successfully deleted')
 
     return response.status(200).send({ success: true, message: 'User deleted' })
   }

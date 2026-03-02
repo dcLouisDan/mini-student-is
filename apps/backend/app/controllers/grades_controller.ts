@@ -7,6 +7,7 @@ import {
 import type { HttpContext } from '@adonisjs/core/http'
 import { DEFAULT_PER_PAGE_LIMIT, SortOrder } from '../../lib/constants.ts'
 import GradeTransformer from '#transformers/grade_transformer'
+import { activity } from '@holoyan/adonisjs-activitylog'
 
 export default class GradesController {
   /**
@@ -45,13 +46,21 @@ export default class GradesController {
   /**
    * Handle form submission for the create action
    */
-  async store({ request, serialize }: HttpContext) {
+  async store({ request, serialize, auth: { user: authUser } }: HttpContext) {
     const { gradeRecords } = await request.validateUsing(groupUpsertGradeValidator)
 
     const grades = await Grade.updateOrCreateMany(
       ['courseId', 'studentId', 'subjectId'],
       gradeRecords
     )
+
+    if (authUser) {
+      await activity()
+        .by(authUser)
+        .making('create')
+        .havingCurrent(gradeRecords)
+        .log('Grades successfully saved')
+    }
 
     return serialize(GradeTransformer.transform(grades))
   }
@@ -69,7 +78,7 @@ export default class GradesController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ request, serialize }: HttpContext) {
+  async update({ request, serialize, auth: { user: authUser } }: HttpContext) {
     const {
       params: { id },
       gradeRecord,
@@ -81,6 +90,10 @@ export default class GradesController {
       },
       gradeRecord
     )
+
+    if (authUser) {
+      await activity().by(authUser).making('update').on(grade).log('Grade updated')
+    }
 
     return serialize(GradeTransformer.transform(grade))
   }

@@ -5,8 +5,15 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Course from './course.ts'
 import Subject from './subject.ts'
 import User from './user.ts'
+import { MorphMap } from '@holoyan/adonisjs-activitylog'
+import { LogModelInterface } from '@holoyan/adonisjs-activitylog/types'
 
-export default class Grade extends GradeSchema {
+@MorphMap('grades')
+export default class Grade extends GradeSchema implements LogModelInterface {
+  getModelId(): string {
+    return String(this.id)
+  }
+
   @belongsTo(() => Student)
   declare student: BelongsTo<typeof Student>
 
@@ -21,4 +28,19 @@ export default class Grade extends GradeSchema {
     localKey: 'id',
   })
   declare encodedByUser: BelongsTo<typeof User>
+
+  toLog() {
+    return {
+      id: this.id,
+      studentId: this.studentId,
+      courseId: this.courseId,
+      subjectId: this.subjectId,
+      prelim: this.prelim,
+      midterm: this.midterm,
+      finals: this.finals,
+      finalGrade: this.finalGrade,
+      remarks: this.remarks,
+      encodedByUserId: this.encodedByUserId,
+    }
+  }
 }

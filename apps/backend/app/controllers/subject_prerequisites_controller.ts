@@ -8,6 +8,7 @@ import {
 } from '#validators/subject'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
+import { activity } from '@holoyan/adonisjs-activitylog'
 
 @inject()
 export default class SubjectPrerequisitesController {
@@ -24,7 +25,7 @@ export default class SubjectPrerequisitesController {
     return serialize(SubjectTransformer.transform(prerequisites))
   }
 
-  async store({ request, serialize, response }: HttpContext) {
+  async store({ request, serialize, response, auth: { user: authUser } }: HttpContext) {
     const {
       params: { id },
       prerequisiteSubjectId,
@@ -67,10 +68,18 @@ export default class SubjectPrerequisitesController {
 
     const prerequisites = await subject.related('prerequisites').query()
 
+    if (authUser) {
+      await activity()
+        .by(authUser)
+        .making('attach-prerequisite')
+        .havingCurrent({ id, prerequisiteSubjectId })
+        .log('Prerequisite attached to subject')
+    }
+
     return serialize(SubjectTransformer.transform(prerequisites))
   }
 
-  async destroy({ request, serialize }: HttpContext) {
+  async destroy({ request, serialize, auth: { user: authUser } }: HttpContext) {
     const {
       params: { id, prerequisiteSubjectId },
     } = await request.validateUsing(showSubjectPrerequisiteValidator)
@@ -81,6 +90,14 @@ export default class SubjectPrerequisitesController {
     await subject.related('prerequisites').detach([prerequisiteSubject.id])
 
     const prerequisites = await subject.related('prerequisites').query()
+
+    if (authUser) {
+      await activity()
+        .by(authUser)
+        .making('dettach-prerequisite')
+        .havingCurrent({ id, prerequisiteSubjectId })
+        .log('Prerequisite dettached from subject')
+    }
 
     return serialize(SubjectTransformer.transform(prerequisites))
   }

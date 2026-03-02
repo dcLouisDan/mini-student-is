@@ -8,6 +8,7 @@ import {
 import type { HttpContext } from '@adonisjs/core/http'
 import { DEFAULT_PER_PAGE_LIMIT, SortOrder } from '../../lib/constants.ts'
 import SubjectTransformer from '#transformers/subject_transformer'
+import { activity } from '@holoyan/adonisjs-activitylog'
 
 export default class SubjectsController {
   /**
@@ -50,11 +51,15 @@ export default class SubjectsController {
   /**
    * Handle form submission for the create action
    */
-  async store({ request, serialize }: HttpContext) {
+  async store({ request, serialize, auth: { user: authUser } }: HttpContext) {
     const { courseId, code, title, units, passingGrade } =
       await request.validateUsing(createSubjectValidator)
 
     const subject = await Subject.create({ courseId, code, title, units, passingGrade })
+
+    if (authUser) {
+      await activity().by(authUser).making('create').on(subject).log('Subject successfully created')
+    }
 
     return serialize(SubjectTransformer.transform(subject))
   }
@@ -80,7 +85,7 @@ export default class SubjectsController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ request, serialize }: HttpContext) {
+  async update({ request, serialize, auth: { user: authUser } }: HttpContext) {
     const {
       courseId,
       code,
@@ -93,20 +98,26 @@ export default class SubjectsController {
     const subject = await Subject.findOrFail(id)
 
     await subject.merge({ courseId, code, title, units, passingGrade }).save()
-
+    if (authUser) {
+      await activity().by(authUser).making('update').on(subject).log('Subject successfully update')
+    }
     return serialize(SubjectTransformer.transform(subject))
   }
 
   /**
    * Delete record
    */
-  async destroy({ request, response }: HttpContext) {
+  async destroy({ request, response, auth: { user: authUser } }: HttpContext) {
     const {
       params: { id },
     } = await request.validateUsing(showSubjectValidator)
     const subject = await Subject.findOrFail(id)
 
     await subject.delete()
+
+    if (authUser) {
+      await activity().by(authUser).making('delete').on(subject).log('Subject successfully deleted')
+    }
 
     return response.status(200).send({ success: true, message: 'Subject deleted' })
   }

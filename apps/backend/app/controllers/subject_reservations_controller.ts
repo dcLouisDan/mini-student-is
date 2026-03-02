@@ -13,6 +13,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
 import { TransactionClientContract } from '@adonisjs/lucid/types/database'
 import { ModelAttributes } from '@adonisjs/lucid/types/model'
+import { activity } from '@holoyan/adonisjs-activitylog'
 
 @inject()
 export default class StudentReservationsController {
@@ -32,7 +33,7 @@ export default class StudentReservationsController {
     return serialize(SubjectTransformer.transform(reservedSubjects).useVariant('withExtras'))
   }
 
-  async store({ request, serialize, response }: HttpContext) {
+  async store({ request, serialize, response, auth: { user: authUser } }: HttpContext) {
     const {
       params: { id },
       subjectIds,
@@ -69,10 +70,18 @@ export default class StudentReservationsController {
 
     const reservedSubjects = await student.related('reservedSubjects').query()
 
+    if (authUser) {
+      await activity()
+        .by(authUser)
+        .making('reserve-subjects')
+        .havingCurrent({ id, subjectIds })
+        .log('Student successfully reserved subjects')
+    }
+
     return serialize(SubjectTransformer.transform(reservedSubjects).useVariant('withExtras'))
   }
 
-  async destroy({ request, serialize }: HttpContext) {
+  async destroy({ request, serialize, auth: { user: authUser } }: HttpContext) {
     const {
       params: { id, subjectId },
     } = await request.validateUsing(showStudentReservationValidator)
@@ -86,10 +95,18 @@ export default class StudentReservationsController {
 
     const reservedSubjects = await student.related('reservedSubjects').query()
 
+    if (authUser) {
+      await activity()
+        .by(authUser)
+        .making('delete-reservation')
+        .havingCurrent({ id, subjectId })
+        .log('Student successfully removed reserved subject')
+    }
+
     return serialize(SubjectTransformer.transform(reservedSubjects).useVariant('withExtras'))
   }
 
-  async cancel({ request, serialize }: HttpContext) {
+  async cancel({ request, serialize, auth: { user: authUser } }: HttpContext) {
     const {
       params: { id, subjectId },
     } = await request.validateUsing(showStudentReservationValidator)
@@ -106,6 +123,14 @@ export default class StudentReservationsController {
     })
 
     const reservedSubjects = await student.related('reservedSubjects').query()
+
+    if (authUser) {
+      await activity()
+        .by(authUser)
+        .making('cancel-reservation')
+        .havingCurrent({ id, subjectId })
+        .log('Student successfully canceled reserved subject')
+    }
 
     return serialize(SubjectTransformer.transform(reservedSubjects).useVariant('withExtras'))
   }

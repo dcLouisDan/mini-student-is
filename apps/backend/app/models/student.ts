@@ -4,8 +4,15 @@ import Course from './course.ts'
 import type { BelongsTo, HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 import Grade from './grade.ts'
 import Subject from './subject.ts'
+import { MorphMap } from '@holoyan/adonisjs-activitylog'
+import { LogModelInterface } from '@holoyan/adonisjs-activitylog/types'
 
-export default class Student extends StudentSchema {
+@MorphMap('students')
+export default class Student extends StudentSchema implements LogModelInterface {
+  getModelId(): string {
+    return String(this.id)
+  }
+
   @belongsTo(() => Course)
   declare course: BelongsTo<typeof Course>
 
@@ -25,4 +32,16 @@ export default class Student extends StudentSchema {
     },
   })
   declare reservedSubjects: ManyToMany<typeof Subject>
+
+  toLog() {
+    return {
+      id: this.id,
+      studentNo: this.studentNo,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      birthDate: this.birthDate,
+      courseId: this.courseId,
+    }
+  }
 }

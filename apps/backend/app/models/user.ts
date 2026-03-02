@@ -6,16 +6,26 @@ import { type AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_
 import { hasMany } from '@adonisjs/lucid/orm'
 import Grade from './grade.ts'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
+import { MorphMap } from '@holoyan/adonisjs-activitylog'
+import { LogModelInterface } from '@holoyan/adonisjs-activitylog/types'
 
-export default class User extends compose(
-  UserSchema,
-  withAuthFinder(hash, {
-    uids: ['email'],
-    passwordColumnName: 'passwordHash',
-  })
-) {
+@MorphMap('users')
+export default class User
+  extends compose(
+    UserSchema,
+    withAuthFinder(hash, {
+      uids: ['email'],
+      passwordColumnName: 'passwordHash',
+    })
+  )
+  implements LogModelInterface
+{
   static accessTokens = DbAccessTokensProvider.forModel(User)
   declare currentAccessToken?: AccessToken
+
+  getModelId(): string {
+    return String(this.id)
+  }
 
   @hasMany(() => Grade, {
     foreignKey: 'encodedByUserId',
@@ -28,5 +38,15 @@ export default class User extends compose(
       return `${first.charAt(0)}${last.charAt(0)}`.toUpperCase()
     }
     return `${first.slice(0, 2)}`.toUpperCase()
+  }
+
+  toLog() {
+    return {
+      id: this.id,
+      fullName: this.fullName,
+      email: this.email,
+      passwordHash: this.passwordHash,
+      role: this.role,
+    }
   }
 }

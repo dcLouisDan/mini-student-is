@@ -8,6 +8,7 @@ import {
 import type { HttpContext } from '@adonisjs/core/http'
 import { DEFAULT_PER_PAGE_LIMIT, SortOrder } from '../../lib/constants.ts'
 import StudentTransformer from '#transformers/student_transformer'
+import { activity } from '@holoyan/adonisjs-activitylog'
 
 export default class StudentsController {
   /**
@@ -50,7 +51,7 @@ export default class StudentsController {
   /**
    * Handle form submission for the create action
    */
-  async store({ request, serialize }: HttpContext) {
+  async store({ request, serialize, auth: { user: authUser } }: HttpContext) {
     const { courseId, firstName, lastName, email, birthDate } =
       await request.validateUsing(createStudentValidator)
 
@@ -63,6 +64,10 @@ export default class StudentsController {
       email,
       birthDate,
     })
+
+    if (authUser) {
+      await activity().by(authUser).making('create').on(student).log('Student successfully created')
+    }
 
     return serialize(StudentTransformer.transform(student))
   }
@@ -88,7 +93,7 @@ export default class StudentsController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ request, serialize }: HttpContext) {
+  async update({ request, serialize, auth: { user: authUser } }: HttpContext) {
     const {
       params: { id },
       courseId,
@@ -110,13 +115,17 @@ export default class StudentsController {
       })
       .save()
 
+    if (authUser) {
+      await activity().by(authUser).making('update').on(student).log('Student successfully updated')
+    }
+
     return serialize(StudentTransformer.transform(student))
   }
 
   /**
    * Delete record
    */
-  async destroy({ request, response }: HttpContext) {
+  async destroy({ request, response, auth: { user: authUser } }: HttpContext) {
     const {
       params: { id },
     } = await request.validateUsing(showStudentValidator)
@@ -124,6 +133,10 @@ export default class StudentsController {
     const student = await Student.findOrFail(id)
 
     await student.delete()
+
+    if (authUser) {
+      await activity().by(authUser).making('delete').on(student).log('Student successfully deleted')
+    }
 
     return response.status(200).send({ success: true, message: 'Student deleted' })
   }

@@ -10,6 +10,7 @@ import {
 import type { HttpContext } from '@adonisjs/core/http'
 import { DEFAULT_PER_PAGE_LIMIT, SortOrder } from '../../lib/constants.ts'
 import db from '@adonisjs/lucid/services/db'
+import { activity } from '@holoyan/adonisjs-activitylog'
 
 export default class CoursesController {
   /**
@@ -47,10 +48,14 @@ export default class CoursesController {
   /**
    * Handle form submission for the create action
    */
-  async store({ serialize, request }: HttpContext) {
+  async store({ serialize, request, auth: { user: authUser } }: HttpContext) {
     const { code, name, description } = await request.validateUsing(createCourseValidator)
 
     const course = await Course.create({ code, name, description })
+
+    if (authUser) {
+      await activity().by(authUser).making('create').on(course).log('Course successfully created')
+    }
 
     return serialize(CourseTransformer.transform(course))
   }
@@ -76,7 +81,7 @@ export default class CoursesController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ request, serialize }: HttpContext) {
+  async update({ request, serialize, auth: { user: authUser } }: HttpContext) {
     const {
       code,
       name,
@@ -88,19 +93,27 @@ export default class CoursesController {
 
     await course.merge({ code, name, description }).save()
 
+    if (authUser) {
+      await activity().by(authUser).making('update').on(course).log('Course successfully updated')
+    }
+
     return serialize(CourseTransformer.transform(course))
   }
 
   /**
    * Delete record
    */
-  async destroy({ request, response }: HttpContext) {
+  async destroy({ request, response, auth: { user: authUser } }: HttpContext) {
     const {
       params: { id },
     } = await request.validateUsing(showCourseValidator)
     const course = await Course.findOrFail(id)
 
     await course.delete()
+
+    if (authUser) {
+      await activity().by(authUser).making('delete').on(course).log('Course successfully deleted')
+    }
 
     return response.status(200).send({ success: true, message: 'Course deleted' })
   }
@@ -119,6 +132,12 @@ export default class CoursesController {
     await db.transaction(async (trx) => {
       await Course.query({ client: trx }).whereIn('id', idArr).delete()
     })
+
+    await activity()
+      .by(authUser)
+      .making('batch-delete')
+      .havingCurrent({ idArr })
+      .log('Courses deleted')
 
     return response.ok({
       message: 'Courses deleted',
