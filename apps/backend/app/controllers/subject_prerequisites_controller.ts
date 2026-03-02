@@ -33,12 +33,15 @@ export default class SubjectPrerequisitesController {
     const subject = await Subject.findOrFail(id)
 
     const options = await Subject.query()
+      .preload('prerequisites')
       .where('courseId', subject.courseId)
       .whereNot('id', subject.id)
-      .whereDoesntHave('prerequisites', (query) =>
+      .whereDoesntHave('prerequisiteTo', (query) => {
+        query.where('subject_id', subject.id)
+      })
+      .whereDoesntHave('prerequisites', (query) => {
         query.where('prerequisite_subject_id', subject.id)
-      )
-      .whereDoesntHave('prerequisites', (query) => query.where('subject_id', subject.id))
+      })
 
     const validOptions: Subject[] = []
     for (const option of options) {
@@ -71,6 +74,18 @@ export default class SubjectPrerequisitesController {
     const subject = await Subject.findOrFail(id)
     const prerequisiteSubject = await Subject.findOrFail(prerequisiteSubjectId)
 
+    await subject.load('prerequisites')
+
+    const prereqExists = subject.prerequisites.some((row) => row.id === prerequisiteSubjectId)
+
+    if (prereqExists) {
+      return response.badRequest({
+        errors: {
+          prerequisiteSubjectId: ['Relationship already exists'],
+        },
+      })
+    }
+
     if (subject.courseId !== prerequisiteSubject.courseId) {
       return response.badRequest({
         errors: {
@@ -95,6 +110,8 @@ export default class SubjectPrerequisitesController {
 
     await subject.related('prerequisites').attach([prerequisiteSubject.id])
 
+    await this.subjectDependencyGraphService.invalidateGraphCache()
+
     const prerequisites = await subject.related('prerequisites').query()
 
     if (authUser) {
@@ -117,6 +134,7 @@ export default class SubjectPrerequisitesController {
     const prerequisiteSubject = await Subject.findOrFail(prerequisiteSubjectId)
 
     await subject.related('prerequisites').detach([prerequisiteSubject.id])
+    await this.subjectDependencyGraphService.invalidateGraphCache()
 
     const prerequisites = await subject.related('prerequisites').query()
 
