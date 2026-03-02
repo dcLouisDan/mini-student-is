@@ -1,6 +1,7 @@
 export type SortOrderOption = 'asc' | 'desc'
 
 export interface BaseParams {
+  id?: string
   page?: number
   perPage?: number
   sortBy?: string

@@ -7,7 +7,7 @@ import Grade from './grade.ts'
 import { MorphMap } from '@holoyan/adonisjs-activitylog'
 import { LogModelInterface } from '@holoyan/adonisjs-activitylog/types'
 
-@MorphMap('courses')
+@MorphMap('subjects')
 export default class Subject extends SubjectSchema implements LogModelInterface {
   getModelId(): string {
     return String(this.id)

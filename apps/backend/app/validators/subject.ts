@@ -17,8 +17,8 @@ export const indexSubjectValidator = vine.create({
     page: vine.number().nonNegative().withoutDecimals().optional(),
     perPage: vine.number().nonNegative().withoutDecimals().optional(),
     courseId: vine.string().optional(),
-    sortBy: vine.string().in(SORTABLE_COLUMNS),
-    sortOrder: vine.string().in(SORT_ORDER_ARR),
+    sortBy: vine.string().in(SORTABLE_COLUMNS).optional(),
+    sortOrder: vine.string().in(SORT_ORDER_ARR).optional(),
     code: vine.string().optional(),
     title: vine.string().optional(),
   }),
@@ -62,4 +62,8 @@ export const attachSubjectPrerequisiteValidator = vine.create({
     id: vine.string(),
   }),
   prerequisiteSubjectId: vine.string().use(existsRule({ table: 'subjects', column: 'id' })),
+})
+
+export const batchSubjectsDeleteValidator = vine.create({
+  idArr: vine.array(vine.string().use(existsRule({ table: 'subjects', column: 'id' }))),
 })

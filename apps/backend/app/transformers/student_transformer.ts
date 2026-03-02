@@ -15,7 +15,7 @@ export default class StudentTransformer extends BaseTransformer<Student> {
         'courseId',
         'createdAt',
       ]),
-      course: CourseTransformer.transform(this.resource.course),
+      course: CourseTransformer.transform(this.whenLoaded(this.resource.course)),
     }
   }
 }

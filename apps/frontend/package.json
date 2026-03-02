@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@api-starter-kit/backend": "*",
+    "@base-ui/react": "^1.2.0",
     "@tanstack/react-query": "^5.90.21",
     "@tanstack/react-table": "^8.21.3",
     "@tuyau/core": "^1.0.0",

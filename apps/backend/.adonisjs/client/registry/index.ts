@@ -132,6 +132,12 @@ const routes = {
     tokens: [{"old":"/api/v1/subjects/:id","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/:id","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['subjects.destroy']['types'],
   },
+  'subjects.batch_destroy': {
+    methods: ["POST"],
+    pattern: '/api/v1/subjects/batch-delete',
+    tokens: [{"old":"/api/v1/subjects/batch-delete","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/batch-delete","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/batch-delete","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/batch-delete","type":0,"val":"batch-delete","end":""}],
+    types: placeholder as Registry['subjects.batch_destroy']['types'],
+  },
   'subject_prerequisites.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/subjects/:id/prerequisites',

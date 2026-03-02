@@ -238,6 +238,17 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/subjects_controller').default['destroy']>>>
     }
   }
+  'subjects.batch_destroy': {
+    methods: ["POST"]
+    pattern: '/api/v1/subjects/batch-delete'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/subject').batchSubjectsDeleteValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/subject').batchSubjectsDeleteValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/subjects_controller').default['batchDestroy']>>>
+    }
+  }
   'subject_prerequisites.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/subjects/:id/prerequisites'

@@ -40,6 +40,7 @@ export interface ApiDefinition {
     show: typeof routes['subjects.show']
     update: typeof routes['subjects.update']
     destroy: typeof routes['subjects.destroy']
+    batchDestroy: typeof routes['subjects.batch_destroy']
   }
   subjectPrerequisites: {
     index: typeof routes['subject_prerequisites.index']

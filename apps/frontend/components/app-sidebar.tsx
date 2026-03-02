@@ -48,7 +48,7 @@ const data = {
         },
         {
           title: 'Subjects',
-          url: '#',
+          url: '/subjects',
         },
       ],
     },

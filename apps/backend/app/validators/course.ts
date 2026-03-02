@@ -12,6 +12,7 @@ const SORTABLE_COLUMNS: Array<(typeof CourseSchema.$columns)[number]> = [
 
 export const indexCourseValidator = vine.create({
   qs: vine.object({
+    id: vine.string().optional(),
     page: vine.number().nonNegative().withoutDecimals().optional(),
     perPage: vine.number().nonNegative().withoutDecimals().optional(),
     sortBy: vine.string().in(SORTABLE_COLUMNS).optional(),

@@ -9,10 +9,10 @@ export default class GradeTransformer extends BaseTransformer<Grade> {
   toObject() {
     return {
       ...this.pick(this.resource, ['id', 'prelim', 'midterm', 'finals', 'finalGrade', 'remarks']),
-      student: StudentTransformer.transform(this.resource.student),
-      course: CourseTransformer.transform(this.resource.course),
-      subject: SubjectTransformer.transform(this.resource.subject),
-      encodedBy: UserTransformer.transform(this.resource.encodedByUser),
+      student: StudentTransformer.transform(this.whenLoaded(this.resource.student)),
+      course: CourseTransformer.transform(this.whenLoaded(this.resource.course)),
+      subject: SubjectTransformer.transform(this.whenLoaded(this.resource.subject)),
+      encodedBy: UserTransformer.transform(this.whenLoaded(this.resource.encodedByUser)),
     }
   }
 }

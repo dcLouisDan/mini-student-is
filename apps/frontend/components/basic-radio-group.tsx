@@ -24,7 +24,7 @@ export default function BasicRadioGroup({
       className={className}
     >
       {items.map((item) => (
-        <div className="flex items-center space-x-2">
+        <div key={item.value} className="flex items-center space-x-2">
           <RadioGroupItem value={item.value} id={item.value} />
           <Label htmlFor={item.value}>{item.label}</Label>
         </div>

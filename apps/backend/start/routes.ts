@@ -55,6 +55,10 @@ router
       .use(['store', 'update', 'destroy'], middleware.auth())
 
     router
+      .post('/subjects/batch-delete', [controllers.Subjects, 'batchDestroy'])
+      .use(middleware.auth())
+
+    router
       .group(() => {
         router.get('/', [controllers.SubjectPrerequisites, 'index'])
         router.post('/', [controllers.SubjectPrerequisites, 'store']).use(middleware.auth())

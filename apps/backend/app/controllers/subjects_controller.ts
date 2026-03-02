@@ -1,5 +1,6 @@
 import Subject from '#models/subject'
 import {
+  batchSubjectsDeleteValidator,
   createSubjectValidator,
   indexSubjectValidator,
   showSubjectValidator,
@@ -9,6 +10,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import { DEFAULT_PER_PAGE_LIMIT, SortOrder } from '../../lib/constants.ts'
 import SubjectTransformer from '#transformers/subject_transformer'
 import { activity } from '@holoyan/adonisjs-activitylog'
+import db from '@adonisjs/lucid/services/db'
 
 export default class SubjectsController {
   /**
@@ -61,6 +63,7 @@ export default class SubjectsController {
       await activity().by(authUser).making('create').on(subject).log('Subject successfully created')
     }
 
+    subject.load('course')
     return serialize(SubjectTransformer.transform(subject))
   }
 
@@ -120,5 +123,32 @@ export default class SubjectsController {
     }
 
     return response.status(200).send({ success: true, message: 'Subject deleted' })
+  }
+
+  async batchDestroy({ request, response, auth: { user: authUser } }: HttpContext) {
+    if (!authUser) {
+      return response.unauthorized()
+    }
+
+    if (authUser.role !== 'admin') {
+      return response.unauthorized()
+    }
+
+    const { idArr } = await request.validateUsing(batchSubjectsDeleteValidator)
+
+    await db.transaction(async (trx) => {
+      await Subject.query({ client: trx }).whereIn('id', idArr).delete()
+    })
+
+    await activity()
+      .by(authUser)
+      .making('batch-delete')
+      .havingCurrent({ idArr })
+      .log('Subjects deleted')
+
+    return response.ok({
+      message: 'Subjects deleted',
+      idArr,
+    })
   }
 }
