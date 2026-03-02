@@ -25,6 +25,35 @@ export default class SubjectPrerequisitesController {
     return serialize(SubjectTransformer.transform(prerequisites))
   }
 
+  async prereqOptionsIndex({ request, serialize }: HttpContext) {
+    const {
+      params: { id },
+    } = await request.validateUsing(showSubjectValidator)
+
+    const subject = await Subject.findOrFail(id)
+
+    const options = await Subject.query()
+      .where('courseId', subject.courseId)
+      .whereNot('id', subject.id)
+      .whereDoesntHave('prerequisites', (query) =>
+        query.where('prerequisite_subject_id', subject.id)
+      )
+      .whereDoesntHave('prerequisites', (query) => query.where('subject_id', subject.id))
+
+    const validOptions: Subject[] = []
+    for (const option of options) {
+      const hasCycle = await this.subjectDependencyGraphService.checkForCircularDependency(
+        subject.id,
+        option.id
+      )
+      if (!hasCycle) {
+        validOptions.push(option)
+      }
+    }
+
+    return serialize(SubjectTransformer.transform(validOptions))
+  }
+
   async store({ request, serialize, response, auth: { user: authUser } }: HttpContext) {
     const {
       params: { id },

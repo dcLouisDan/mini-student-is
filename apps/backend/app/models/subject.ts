@@ -21,30 +21,30 @@ export default class Subject extends SubjectSchema implements LogModelInterface 
 
   @manyToMany(() => Subject, {
     localKey: 'id',
-    pivotForeignKey: 'subjectId',
+    pivotForeignKey: 'subject_id',
     relatedKey: 'id',
-    pivotRelatedForeignKey: 'prerequisiteSubjectId',
-    pivotTable: 'subjectPrerequisites',
+    pivotRelatedForeignKey: 'prerequisite_subject_id',
+    pivotTable: 'subject_prerequisites',
     pivotTimestamps: true,
   })
   declare prerequisites: ManyToMany<typeof Subject>
 
   @manyToMany(() => Subject, {
     localKey: 'id',
-    pivotForeignKey: 'prerequisiteSubjectId',
+    pivotForeignKey: 'prerequisite_subject_id',
     relatedKey: 'id',
-    pivotRelatedForeignKey: 'subjectId',
-    pivotTable: 'subjectPrerequisites',
+    pivotRelatedForeignKey: 'subject_id',
+    pivotTable: 'subject_prerequisites',
     pivotTimestamps: true,
   })
   declare prerequisiteTo: ManyToMany<typeof Subject>
 
   @manyToMany(() => Student, {
     localKey: 'id',
-    pivotForeignKey: 'subjectId',
+    pivotForeignKey: 'subject_id',
     relatedKey: 'id',
-    pivotRelatedForeignKey: 'studentId',
-    pivotTable: 'subjectReservations',
+    pivotRelatedForeignKey: 'student_id',
+    pivotTable: 'subject_reservations',
     pivotColumns: ['status'],
     pivotTimestamps: {
       createdAt: 'reserved_at',

@@ -144,6 +144,12 @@ const routes = {
     tokens: [{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":1,"val":"id","end":""},{"old":"/api/v1/subjects/:id/prerequisites","type":0,"val":"prerequisites","end":""}],
     types: placeholder as Registry['subject_prerequisites.index']['types'],
   },
+  'subject_prerequisites.prereq_options_index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/subjects/:id/prerequisites/options',
+    tokens: [{"old":"/api/v1/subjects/:id/prerequisites/options","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/:id/prerequisites/options","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/:id/prerequisites/options","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/:id/prerequisites/options","type":1,"val":"id","end":""},{"old":"/api/v1/subjects/:id/prerequisites/options","type":0,"val":"prerequisites","end":""},{"old":"/api/v1/subjects/:id/prerequisites/options","type":0,"val":"options","end":""}],
+    types: placeholder as Registry['subject_prerequisites.prereq_options_index']['types'],
+  },
   'subject_prerequisites.store': {
     methods: ["POST"],
     pattern: '/api/v1/subjects/:id/prerequisites',

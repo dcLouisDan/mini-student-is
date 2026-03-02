@@ -75,7 +75,11 @@ export default class SubjectsController {
       params: { id },
     } = await request.validateUsing(showSubjectValidator)
 
-    const subject = await Subject.query().preload('course').where('id', id).firstOrFail()
+    const subject = await Subject.query()
+      .preload('course')
+      .preload('prerequisites')
+      .where('id', id)
+      .firstOrFail()
 
     return serialize(SubjectTransformer.transform(subject))
   }

@@ -1,28 +1,27 @@
 'use client'
 
-import { coursesQueryOptions } from '@/lib/query-options/courses-query-options'
 import { useQuery } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { QueryCombobox } from '../query-combo-box'
 import { BasicSelectItem } from '../basic-select'
+import { subjectPrereqOptionsQueryOptions } from '@/lib/query-options/subject-prereq-options-query-options'
 
-export default function CourseCombobox({
+export default function SubjectPrereqCombobox({
   value,
   onValueChange,
+  subjectId,
 }: {
+  subjectId: string
   value: string
   onValueChange: (value: string) => void
 }) {
-  const [idSearch, setIdSearch] = useState(value)
-  const [search, setSearch] = useState('')
-  const { data, isLoading } = useQuery(
-    coursesQueryOptions({ page: 1, perPage: 20, name: search, id: idSearch })
-  )
+  const { data, isLoading } = useQuery(subjectPrereqOptionsQueryOptions(subjectId))
 
   const selectOptions: BasicSelectItem[] = useMemo(() => {
+    console.log(data)
     if (!data) return []
 
-    return data.data.map((item) => ({ value: item.id, label: item.name ?? '' }))
+    return data.map((item) => ({ value: item.id, label: item.title ?? '' }))
   }, [data])
 
   const selectItem: BasicSelectItem | null = useMemo(() => {
@@ -33,22 +32,14 @@ export default function CourseCombobox({
   console.log(value)
   return (
     <QueryCombobox
-      key={'course-combo'}
+      key={'prereq-combo'}
       onValueChange={(item) => {
         if (item) onValueChange(item?.value)
-      }}
-      onInputValueChange={(inputValue) => {
-        if (inputValue !== '') {
-          setIdSearch('')
-        } else {
-          setIdSearch(value)
-        }
-        setSearch(inputValue)
       }}
       options={selectOptions}
       value={selectItem}
       isLoading={isLoading}
-      placeholder="Select Course..."
+      placeholder="Select subject prerequisite..."
     />
   )
 }

@@ -9,19 +9,21 @@ export default function AppSidebarHeader() {
 
   if (state == 'collapsed') {
     return (
-      <Link
-        href="/dashboard"
-        className="size-8 rounded bg-primary text-primary-foreground flex items-center justify-center"
-      >
-        <BookOpenText />
-      </Link>
+      <div>
+        <Link
+          href="/dashboard"
+          className="size-8 rounded bg-primary text-primary-foreground flex items-center justify-center"
+        >
+          <BookOpenText />
+        </Link>
+      </div>
     )
   }
 
   return (
     <Link
       href="/dashboard"
-      className="w-full border p-2 rounded-md flex gap-2 items-center hover:bg-muted transition-all duration-150 ease-in-out"
+      className="w-full border p-2 rounded-md flex gap-2 items-center hover:bg-muted transition-all duration-100 ease-in-out"
     >
       <div className="size-8 rounded bg-primary text-primary-foreground flex items-center justify-center">
         <BookOpenText />

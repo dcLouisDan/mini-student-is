@@ -44,6 +44,7 @@ export interface ApiDefinition {
   }
   subjectPrerequisites: {
     index: typeof routes['subject_prerequisites.index']
+    prereqOptionsIndex: typeof routes['subject_prerequisites.prereq_options_index']
     store: typeof routes['subject_prerequisites.store']
     destroy: typeof routes['subject_prerequisites.destroy']
   }

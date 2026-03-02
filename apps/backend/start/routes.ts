@@ -61,6 +61,7 @@ router
     router
       .group(() => {
         router.get('/', [controllers.SubjectPrerequisites, 'index'])
+        router.get('/options', [controllers.SubjectPrerequisites, 'prereqOptionsIndex'])
         router.post('/', [controllers.SubjectPrerequisites, 'store']).use(middleware.auth())
         router
           .delete('/:prerequisiteSubjectId', [controllers.SubjectPrerequisites, 'destroy'])

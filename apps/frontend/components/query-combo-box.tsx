@@ -24,7 +24,7 @@ export function QueryCombobox({
   value: BasicSelectItem | null
   options: BasicSelectItem[]
   placeholder?: string
-  onInputValueChange: (value: string) => void
+  onInputValueChange?: (value: string) => void
   onValueChange: (value: BasicSelectItem | null) => void
   isLoading?: boolean
 }) {

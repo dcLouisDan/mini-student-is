@@ -48,7 +48,10 @@ export class SubjectDependencyGraphService {
 
       if (!currentNode) continue
 
-      if (currentNode === subjectId) return true
+      if (currentNode === subjectId) {
+        console.log('DETECTED CIRCULAR DEPENDENCY')
+        return true
+      }
 
       if (visited[currentNode]) continue
 

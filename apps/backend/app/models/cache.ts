@@ -1,3 +1,5 @@
 import { CachSchema } from '#database/schema'
 
-export default class Cache extends CachSchema {}
+export default class Cache extends CachSchema {
+  static primaryKey = 'key'
+}

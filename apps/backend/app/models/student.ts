@@ -21,10 +21,10 @@ export default class Student extends StudentSchema implements LogModelInterface 
 
   @manyToMany(() => Subject, {
     localKey: 'id',
-    pivotForeignKey: 'studentId',
+    pivotForeignKey: 'student_id',
     relatedKey: 'id',
-    pivotRelatedForeignKey: 'subjectId',
-    pivotTable: 'subjectReservations',
+    pivotRelatedForeignKey: 'subject_id',
+    pivotTable: 'subject_reservations',
     pivotColumns: ['status'],
     pivotTimestamps: {
       createdAt: 'reserved_at',

@@ -260,6 +260,17 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/subject_prerequisites_controller').default['index']>>>
     }
   }
+  'subject_prerequisites.prereq_options_index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/subjects/:id/prerequisites/options'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/subject').showSubjectValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/subject_prerequisites_controller').default['prereqOptionsIndex']>>>
+    }
+  }
   'subject_prerequisites.store': {
     methods: ["POST"]
     pattern: '/api/v1/subjects/:id/prerequisites'
