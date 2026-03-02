@@ -18,6 +18,7 @@ interface SortPopoverProps {
   onDirectionValueChange?: (value: string | undefined) => void
   onSubmit?: (sort?: string, direction?: SortDirection) => void
   onClear?: () => void
+  className?: string
 }
 
 export const SortDirectionSelectItems: BasicSelectItem[] = [
@@ -39,12 +40,13 @@ export default function SortPopover({
   sortableOptions = [],
   onSubmit,
   onClear,
+  className,
 }: SortPopoverProps) {
   const { updateParams } = useQueryParams<BaseParams>()
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className={className}>
           <ArrowUpDown />
           Sort
         </Button>

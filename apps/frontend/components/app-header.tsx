@@ -10,6 +10,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from './ui/sidebar'
 import { BreadcrumbItemType } from '@/lib/types/ui'
+import Link from 'next/link'
 
 export default function AppHeader({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
   return (
@@ -28,7 +29,9 @@ export default function AppHeader({ breadcrumbs }: { breadcrumbs: BreadcrumbItem
                   {index === breadcrumbs.length - 1 ? (
                     <BreadcrumbPage>{item.title}</BreadcrumbPage>
                   ) : (
-                    <BreadcrumbLink href={item.href}>{item.title}</BreadcrumbLink>
+                    <BreadcrumbLink asChild>
+                      <Link href={item.href}>{item.title}</Link>
+                    </BreadcrumbLink>
                   )}
                 </BreadcrumbItem>
               </div>

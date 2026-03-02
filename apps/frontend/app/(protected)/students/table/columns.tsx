@@ -4,18 +4,16 @@ import { ColumnDef } from '@tanstack/react-table'
 
 import { Checkbox } from '@/components/ui/checkbox'
 import { Data } from '@api-starter-kit/backend/data'
-import { Button, buttonVariants } from '@/components/ui/button'
-import { Edit, Eye, PencilOff, Save, Trash2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Edit, PencilOff, Save, Trash2 } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
 import { ConfirmationDialog } from '@/components/confirmation-dialog'
-import useSubjects from '@/hooks/use-subjects'
-import { Input } from '@/components/ui/input'
+import useStudents from '@/hooks/use-students'
 import CourseCombobox from '@/components/comboboxes/course-combobox'
-import Link from 'next/link'
 
-export const columns: ColumnDef<Data.Subject>[] = [
+export const columns: ColumnDef<Data.Student>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -38,33 +36,37 @@ export const columns: ColumnDef<Data.Subject>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'code',
-    header: 'Code',
-    cell: ({ row, table }) => {
-      const item = row.original
-      const isEditing = table.options.meta?.editingRowId === row.original.id
-      const { register } = useFormContext<Data.Subject>()
-
-      if (isEditing) {
-        return <Textarea {...register('code')} />
-      }
-
-      return <div>{item.code}</div>
-    },
+    accessorKey: 'studentNo',
+    header: 'Student No.',
   },
   {
-    accessorKey: 'name',
-    header: 'Name',
+    accessorKey: 'lastName',
+    header: 'Last Name',
     cell: ({ row, table }) => {
       const item = row.original
       const isEditing = table.options.meta?.editingRowId === row.original.id
       const { register } = useFormContext<typeof item>()
 
       if (isEditing) {
-        return <Textarea {...register('title')} />
+        return <Textarea {...register('lastName')} />
       }
 
-      return <div>{item.title}</div>
+      return <div>{item.lastName}</div>
+    },
+  },
+  {
+    accessorKey: 'firstName',
+    header: 'First Name',
+    cell: ({ row, table }) => {
+      const item = row.original
+      const isEditing = table.options.meta?.editingRowId === row.original.id
+      const { register } = useFormContext<typeof item>()
+
+      if (isEditing) {
+        return <Textarea {...register('firstName')} />
+      }
+
+      return <div>{item.firstName}</div>
     },
   },
   {
@@ -87,36 +89,6 @@ export const columns: ColumnDef<Data.Subject>[] = [
     },
   },
   {
-    accessorKey: 'units',
-    header: 'Units',
-    cell: ({ row, table }) => {
-      const item = row.original
-      const isEditing = table.options.meta?.editingRowId === row.original.id
-      const { register } = useFormContext<typeof item>()
-
-      if (isEditing) {
-        return <Input type="number" {...register('units')} />
-      }
-
-      return <div>{item.units}</div>
-    },
-  },
-  {
-    accessorKey: 'passingGrade',
-    header: 'Passing Grade',
-    cell: ({ row, table }) => {
-      const item = row.original
-      const isEditing = table.options.meta?.editingRowId === row.original.id
-      const { register } = useFormContext<typeof item>()
-
-      if (isEditing) {
-        return <Input type="number" {...register('passingGrade')} />
-      }
-
-      return <div>{item.passingGrade}</div>
-    },
-  },
-  {
     id: 'actions',
     header: 'Actions',
     cell: ({ row, table }) => {
@@ -125,17 +97,17 @@ export const columns: ColumnDef<Data.Subject>[] = [
       const onRowSubmit = table.options.meta?.onRowSubmit
       const setEditingRowId = table.options.meta?.setEditingRowId
       const { handleSubmit } = useFormContext<typeof item>()
-      const { deleteSubject } = useSubjects()
-      const onSubjectDelete = async () => {
-        const success = await deleteSubject(item.id)
+      const { deleteStudent } = useStudents()
+      const onStudentDelete = async () => {
+        const success = await deleteStudent(item.id)
 
         if (success) {
-          toast.success(`Subject deleted.`)
+          toast.success(`Student deleted.`)
         }
       }
       return (
         <div className="flex items-center gap-1">
-          {isEditing ? (
+          {isEditing && (
             <Button
               title="Save changes"
               size="icon-sm"
@@ -146,20 +118,12 @@ export const columns: ColumnDef<Data.Subject>[] = [
 
                 if (success) {
                   setEditingRowId?.(null)
-                  toast.success('Subject updated')
+                  toast.success('Student updated')
                 }
               })}
             >
               <Save />
             </Button>
-          ) : (
-            <Link
-              title="View details"
-              href={`/subjects/${item.id}`}
-              className={buttonVariants({ variant: 'default', size: 'icon-sm' })}
-            >
-              <Eye />
-            </Link>
           )}
           <Button
             title={!isEditing ? 'Edit' : 'Cancel'}
@@ -173,7 +137,7 @@ export const columns: ColumnDef<Data.Subject>[] = [
           </Button>
 
           <ConfirmationDialog
-            title={`Delete subject?`}
+            title={`Delete student?`}
             description="All related records (students, grades) will also be deleted. Are you sure you want to proceed? Note: This action cannot be undone."
             triggerComponent={
               <Button title="Delete" size="icon-sm" variant="ghost" className="text-destructive">
@@ -182,7 +146,7 @@ export const columns: ColumnDef<Data.Subject>[] = [
             }
             submitButtonContent="Delete"
             submitButtonVariant={{ variant: 'destructive' }}
-            onSubmit={onSubjectDelete}
+            onSubmit={onStudentDelete}
           />
         </div>
       )

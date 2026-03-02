@@ -381,6 +381,17 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/subject_reservations_controller').default['cancel']>>>
     }
   }
+  'students.batch_destroy': {
+    methods: ["POST"]
+    pattern: '/api/v1/students/batch-delete'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/student').batchStudentDeleteValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/student').batchStudentDeleteValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/students_controller').default['batchDestroy']>>>
+    }
+  }
   'grades.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/grades'

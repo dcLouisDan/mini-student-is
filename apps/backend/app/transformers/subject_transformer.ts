@@ -7,6 +7,7 @@ export default class SubjectTransformer extends BaseTransformer<Subject> {
     return {
       ...this.pick(this.resource, ['id', 'courseId', 'code', 'title', 'units', 'passingGrade']),
       course: CourseTransformer.transform(this.whenLoaded(this.resource.course)),
+      prerequisites: SubjectTransformer.transform(this.whenLoaded(this.resource.prerequisites)),
     }
   }
 

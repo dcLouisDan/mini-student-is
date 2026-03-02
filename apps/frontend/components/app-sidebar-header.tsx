@@ -1,9 +1,23 @@
 import useAuth from '@/hooks/use-auth'
 import { BookOpenText } from 'lucide-react'
 import Link from 'next/link'
+import { useSidebar } from './ui/sidebar'
 
 export default function AppSidebarHeader() {
   const { user } = useAuth()
+  const { state } = useSidebar()
+
+  if (state == 'collapsed') {
+    return (
+      <Link
+        href="/dashboard"
+        className="size-8 rounded bg-primary text-primary-foreground flex items-center justify-center"
+      >
+        <BookOpenText />
+      </Link>
+    )
+  }
+
   return (
     <Link
       href="/dashboard"

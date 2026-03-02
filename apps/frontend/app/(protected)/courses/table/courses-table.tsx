@@ -44,7 +44,7 @@ export default function CoursesTable() {
   }
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center gap-2 justify-end">
+      <div className="flex flex-col md:flex-row items-center gap-2 justify-end  border rounded-lg p-2 bg-secondary">
         <Field orientation="horizontal">
           <FieldLabel>Course Code</FieldLabel>
           <DebouncedInput

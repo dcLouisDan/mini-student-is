@@ -210,6 +210,12 @@ const routes = {
     tokens: [{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":1,"val":"id","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"reservations","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":1,"val":"subjectId","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"cancel","end":""}],
     types: placeholder as Registry['subject_reservations.cancel']['types'],
   },
+  'students.batch_destroy': {
+    methods: ["POST"],
+    pattern: '/api/v1/students/batch-delete',
+    tokens: [{"old":"/api/v1/students/batch-delete","type":0,"val":"api","end":""},{"old":"/api/v1/students/batch-delete","type":0,"val":"v1","end":""},{"old":"/api/v1/students/batch-delete","type":0,"val":"students","end":""},{"old":"/api/v1/students/batch-delete","type":0,"val":"batch-delete","end":""}],
+    types: placeholder as Registry['students.batch_destroy']['types'],
+  },
   'grades.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/grades',

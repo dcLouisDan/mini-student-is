@@ -9,32 +9,32 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '../ui/button'
 import { Plus } from 'lucide-react'
-import { SubjectForm } from '../subject-form'
+import { StudentForm } from '../student-form'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-export default function NewSubjectFormDialog() {
+export default function NewStudentFormDialog() {
   const [open, setOpen] = useState(false)
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
           <Button>
-            <Plus /> Add Subject
+            <Plus /> Add Student
           </Button>
         }
       />
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add New Subject</DialogTitle>
+          <DialogTitle>Add New Student</DialogTitle>
           <DialogDescription>
-            Fill in the form and click submit to add a new subject to the system.
+            Fill in the form and click submit to add a new student to the system.
           </DialogDescription>
         </DialogHeader>
         <div>
-          <SubjectForm
+          <StudentForm
             onSubmitSuccess={() => {
-              toast.success('New subjects added')
+              toast.success('New students added')
               setOpen(false)
             }}
           />

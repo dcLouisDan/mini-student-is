@@ -7,9 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { client } from '@/lib/api'
 import { handleRequestError } from './handle-request-error'
 import useSubjects from '@/hooks/use-subjects'
-import { QueryCombobox } from './query-combo-box'
 import CourseCombobox from './comboboxes/course-combobox'
-import { BasicCombobox } from './basic-combobox'
 
 type SubjectFormInputs = {
   courseId: string

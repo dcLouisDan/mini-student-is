@@ -25,7 +25,7 @@ const data = {
       items: [
         {
           title: 'Student Records',
-          url: '#',
+          url: '/students',
         },
         {
           title: 'Grade Sheet',

@@ -53,6 +53,7 @@ export interface ApiDefinition {
     show: typeof routes['students.show']
     update: typeof routes['students.update']
     destroy: typeof routes['students.destroy']
+    batchDestroy: typeof routes['students.batch_destroy']
   }
   subjectReservations: {
     index: typeof routes['subject_reservations.index']

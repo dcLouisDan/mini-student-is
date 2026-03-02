@@ -1,5 +1,6 @@
 import Student from '#models/student'
 import {
+  batchStudentDeleteValidator,
   createStudentValidator,
   indexStudentValidator,
   showStudentValidator,
@@ -9,6 +10,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import { DEFAULT_PER_PAGE_LIMIT, SortOrder } from '../../lib/constants.ts'
 import StudentTransformer from '#transformers/student_transformer'
 import { activity } from '@holoyan/adonisjs-activitylog'
+import db from '@adonisjs/lucid/services/db'
 
 export default class StudentsController {
   /**
@@ -154,5 +156,32 @@ export default class StudentsController {
     const nextNo = (Number(lastNo) + 1).toString().padStart(10, '0')
 
     return nextNo
+  }
+
+  async batchDestroy({ request, response, auth: { user: authUser } }: HttpContext) {
+    if (!authUser) {
+      return response.unauthorized()
+    }
+
+    if (authUser.role !== 'admin') {
+      return response.unauthorized()
+    }
+
+    const { idArr } = await request.validateUsing(batchStudentDeleteValidator)
+
+    await db.transaction(async (trx) => {
+      await Student.query({ client: trx }).whereIn('id', idArr).delete()
+    })
+
+    await activity()
+      .by(authUser)
+      .making('batch-delete')
+      .havingCurrent({ idArr })
+      .log('Students deleted')
+
+    return response.ok({
+      message: 'Students deleted',
+      idArr,
+    })
   }
 }

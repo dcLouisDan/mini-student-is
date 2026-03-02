@@ -44,7 +44,7 @@ export default function SubjectsTable() {
   }
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center gap-2 justify-end">
+      <div className="flex flex-col md:flex-row items-center gap-2 justify-end border rounded-lg p-2 bg-secondary">
         <div className="flex flex-col gap-1 flex-1">
           <div className="flex flex-col md:flex-row items-center gap-2 justify-end">
             <Field orientation="horizontal">
@@ -65,6 +65,12 @@ export default function SubjectsTable() {
                 placeholder="Search by subject title..."
               />
             </Field>
+            <SortPopover
+              className="min-w-40"
+              sortableOptions={sortByOptions}
+              sortValue={sortBy}
+              directionValue={sortOrder}
+            />
           </div>
           <div className="min-w-60 flex gap-2 items-center overflow-hidden relative">
             <CourseCombobox
@@ -81,14 +87,6 @@ export default function SubjectsTable() {
             </Button>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row items-center gap-2">
-          <PaginationBar total={total} page={currentPage} size={perPage} />
-          <SortPopover
-            sortableOptions={sortByOptions}
-            sortValue={sortBy}
-            directionValue={sortOrder}
-          />
-        </div>
       </div>
       <EditableDataTable
         onRowSubmit={onRowSubmit}
@@ -100,6 +98,9 @@ export default function SubjectsTable() {
           await onSubjectBatchDelete(selected)
         }}
       />
+      <div className="w-full justify-end  flex flex-col md:flex-row items-center gap-2">
+        <PaginationBar total={total} page={currentPage} size={perPage} />
+      </div>
     </>
   )
 }

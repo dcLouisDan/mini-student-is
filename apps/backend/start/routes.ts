@@ -87,6 +87,10 @@ router
       .prefix('/students/:id/reservations')
 
     router
+      .post('/students/batch-delete', [controllers.Students, 'batchDestroy'])
+      .use(middleware.auth())
+
+    router
       .resource('grades', controllers.Grades)
       .apiOnly()
       .use(['store', 'update', 'destroy'], middleware.auth())

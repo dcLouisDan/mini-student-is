@@ -16,8 +16,8 @@ export const indexStudentValidator = vine.create({
     page: vine.number().nonNegative().withoutDecimals().optional(),
     perPage: vine.number().nonNegative().withoutDecimals().optional(),
     courseId: vine.string().optional(),
-    sortBy: vine.string().in(SORTABLE_COLUMNS),
-    sortOrder: vine.string().in(SORT_ORDER_ARR),
+    sortBy: vine.string().in(SORTABLE_COLUMNS).optional(),
+    sortOrder: vine.string().in(SORT_ORDER_ARR).optional(),
     firstName: vine.string().optional(),
     lastName: vine.string().optional(),
     studentNo: vine.string().optional(),
@@ -29,7 +29,7 @@ const studentValidatorBase = {
   firstName: vine.string(),
   lastName: vine.string(),
   email: vine.string().email(),
-  birthDate: vine.date(),
+  birthDate: vine.date({ formats: [] }),
 }
 
 export const createStudentValidator = vine.create(studentValidatorBase)
@@ -59,4 +59,8 @@ export const attachStudentReservationValidator = vine.create({
     id: vine.string(),
   }),
   subjectIds: vine.array(vine.string()),
+})
+
+export const batchStudentDeleteValidator = vine.create({
+  idArr: vine.array(vine.string().use(existsRule({ table: 'students', column: 'id' }))),
 })
