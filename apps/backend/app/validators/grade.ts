@@ -20,33 +20,42 @@ export const indexGradeValidator = vine.create({
   qs: vine.object({
     page: vine.number().nonNegative().withoutDecimals().optional(),
     perPage: vine.number().nonNegative().withoutDecimals().optional(),
-    studentId: vine.string().use(existsRule({ table: 'student', column: 'id' })),
-    subjectId: vine.string().use(existsRule({ table: 'subject', column: 'id' })),
+    studentId: vine
+      .string()
+      .use(existsRule({ table: 'students', column: 'id' }))
+      .optional(),
+    subjectId: vine
+      .string()
+      .use(existsRule({ table: 'subjects', column: 'id' }))
+      .optional(),
     courseId: vine.string().optional(),
-    sortBy: vine.string().in(SORTABLE_COLUMNS),
-    sortOrder: vine.string().in(SORT_ORDER_ARR),
+    sortBy: vine.string().in(SORTABLE_COLUMNS).optional(),
+    sortOrder: vine.string().in(SORT_ORDER_ARR).optional(),
+    sortByStudent: vine.string().in(['last_name', 'first_name', 'student_no']).optional(),
+    sortOrderStudent: vine.string().in(SORT_ORDER_ARR).optional(),
   }),
 })
 
-const upsertGradeSchema = vine.object({
-  studentId: vine.string().use(existsRule({ table: 'student', column: 'id' })),
-  subjectId: vine.string().use(existsRule({ table: 'subject', column: 'id' })),
-  courseId: vine.string().use(existsRule({ table: 'course', column: 'id' })),
+const upsertGradeSchema = {
+  id: vine.string().use(existsRule({ table: 'grades', column: 'id' })),
+  studentId: vine.string().use(existsRule({ table: 'students', column: 'id' })),
+  subjectId: vine.string().use(existsRule({ table: 'subjects', column: 'id' })),
+  courseId: vine.string().use(existsRule({ table: 'courses', column: 'id' })),
   prelim: vine.number(),
   midterm: vine.number(),
   finals: vine.number(),
   finalGrade: vine.number(),
-  remarks: vine.string(),
+  remarks: vine.string().optional(),
   encodedByUserId: vine.string().use(existsRule({ table: 'users', column: 'id' })),
-})
+}
 
 export const upsertGradeValidator = vine.create({
   params: vine.object({
     id: vine.string(),
   }),
-  gradeRecord: upsertGradeSchema,
+  ...upsertGradeSchema,
 })
 
 export const groupUpsertGradeValidator = vine.create({
-  gradeRecords: vine.array(upsertGradeSchema),
+  gradeRecords: vine.array(vine.object(upsertGradeSchema)),
 })

@@ -29,7 +29,7 @@ const data = {
         },
         {
           title: 'Grade Sheet',
-          url: '#',
+          url: '/grades',
         },
         {
           title: 'Subject Reservations',

@@ -8,7 +8,18 @@ import UserTransformer from './user_transformer.ts'
 export default class GradeTransformer extends BaseTransformer<Grade> {
   toObject() {
     return {
-      ...this.pick(this.resource, ['id', 'prelim', 'midterm', 'finals', 'finalGrade', 'remarks']),
+      ...this.pick(this.resource, [
+        'id',
+        'studentId',
+        'subjectId',
+        'courseId',
+        'prelim',
+        'midterm',
+        'finals',
+        'finalGrade',
+        'remarks',
+        'encodedByUserId',
+      ]),
       student: StudentTransformer.transform(this.whenLoaded(this.resource.student)),
       course: CourseTransformer.transform(this.whenLoaded(this.resource.course)),
       subject: SubjectTransformer.transform(this.whenLoaded(this.resource.subject)),

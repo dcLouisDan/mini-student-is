@@ -1,13 +1,13 @@
 import { UserSchema } from '#database/schema'
 import vine from '@vinejs/vine'
-import { SORT_ORDER_ARR } from '../../lib/constants.ts'
+import { SORT_ORDER_ARR, USER_ROLES_ARR } from '../../lib/constants.ts'
 
 /**
  * Shared rules for email and password.
  */
 const email = () => vine.string().email().maxLength(254)
 const password = () => vine.string().minLength(8).maxLength(32)
-const role = () => vine.string().in(['admin', 'encoder', 'student'])
+const role = () => vine.string().in(Array.from(USER_ROLES_ARR))
 
 /**
  * Validator to use when performing self-signup

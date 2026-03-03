@@ -58,7 +58,7 @@ export default function StudentPageContent({ id }: { id: string }) {
             <CardDescription className="flex flex-col gap-1">
               <p className="text-xs">{student?.course?.name}</p>
               <Separator />
-              <div className="grid grid-cols-2 items-center gap-2">
+              <div className="grid grid-cols-2 items-center gap-2 text-xs">
                 <div>Email: </div>
                 <div className="font-bold">{student?.email}</div>
                 <div>Birth Date: </div>
