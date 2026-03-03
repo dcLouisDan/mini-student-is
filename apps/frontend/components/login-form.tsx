@@ -7,6 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { client } from '@/lib/api'
 import { useRouter } from 'next/navigation'
 import { handleRequestError } from './handle-request-error'
+import useAuth from '@/hooks/use-auth'
 
 type LoginFormInputs = {
   email: string
@@ -20,12 +21,16 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'form'>)
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>()
+
+  const { invalidate } = useAuth()
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     try {
       const response = await client.api.auth.session.store({ body: data })
 
       if (response.success) {
+        invalidate()
         router.push('/dashboard')
+        router.refresh()
       }
     } catch (e) {
       handleRequestError(e)

@@ -9,6 +9,8 @@ import { GradesParams } from '@/lib/query-options/grades-query-options'
 import { useForm } from 'react-hook-form'
 import { DataTable } from '@/components/data-table'
 import SubjectCombobox from '@/components/comboboxes/subject-combobox'
+import { Button } from '@/components/ui/button'
+import { X } from 'lucide-react'
 
 export default function GradesTable() {
   const {
@@ -25,10 +27,20 @@ export default function GradesTable() {
   return (
     <>
       <div className="flex flex-col md:flex-row items-center gap-2 justify-end  border rounded-lg p-2 bg-secondary">
-        <SubjectCombobox
-          value={subjectId ?? ''}
-          onValueChange={(val) => updateParams({ subjectId: val })}
-        />
+        <div className="flex-1 flex gap-2 items-center overflow-hidden relative">
+          <SubjectCombobox
+            value={subjectId ?? ''}
+            onValueChange={(val) => updateParams({ subjectId: val })}
+          />
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="absolute right-1"
+            onClick={() => updateParams({ subjectId: undefined })}
+          >
+            <X />
+          </Button>
+        </div>
         <div className="flex items-center gap-2">
           <PaginationBar total={total} page={currentPage} size={perPage} />
           <SortPopover

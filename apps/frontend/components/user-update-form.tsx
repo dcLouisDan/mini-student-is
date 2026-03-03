@@ -120,7 +120,7 @@ export function UpdateUserForm({
           </AccordionItem>
         </Accordion>
         <Field>
-          <Button type="submit">Update User</Button>
+          <Button type="submit">Update</Button>
         </Field>
       </FieldGroup>
     </form>

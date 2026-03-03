@@ -29,7 +29,7 @@ export default function AppSidebarHeader() {
         <BookOpenText />
       </div>
       <div className="flex-1 flex flex-col">
-        <h4 className="font-semibold text-sm">STUDENT INFO SYSTEM</h4>
+        <h4 className="font-semibold text-sm">SCHOOL INFO SYSTEM</h4>
         <p className="text-[0.65em]">{user?.role.toUpperCase()}</p>
       </div>
     </Link>

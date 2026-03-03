@@ -27,15 +27,19 @@ export default function useAuth() {
     refetchOnWindowFocus: false,
   })
 
+  const invalidate = () => {
+    queryClient.setQueryData([AUTH_QUERY_KEY], null)
+    queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] })
+  }
+
   const logout = async () => {
     const { success } = await client.api.auth.session.destroy({})
 
     if (success) {
-      queryClient.setQueryData([AUTH_QUERY_KEY], null)
-      queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] })
+      invalidate()
       router.push('/auth/login')
     }
   }
 
-  return { user, isAuthenticated: !!user, isLoading, error, logout }
+  return { user, isAuthenticated: !!user, isLoading, error, logout, invalidate }
 }

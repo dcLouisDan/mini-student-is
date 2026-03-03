@@ -1,18 +1,17 @@
 import AuthGuard from '@/app/auth-guard'
 import AppHeader from '@/components/app-header'
 import { BreadcrumbItemType } from '@/lib/types/ui'
-import React, { Suspense } from 'react'
-import CoursesTable from './table/activity-logs-table'
-import NewCourseFormDialog from '@/components/dialogs/new-course-form-dialog'
+import { Suspense } from 'react'
+import ActivityLogsTable from './table/activity-logs-table'
 
 const PAGE_BREADCRUMBS: BreadcrumbItemType[] = [
   {
-    title: 'Courses',
-    href: '/courses',
+    title: 'Activity Logs',
+    href: '/activity-logs',
   },
 ]
 
-export default function CoursesPage() {
+export default function ActivityLogsPage() {
   return (
     <>
       <AppHeader breadcrumbs={PAGE_BREADCRUMBS} />
@@ -20,12 +19,9 @@ export default function CoursesPage() {
         <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="flex items-center gap-2 justify-between">
             <h4>View Activity Logs</h4>
-            <div>
-              <NewCourseFormDialog />
-            </div>
           </div>
           <Suspense>
-            <CoursesTable />
+            <ActivityLogsTable />
           </Suspense>
         </main>
       </AuthGuard>
