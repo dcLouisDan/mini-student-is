@@ -47,7 +47,12 @@ function getRemarks(grade: number, passingGrade: number = 0) {
 }
 
 export default function GradePageContent({ id }: { id: string }) {
-  const { grades } = useGrades(id, 100, 'last_name', 'asc')
+  const { grades } = useGrades({
+    subjectEditId: id,
+    defaultPageSize: 100,
+    sortByStudent: 'last_name',
+    sortOrderStudent: 'asc',
+  })
   const { data: subject } = useQuery(subjectQueryOptions(id))
   const form = useForm<GradesFormFields>()
   const queryClient = useQueryClient()

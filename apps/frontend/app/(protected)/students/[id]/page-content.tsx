@@ -22,6 +22,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { X } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import StudentGradesTable from './table/student-grades-table'
 
 export default function StudentPageContent({ id }: { id: string }) {
   const { data: student } = useQuery(studentQueryOptions(id))
@@ -111,7 +112,9 @@ export default function StudentPageContent({ id }: { id: string }) {
           </CardFooter>
         </Card>
       </aside>
-      <div className="flex-1"></div>
+      <div className="flex-1">
+        <StudentGradesTable studentId={id} />
+      </div>
     </main>
   )
 }

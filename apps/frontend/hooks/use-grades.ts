@@ -24,13 +24,19 @@ const sortableColumns = [
 ] as const
 const sortByOptions = stringArrToBasicSelectItems(Array.from(sortableColumns), camelCaseToTitleCase)
 
-export default function useGrades(
-  subjectEditId?: string,
-  defaultPageSize?: number,
-  sortByStudent?: 'last_name' | 'first_name' | 'student_no',
-  sortOrderStudent?: SortDirection,
+export default function useGrades({
+  subjectEditId,
+  defaultPageSize,
+  sortByStudent,
+  sortOrderStudent,
+  defaultStudentId,
+}: {
+  subjectEditId?: string
+  defaultPageSize?: number
+  sortByStudent?: 'last_name' | 'first_name' | 'student_no'
+  sortOrderStudent?: SortDirection
   defaultStudentId?: string
-) {
+} = {}) {
   const { getParam } = useQueryParams<GradesParams>()
   const queryClient = useQueryClient()
   const page = getParam<number>('page', 1)
