@@ -33,6 +33,7 @@ export default class GradesController {
       .preload('course')
       .preload('student')
       .preload('subject')
+      .preload('encodedByUser')
       .join('students', 'grades.student_id', '=', 'students.id')
       .select('grades.*')
       .select(['students.first_name', 'students.last_name', 'students.student_no'])
