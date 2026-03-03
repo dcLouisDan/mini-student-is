@@ -107,7 +107,10 @@ export default function SubjectReservationSelect({
 }
 
 function SubjectInfoItem({ subject }: { subject: Data.Subject }) {
-  const prereqsString = subject.prerequisites?.map((item) => item.title).join(', ') ?? 'None'
+  const prereqsString =
+    subject.prerequisites && subject.prerequisites?.length > 0
+      ? subject.prerequisites?.map((item) => item.title).join(', ')
+      : 'None'
   return (
     <div className="space-y-0.5">
       <div>{subject.title}</div>

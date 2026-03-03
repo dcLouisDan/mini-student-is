@@ -28,14 +28,15 @@ export default function useGrades(
   subjectEditId?: string,
   defaultPageSize?: number,
   sortByStudent?: 'last_name' | 'first_name' | 'student_no',
-  sortOrderStudent?: SortDirection
+  sortOrderStudent?: SortDirection,
+  defaultStudentId?: string
 ) {
   const { getParam } = useQueryParams<GradesParams>()
   const queryClient = useQueryClient()
   const page = getParam<number>('page', 1)
   const perPage = defaultPageSize ?? getParam<number>('perPage', PER_PAGE_DEFAULT)
   const subjectId = subjectEditId ?? getParam<string>('subjectId')
-  const studentId = getParam<string>('studentId')
+  const studentId = defaultStudentId ?? getParam<string>('studentId')
   const remarks = getParam<string>('remarks')
   const sortBy = getParam<string>('sortBy')
   const sortOrder = getParam<SortDirection>('sortOrder')

@@ -43,9 +43,14 @@ export default class StudentReservationsController {
     const passedGradesArr = await this.subjectService.getPassedSubjectsIdArr(student.id)
 
     const subjects = await Subject.query()
-      .doesntHave('prerequisites')
-      .orWhereHas('prerequisites', (query) => {
-        query.whereIn('id', passedGradesArr)
+      .preload('prerequisites')
+      .where((builder) => {
+        builder.doesntHave('prerequisites').orWhereHas('prerequisites', (query) => {
+          query.whereInPivot('prerequisite_subject_id', passedGradesArr)
+        })
+      })
+      .andWhereDoesntHave('students', (query) => {
+        query.wherePivot('student_id', id)
       })
 
     return serialize(SubjectTransformer.transform(subjects))

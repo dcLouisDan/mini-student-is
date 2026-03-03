@@ -42,6 +42,10 @@ export interface GradesFormFields {
   gradeRecords: GradeRecordFields[]
 }
 
+function getRemarks(grade: number, passingGrade: number = 0) {
+  return grade >= passingGrade ? 'PASSED' : 'FAILED'
+}
+
 export default function GradePageContent({ id }: { id: string }) {
   const { grades } = useGrades(id, 100, 'last_name', 'asc')
   const { data: subject } = useQuery(subjectQueryOptions(id))
@@ -88,7 +92,7 @@ export default function GradePageContent({ id }: { id: string }) {
 function GradeSheetForm({ grades }: { grades: Data.Grade[] }) {
   const [gradesInfoMap, setGradesInfoMap] = useState<Record<string, Data.Grade>>({})
   const { user } = useAuth()
-  const { control, register } = useFormContext<GradesFormFields>()
+  const { control, register, setValue } = useFormContext<GradesFormFields>()
   const { fields, append, replace } = useFieldArray({
     control,
     name: 'gradeRecords',
@@ -167,10 +171,23 @@ function GradeSheetForm({ grades }: { grades: Data.Grade[] }) {
                     className={numberCellClass}
                     type="number"
                     {...register(`gradeRecords.${index}.finalGrade` as const)}
+                    onChange={(e) => {
+                      const val = Number(e.target.value)
+                      setValue(`gradeRecords.${index}.finalGrade` as const, val)
+                      setValue(
+                        `gradeRecords.${index}.remarks` as const,
+                        getRemarks(val, gradeInfo.subject?.passingGrade)
+                      )
+                    }}
                   />
                 </TableCell>
                 <TableCell>{gradeInfo.subject?.passingGrade}</TableCell>
-                <TableCell></TableCell>
+                <TableCell>
+                  <Input
+                    className={numberCellClass}
+                    {...register(`gradeRecords.${index}.remarks` as const)}
+                  />
+                </TableCell>
               </TableRow>
             )
           })}
