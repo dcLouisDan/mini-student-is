@@ -25,10 +25,10 @@ export default function useAuth() {
     staleTime: 1000 * 60 * 60,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   })
 
   const invalidate = () => {
-    queryClient.setQueryData([AUTH_QUERY_KEY], null)
     queryClient.invalidateQueries({ queryKey: [AUTH_QUERY_KEY] })
   }
 
@@ -37,6 +37,7 @@ export default function useAuth() {
 
     if (success) {
       invalidate()
+      queryClient.setQueryData([AUTH_QUERY_KEY], null)
       router.push('/auth/login')
     }
   }

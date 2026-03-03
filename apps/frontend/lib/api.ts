@@ -6,4 +6,5 @@ export const client = createTuyau({
   registry,
   headers: { Accept: 'application/json' },
   credentials: 'include',
+  retry: 1,
 })

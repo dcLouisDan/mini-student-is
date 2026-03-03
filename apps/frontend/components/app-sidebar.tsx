@@ -13,67 +13,20 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar'
 import AppSidebarHeader from './app-sidebar-header'
-
-// This is sample data.
-const data = {
-  navMain: [
-    {
-      title: 'Students',
-      url: '#',
-      icon: Users,
-      isActive: true,
-      items: [
-        {
-          title: 'Student Records',
-          url: '/students',
-        },
-        {
-          title: 'Grade Sheet',
-          url: '/grades',
-        },
-      ],
-    },
-    {
-      title: 'Curriculum',
-      url: '#',
-      icon: University,
-      items: [
-        {
-          title: 'Courses',
-          url: '/courses',
-        },
-        {
-          title: 'Subjects',
-          url: '/subjects',
-        },
-      ],
-    },
-    {
-      title: 'System',
-      url: '#',
-      icon: MonitorCog,
-      items: [
-        {
-          title: 'Users',
-          url: '/users',
-        },
-        {
-          title: 'Activity Logs',
-          url: '/activity-logs',
-        },
-      ],
-    },
-  ],
-}
+import useAuth from '@/hooks/use-auth'
+import { getNavMainLinks } from '@/lib/navlinks'
+import { UserRole } from '@/lib/constants'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useAuth()
+  const navLinks = user ? getNavMainLinks(user.role as UserRole) : []
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <AppSidebarHeader />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navLinks} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

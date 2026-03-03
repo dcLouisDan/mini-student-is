@@ -28,20 +28,22 @@ export type UpdateUserFormInputs = {
 export function UpdateUserForm({
   className,
   user,
+  disableRoleSelect,
   onSubmitSuccess = () => {},
   ...props
 }: React.ComponentProps<'form'> & {
   onSubmitSuccess?: () => void
   user: Data.User
+  disableRoleSelect?: boolean
 }) {
   const { invalidate } = useUsers()
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     watch,
     setValue,
+    reset,
   } = useForm<UpdateUserFormInputs>({
     defaultValues: {
       fullName: user.fullName ?? '',
@@ -57,9 +59,9 @@ export function UpdateUserForm({
       })
 
       invalidate()
-      reset()
       onSubmitSuccess()
     } catch (e) {
+      reset()
       handleRequestError(e)
     }
   }
@@ -89,6 +91,7 @@ export function UpdateUserForm({
         <Field>
           <FieldLabel htmlFor="role">Role</FieldLabel>
           <BasicSelect
+            className={disableRoleSelect ? 'opacity-75 pointer-events-none' : ''}
             items={USER_ROLES_OPTIONS}
             value={watch('role')}
             onValueChange={(value) => setValue('role', value)}

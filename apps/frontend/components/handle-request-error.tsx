@@ -19,7 +19,9 @@ export const handleRequestError = (e: unknown) => {
     }
 
     // 3. Fallback for specific status codes if no body is found
-    if (e.status === 401) return toast.error('Session expired. Please login.')
+    if (e.status === 401) {
+      return toast.error('Session expired. Please login.')
+    }
     if (e.status === 403) return toast.error('You do not have permission.')
 
     toast.error(`Error: ${e.status || 'Server Error'}`)

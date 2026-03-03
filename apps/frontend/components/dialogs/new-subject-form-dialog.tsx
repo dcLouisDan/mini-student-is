@@ -12,9 +12,13 @@ import { Plus } from 'lucide-react'
 import { SubjectForm } from '../subject-form'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import useAuth from '@/hooks/use-auth'
 
 export default function NewSubjectFormDialog() {
   const [open, setOpen] = useState(false)
+  const { user } = useAuth()
+
+  if (user?.role !== 'admin') return null
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger

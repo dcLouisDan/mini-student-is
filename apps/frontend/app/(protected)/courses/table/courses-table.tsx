@@ -1,5 +1,6 @@
 'use client'
 
+import useAuth from '@/hooks/use-auth'
 import { columns } from './columns'
 import useCourses from '@/hooks/use-courses'
 import { PaginationBar } from '@/components/pagination-bar'
@@ -11,6 +12,7 @@ import { Field, FieldLabel } from '@/components/ui/field'
 import { EditableDataTable } from '@/components/editable-data-table'
 import { Data } from '@api-starter-kit/backend/data'
 import { toast } from 'sonner'
+import { useMemo } from 'react'
 
 export default function CoursesTable() {
   const {
@@ -29,6 +31,7 @@ export default function CoursesTable() {
   const onRowSubmit = async (data: Data.Course) => {
     return updateCourse(data)
   }
+  const { user } = useAuth()
 
   const onCourseBatchDelete = async (selectedRows: string[]) => {
     const success = await batchDeleteCourse(selectedRows)
@@ -37,6 +40,12 @@ export default function CoursesTable() {
       toast.success(`${selectedRows.length} rows have been deleted.`)
     }
   }
+
+  const filteredColumns = useMemo(() => {
+    if (user?.role == 'admin') return columns
+
+    return columns.filter((col) => col.id != 'actions')
+  }, [user])
   return (
     <>
       <div className="flex flex-col md:flex-row items-center gap-2 justify-end  border rounded-lg p-2 bg-secondary">
@@ -72,7 +81,7 @@ export default function CoursesTable() {
       <EditableDataTable
         onRowSubmit={onRowSubmit}
         data={courses}
-        columns={columns}
+        columns={filteredColumns}
         onBatchDelete={async (rows) => {
           const selected = rows.map((row) => row.original.id)
 

@@ -12,9 +12,13 @@ import { Plus } from 'lucide-react'
 import { CourseForm } from '../course-form'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import useAuth from '@/hooks/use-auth'
 
 export default function NewCourseFormDialog() {
   const [open, setOpen] = useState(false)
+  const { user } = useAuth()
+
+  if (user?.role !== 'admin') return null
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger

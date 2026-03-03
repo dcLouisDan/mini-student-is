@@ -77,30 +77,32 @@ export default function StudentPageContent({ id }: { id: string }) {
                 </div>
               ) : (
                 reservedSubjects.map((subject) => (
-                  <div key={subject.id} className="flex items-center gap-2">
+                  <div key={subject.id} className="flex items-center gap-2 relative">
                     <Link
                       href={`/subjects/${subject.id}`}
                       className="flex-1 border rounded py-1 px-2 bg-secondary text-secondary-foreground"
                     >
                       {subject.title}
                     </Link>
-                    <ConfirmationDialog
-                      title={`Cancel subject reservation?`}
-                      description="If you continue, the subject reservation will be cancelled and will no longer apply to this student."
-                      triggerComponent={
-                        <Button
-                          title="Delete"
-                          size="icon-sm"
-                          variant="ghost"
-                          className="text-destructive"
-                        >
-                          <X />
-                        </Button>
-                      }
-                      submitButtonContent="Continue"
-                      submitButtonVariant={{ variant: 'destructive' }}
-                      onSubmit={async () => await onCancelClick(subject.id)}
-                    />
+                    <div className="absolute right-2">
+                      <ConfirmationDialog
+                        title={`Cancel subject reservation?`}
+                        description="If you continue, the subject reservation will no longer apply to this student."
+                        triggerComponent={
+                          <Button
+                            title="Remove subject"
+                            size="icon-sm"
+                            variant="ghost"
+                            className="text-destructive"
+                          >
+                            <X />
+                          </Button>
+                        }
+                        submitButtonContent="Continue"
+                        submitButtonVariant={{ variant: 'destructive' }}
+                        onSubmit={async () => await onCancelClick(subject.id)}
+                      />
+                    </div>
                   </div>
                 ))
               )}

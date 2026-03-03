@@ -14,6 +14,7 @@ import useSubjects from '@/hooks/use-subjects'
 import { Input } from '@/components/ui/input'
 import CourseCombobox from '@/components/comboboxes/course-combobox'
 import Link from 'next/link'
+import useAuth from '@/hooks/use-auth'
 
 export const columns: ColumnDef<Data.Subject>[] = [
   {
@@ -133,6 +134,7 @@ export const columns: ColumnDef<Data.Subject>[] = [
           toast.success(`Subject deleted.`)
         }
       }
+      const { user } = useAuth()
       return (
         <div className="flex items-center gap-1">
           {isEditing ? (
@@ -161,29 +163,37 @@ export const columns: ColumnDef<Data.Subject>[] = [
               <Eye />
             </Link>
           )}
-          <Button
-            title={!isEditing ? 'Edit' : 'Cancel'}
-            size="icon-sm"
-            variant={isEditing ? 'destructive' : 'ghost'}
-            onClick={() => {
-              setEditingRowId?.(isEditing ? null : row.original.id)
-            }}
-          >
-            {!isEditing ? <Edit /> : <PencilOff />}
-          </Button>
-
-          <ConfirmationDialog
-            title={`Delete subject?`}
-            description="All related records (students, grades) will also be deleted. Are you sure you want to proceed? Note: This action cannot be undone."
-            triggerComponent={
-              <Button title="Delete" size="icon-sm" variant="ghost" className="text-destructive">
-                <Trash2 />
+          {user?.role == 'admin' && (
+            <>
+              <Button
+                title={!isEditing ? 'Edit' : 'Cancel'}
+                size="icon-sm"
+                variant={isEditing ? 'destructive' : 'ghost'}
+                onClick={() => {
+                  setEditingRowId?.(isEditing ? null : row.original.id)
+                }}
+              >
+                {!isEditing ? <Edit /> : <PencilOff />}
               </Button>
-            }
-            submitButtonContent="Delete"
-            submitButtonVariant={{ variant: 'destructive' }}
-            onSubmit={onSubjectDelete}
-          />
+              <ConfirmationDialog
+                title={`Delete subject?`}
+                description="All related records (students, grades) will also be deleted. Are you sure you want to proceed? Note: This action cannot be undone."
+                triggerComponent={
+                  <Button
+                    title="Delete"
+                    size="icon-sm"
+                    variant="ghost"
+                    className="text-destructive"
+                  >
+                    <Trash2 />
+                  </Button>
+                }
+                submitButtonContent="Delete"
+                submitButtonVariant={{ variant: 'destructive' }}
+                onSubmit={onSubjectDelete}
+              />
+            </>
+          )}
         </div>
       )
     },
