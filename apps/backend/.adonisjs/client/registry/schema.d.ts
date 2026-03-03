@@ -436,6 +436,17 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/students_controller').default['batchDestroy']>>>
     }
   }
+  'students.import_csv': {
+    methods: ["POST"]
+    pattern: '/api/v1/students/import-csv'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/student').studentsCsvValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/student').studentsCsvValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/students_controller').default['importCsv']>>>
+    }
+  }
   'grades.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/grades'

@@ -65,3 +65,7 @@ export const attachStudentReservationValidator = vine.create({
 export const batchStudentDeleteValidator = vine.create({
   idArr: vine.array(vine.string().use(existsRule({ table: 'students', column: 'id' }))),
 })
+
+export const studentsCsvValidator = vine.create({
+  csvString: vine.string().optional(),
+})

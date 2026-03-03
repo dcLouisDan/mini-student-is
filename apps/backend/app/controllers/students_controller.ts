@@ -4,6 +4,7 @@ import {
   createStudentValidator,
   indexStudentValidator,
   showStudentValidator,
+  studentsCsvValidator,
   updateStudentValidator,
 } from '#validators/student'
 import type { HttpContext } from '@adonisjs/core/http'
@@ -11,6 +12,10 @@ import { DEFAULT_PER_PAGE_LIMIT, SortOrder } from '../../lib/constants.ts'
 import StudentTransformer from '#transformers/student_transformer'
 import { activity } from '@holoyan/adonisjs-activitylog'
 import db from '@adonisjs/lucid/services/db'
+import { parse } from 'csv-parse/sync'
+import Course from '#models/course'
+import { ModelAttributes } from '@adonisjs/lucid/types/model'
+import { DateTime } from 'luxon'
 
 export default class StudentsController {
   /**
@@ -195,5 +200,53 @@ export default class StudentsController {
       message: 'Students deleted',
       idArr,
     })
+  }
+
+  async importCsv({ request, serialize, response, auth: { user: authUser } }: HttpContext) {
+    const { csvString } = await request.validateUsing(studentsCsvValidator)
+    const courseCodeMap = await this.getCourseCodeMap()
+    if (!csvString) {
+      return response.badRequest()
+    }
+
+    const records: {
+      birthDate: string
+      email: string
+      firstName: string
+      lastName: string
+      studentNo: string
+      courseCode: string
+    }[] = parse(csvString, {
+      columns: true,
+      skip_empty_lines: true,
+    })
+
+    const data: Partial<ModelAttributes<Student>>[] = records.map((item) => ({
+      birthDate: DateTime.fromISO(item.birthDate),
+      email: item.email,
+      firstName: item.firstName,
+      lastName: item.lastName,
+      studentNo: item.studentNo,
+      courseId: courseCodeMap[item.courseCode],
+    }))
+
+    const students = await Student.createMany(data)
+
+    if (authUser) {
+      await activity().by(authUser).making('csv-import').log('Student successfully updated')
+    }
+
+    return serialize(StudentTransformer.transform(students))
+  }
+
+  private async getCourseCodeMap() {
+    const courses = await Course.all()
+    const map: Record<string, string> = {}
+
+    for (const course of courses) {
+      map[course.code] = course.id
+    }
+
+    return map
   }
 }

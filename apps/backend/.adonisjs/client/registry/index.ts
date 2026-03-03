@@ -240,6 +240,12 @@ const routes = {
     tokens: [{"old":"/api/v1/students/batch-delete","type":0,"val":"api","end":""},{"old":"/api/v1/students/batch-delete","type":0,"val":"v1","end":""},{"old":"/api/v1/students/batch-delete","type":0,"val":"students","end":""},{"old":"/api/v1/students/batch-delete","type":0,"val":"batch-delete","end":""}],
     types: placeholder as Registry['students.batch_destroy']['types'],
   },
+  'students.import_csv': {
+    methods: ["POST"],
+    pattern: '/api/v1/students/import-csv',
+    tokens: [{"old":"/api/v1/students/import-csv","type":0,"val":"api","end":""},{"old":"/api/v1/students/import-csv","type":0,"val":"v1","end":""},{"old":"/api/v1/students/import-csv","type":0,"val":"students","end":""},{"old":"/api/v1/students/import-csv","type":0,"val":"import-csv","end":""}],
+    types: placeholder as Registry['students.import_csv']['types'],
+  },
   'grades.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/grades',

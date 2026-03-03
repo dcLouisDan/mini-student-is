@@ -102,6 +102,8 @@ router
       .post('/students/batch-delete', [controllers.Students, 'batchDestroy'])
       .use(middleware.auth())
 
+    router.post('/students/import-csv', [controllers.Students, 'importCsv']).use(middleware.auth())
+
     router
       .resource('grades', controllers.Grades)
       .apiOnly()

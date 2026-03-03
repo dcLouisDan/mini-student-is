@@ -59,6 +59,7 @@ export interface ApiDefinition {
     update: typeof routes['students.update']
     destroy: typeof routes['students.destroy']
     batchDestroy: typeof routes['students.batch_destroy']
+    importCsv: typeof routes['students.import_csv']
   }
   subjectReservations: {
     eligibleSubjectsIndex: typeof routes['subject_reservations.eligible_subjects_index']

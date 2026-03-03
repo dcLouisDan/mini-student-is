@@ -43,6 +43,7 @@ export type ScannedRoutes = {
     'subject_reservations.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'subjectId': ParamValue} }
     'subject_reservations.cancel': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'subjectId': ParamValue} }
     'students.batch_destroy': { paramsTuple?: []; params?: {} }
+    'students.import_csv': { paramsTuple?: []; params?: {} }
     'grades.index': { paramsTuple?: []; params?: {} }
     'grades.store': { paramsTuple?: []; params?: {} }
     'grades.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -101,6 +102,7 @@ export type ScannedRoutes = {
     'students.store': { paramsTuple?: []; params?: {} }
     'subject_reservations.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'students.batch_destroy': { paramsTuple?: []; params?: {} }
+    'students.import_csv': { paramsTuple?: []; params?: {} }
     'grades.store': { paramsTuple?: []; params?: {} }
   }
   PUT: {
