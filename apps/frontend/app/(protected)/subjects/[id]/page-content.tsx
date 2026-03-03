@@ -3,7 +3,7 @@
 import { ConfirmationDialog } from '@/components/confirmation-dialog'
 import NewSubjectPrereqDialog from '@/components/dialogs/new-subject-prereq-dialog'
 import { handleRequestError } from '@/components/handle-request-error'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -18,9 +18,10 @@ import { client } from '@/lib/api'
 import { QUERY_KEYS } from '@/lib/query-options/query-keys'
 import { subjectQueryOptions } from '@/lib/query-options/subject-query-options'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Trash2 } from 'lucide-react'
+import { Edit, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import SubjectStudentsTable from './table/subject-students-table'
 
 export default function SubjectPageContent({ id }: { id: string }) {
   const { data: subject } = useQuery(subjectQueryOptions(id))
@@ -45,7 +46,7 @@ export default function SubjectPageContent({ id }: { id: string }) {
     }
   }
   return (
-    <main className="flex flex-1 gap-4 p-4 pt-0">
+    <main className="flex flex-col sm:flex-row flex-1 gap-4 p-4 pt-0">
       <aside className="w-full sm:max-w-sm flex flex-col gap-4">
         <Card size="sm">
           <CardHeader>
@@ -99,12 +100,22 @@ export default function SubjectPageContent({ id }: { id: string }) {
               )}
             </div>
           </CardContent>
-          <CardFooter className="flex gap-2 items-center">
+          <CardFooter className="flex flex-col gap-2 items-center">
             <NewSubjectPrereqDialog subjectId={id} />
+            <Link
+              className={buttonVariants({ variant: 'outline', className: 'w-full' })}
+              href={`/grades/encode/${id}`}
+            >
+              <Edit />
+              Encode Grades
+            </Link>
           </CardFooter>
         </Card>
       </aside>
-      <div></div>
+      <div className="space-y-4 flex-1">
+        <h4>Student List</h4>
+        <SubjectStudentsTable subjectId={id} />
+      </div>
     </main>
   )
 }

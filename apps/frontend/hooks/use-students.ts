@@ -15,7 +15,7 @@ import { client } from '@/lib/api'
 const sortableColumns = ['courseId', 'createdAt', 'firstName', 'lastName', 'studentNo'] as const
 const sortByOptions = stringArrToBasicSelectItems(Array.from(sortableColumns), camelCaseToTitleCase)
 
-export default function useStudents() {
+export default function useStudents({ defaultSubjectId }: { defaultSubjectId?: string } = {}) {
   const { getParam } = useQueryParams<StudentsParams>()
   const queryClient = useQueryClient()
   const page = getParam<number>('page', 1)
@@ -26,9 +26,19 @@ export default function useStudents() {
   const lastName = getParam<string>('lastName')
   const sortBy = getParam<string>('sortBy')
   const sortOrder = getParam<SortDirection>('sortOrder')
+  const subjectId = defaultSubjectId
 
   const { data, isLoading } = useQuery(
-    studentsQueryOptions({ page, perPage, firstName, lastName, sortBy, sortOrder, courseId })
+    studentsQueryOptions({
+      page,
+      perPage,
+      firstName,
+      lastName,
+      sortBy,
+      sortOrder,
+      courseId,
+      subjectId,
+    })
   )
 
   const invalidate = () => {

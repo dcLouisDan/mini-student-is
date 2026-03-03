@@ -18,11 +18,17 @@ export default class StudentsController {
    */
   async index({ request, serialize }: HttpContext) {
     const {
-      qs: { page, perPage, courseId, sortBy, sortOrder, studentNo, firstName, lastName },
+      qs: { page, perPage, courseId, sortBy, sortOrder, studentNo, firstName, lastName, subjectId },
     } = await request.validateUsing(indexStudentValidator)
     const filters = { courseId }
     const ilikeFilters = { studentNo, firstName, lastName }
     let studentsRaw = Student.query().preload('course')
+
+    if (subjectId) {
+      studentsRaw = studentsRaw.whereHas('reservedSubjects', (query) => {
+        query.wherePivot('subject_id', subjectId)
+      })
+    }
 
     const sortColumn = sortBy ?? 'createdAt'
     const order: SortOrder = (sortOrder as SortOrder) ?? 'asc'

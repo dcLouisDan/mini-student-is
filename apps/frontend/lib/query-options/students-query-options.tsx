@@ -8,6 +8,7 @@ export interface StudentsParams extends BaseParams {
   firstName?: string
   lastName?: string
   courseId?: string
+  subjectId?: string
 }
 
 export const studentsQueryOptions = (params: StudentsParams) =>

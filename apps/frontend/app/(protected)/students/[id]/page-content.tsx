@@ -49,7 +49,7 @@ export default function StudentPageContent({ id }: { id: string }) {
   }
 
   return (
-    <main className="flex flex-1 gap-4 p-4 pt-0">
+    <main className="flex flex-col sm:flex-row flex-1 gap-4 p-4 pt-0">
       <aside className="w-full sm:max-w-sm flex flex-col gap-4">
         <Card size="sm">
           <CardHeader>

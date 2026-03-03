@@ -21,6 +21,7 @@ export const indexStudentValidator = vine.create({
     firstName: vine.string().optional(),
     lastName: vine.string().optional(),
     studentNo: vine.string().optional(),
+    subjectId: vine.string().optional(),
   }),
 })
 

@@ -31,10 +31,6 @@ const data = {
           title: 'Grade Sheet',
           url: '/grades',
         },
-        {
-          title: 'Subject Reservations',
-          url: '#',
-        },
       ],
     },
     {
