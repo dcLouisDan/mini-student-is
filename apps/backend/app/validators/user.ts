@@ -1,6 +1,7 @@
 import { UserSchema } from '#database/schema'
 import vine from '@vinejs/vine'
 import { SORT_ORDER_ARR, USER_ROLES_ARR } from '../../lib/constants.ts'
+import { existsRule } from './rules/exists.ts'
 
 /**
  * Shared rules for email and password.
@@ -54,7 +55,7 @@ export const showUserValidator = vine.create({
 
 export const updateUserValidator = vine.create({
   fullName: vine.string().nullable(),
-  email: email().unique({ table: 'users', column: 'email' }),
+  email: email(),
   role: role(),
   password: password().optional(),
   passwordConfirmation: password().sameAs('password').optional(),
@@ -62,4 +63,16 @@ export const updateUserValidator = vine.create({
   params: vine.object({
     id: vine.string(),
   }),
+})
+
+export const batchUsersDeleteValidator = vine.create({
+  idArr: vine.array(vine.string().use(existsRule({ table: 'users', column: 'id' }))),
+})
+
+export const createUserValidator = vine.create({
+  fullName: vine.string().nullable(),
+  email: email().unique({ table: 'users', column: 'email' }),
+  role: role(),
+  password: password().optional(),
+  passwordConfirmation: password().sameAs('password').optional(),
 })

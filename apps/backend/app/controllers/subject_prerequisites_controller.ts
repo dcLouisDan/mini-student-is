@@ -117,6 +117,7 @@ export default class SubjectPrerequisitesController {
     if (authUser) {
       await activity()
         .by(authUser)
+        .on(subject)
         .making('attach-prerequisite')
         .havingCurrent({ id, prerequisiteSubjectId })
         .log('Prerequisite attached to subject')
@@ -141,6 +142,7 @@ export default class SubjectPrerequisitesController {
     if (authUser) {
       await activity()
         .by(authUser)
+        .on(subject)
         .making('dettach-prerequisite')
         .havingCurrent({ id, prerequisiteSubjectId })
         .log('Prerequisite dettached from subject')

@@ -40,6 +40,8 @@ router
       .apiOnly()
       .use(['store', 'update', 'destroy'], middleware.auth())
 
+    router.post('/users/batch-delete', [controllers.Users, 'batchDestroy']).use(middleware.auth())
+
     router
       .resource('courses', controllers.Courses)
       .apiOnly()
@@ -57,6 +59,8 @@ router
     router
       .post('/subjects/batch-delete', [controllers.Subjects, 'batchDestroy'])
       .use(middleware.auth())
+
+    router.get('/activity-logs', [controllers.ActivityLogs, 'index']).use(middleware.auth())
 
     router
       .group(() => {

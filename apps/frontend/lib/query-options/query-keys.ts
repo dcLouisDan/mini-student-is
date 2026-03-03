@@ -6,4 +6,5 @@ export const QUERY_KEYS = {
   STUDENTS: 'students',
   RESERVED_SUBJECTS: 'reserved_subjects',
   PREREQ_SUBJECTS: 'prereq_subjects',
+  ACTIVITY_LOGS: 'activity_logs',
 } as const

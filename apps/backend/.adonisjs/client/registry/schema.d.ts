@@ -117,6 +117,17 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/users_controller').default['destroy']>>>
     }
   }
+  'users.batch_destroy': {
+    methods: ["POST"]
+    pattern: '/api/v1/users/batch-delete'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user').batchUsersDeleteValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user').batchUsersDeleteValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/users_controller').default['batchDestroy']>>>
+    }
+  }
   'courses.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/courses'
@@ -247,6 +258,17 @@ export interface Registry {
       params: {}
       query: ExtractQuery<InferInput<(typeof import('#validators/subject').batchSubjectsDeleteValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/subjects_controller').default['batchDestroy']>>>
+    }
+  }
+  'activity_logs.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/activity-logs'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/activity_log').indexActivityLogValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/activity_logs_controller').default['index']>>>
     }
   }
   'subject_prerequisites.index': {

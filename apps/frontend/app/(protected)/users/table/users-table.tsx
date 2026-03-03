@@ -1,37 +1,33 @@
 'use client'
 
 import { columns } from './columns'
-import useCourses from '@/hooks/use-courses'
+import useUsers, { UserFormInputs } from '@/hooks/use-users'
 import { PaginationBar } from '@/components/pagination-bar'
 import SortPopover from '@/components/sort-popover'
 import DebouncedInput from '@/components/debounced-input'
 import useQueryParams from '@/hooks/use-query-params'
-import { CoursesParams } from '@/lib/query-options/courses-query-options'
+import { UsersParams } from '@/lib/query-options/users-query-options'
 import { Field, FieldLabel } from '@/components/ui/field'
 import { EditableDataTable } from '@/components/editable-data-table'
-import { Data } from '@api-starter-kit/backend/data'
 import { toast } from 'sonner'
 
-export default function CoursesTable() {
+export default function UsersTable() {
   const {
-    courses,
+    users,
     pagination: { total, currentPage, perPage },
     sortByOptions,
     sortBy,
     sortOrder,
-    code,
+    role,
     name,
-    updateCourse,
-    batchDeleteCourse,
-  } = useCourses()
+    updateUser,
+    batchDeleteUser,
+  } = useUsers()
 
-  const { updateParams } = useQueryParams<CoursesParams>()
-  const onRowSubmit = async (data: Data.Course) => {
-    return updateCourse(data)
-  }
+  const { updateParams } = useQueryParams<UsersParams>()
 
-  const onCourseBatchDelete = async (selectedRows: string[]) => {
-    const success = await batchDeleteCourse(selectedRows)
+  const onUserBatchDelete = async (selectedRows: string[]) => {
+    const success = await batchDeleteUser(selectedRows)
 
     if (success) {
       toast.success(`${selectedRows.length} rows have been deleted.`)
@@ -41,23 +37,23 @@ export default function CoursesTable() {
     <>
       <div className="flex flex-col md:flex-row items-center gap-2 justify-end  border rounded-lg p-2 bg-secondary">
         <Field orientation="horizontal">
-          <FieldLabel>Course Code</FieldLabel>
+          <FieldLabel>User Role</FieldLabel>
           <DebouncedInput
-            value={code ?? ''}
+            value={role ?? ''}
             onChange={(value) => {
-              updateParams({ code: value as string })
+              updateParams({ role: value as string })
             }}
-            placeholder="Search by course code..."
+            placeholder="Search by user role..."
           />
         </Field>
         <Field orientation="horizontal">
-          <FieldLabel>Course Name</FieldLabel>
+          <FieldLabel>User Name</FieldLabel>
           <DebouncedInput
             value={name ?? ''}
             onChange={(value) => {
               updateParams({ name: value as string })
             }}
-            placeholder="Search by course name..."
+            placeholder="Search by user name..."
           />
         </Field>
         <div className="flex items-center gap-2">
@@ -70,13 +66,12 @@ export default function CoursesTable() {
         </div>
       </div>
       <EditableDataTable
-        onRowSubmit={onRowSubmit}
-        data={courses}
+        data={users}
         columns={columns}
         onBatchDelete={async (rows) => {
           const selected = rows.map((row) => row.original.id)
 
-          await onCourseBatchDelete(selected)
+          await onUserBatchDelete(selected)
         }}
       />
     </>

@@ -14,6 +14,7 @@ export type ScannedRoutes = {
     'users.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'users.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'users.batch_destroy': { paramsTuple?: []; params?: {} }
     'courses.index': { paramsTuple?: []; params?: {} }
     'courses.store': { paramsTuple?: []; params?: {} }
     'courses.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -26,6 +27,7 @@ export type ScannedRoutes = {
     'subjects.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.batch_destroy': { paramsTuple?: []; params?: {} }
+    'activity_logs.index': { paramsTuple?: []; params?: {} }
     'subject_prerequisites.index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_prerequisites.prereq_options_index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_prerequisites.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -56,6 +58,7 @@ export type ScannedRoutes = {
     'courses.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.index': { paramsTuple?: []; params?: {} }
     'subjects.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'activity_logs.index': { paramsTuple?: []; params?: {} }
     'subject_prerequisites.index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_prerequisites.prereq_options_index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'students.index': { paramsTuple?: []; params?: {} }
@@ -74,6 +77,7 @@ export type ScannedRoutes = {
     'courses.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subjects.index': { paramsTuple?: []; params?: {} }
     'subjects.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'activity_logs.index': { paramsTuple?: []; params?: {} }
     'subject_prerequisites.index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_prerequisites.prereq_options_index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'students.index': { paramsTuple?: []; params?: {} }
@@ -88,6 +92,7 @@ export type ScannedRoutes = {
     'auth.session.store': { paramsTuple?: []; params?: {} }
     'auth.session.destroy': { paramsTuple?: []; params?: {} }
     'users.store': { paramsTuple?: []; params?: {} }
+    'users.batch_destroy': { paramsTuple?: []; params?: {} }
     'courses.store': { paramsTuple?: []; params?: {} }
     'courses.batch_destroy': { paramsTuple?: []; params?: {} }
     'subjects.store': { paramsTuple?: []; params?: {} }

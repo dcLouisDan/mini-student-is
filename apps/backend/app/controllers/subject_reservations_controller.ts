@@ -44,6 +44,7 @@ export default class StudentReservationsController {
 
     const subjects = await Subject.query()
       .preload('prerequisites')
+      .where('courseId', student.courseId)
       .where((builder) => {
         builder.doesntHave('prerequisites').orWhereHas('prerequisites', (query) => {
           query.whereInPivot('prerequisite_subject_id', passedGradesArr)
@@ -97,6 +98,7 @@ export default class StudentReservationsController {
       await activity()
         .by(authUser)
         .making('reserve-subjects')
+        .on(student)
         .havingCurrent({ id, subjectIds })
         .log('Student successfully reserved subjects')
     }
@@ -131,6 +133,7 @@ export default class StudentReservationsController {
     if (authUser) {
       await activity()
         .by(authUser)
+        .on(student)
         .making('delete-reservation')
         .havingCurrent({ id, subjectId })
         .log('Student successfully removed reserved subject')
@@ -160,6 +163,7 @@ export default class StudentReservationsController {
     if (authUser) {
       await activity()
         .by(authUser)
+        .on(student)
         .making('cancel-reservation')
         .havingCurrent({ id, subjectId })
         .log('Student successfully canceled reserved subject')

@@ -1,4 +1,5 @@
 import {
+  batchUsersDeleteValidator,
   indexUserValidator,
   showUserValidator,
   signupValidator,
@@ -10,6 +11,7 @@ import User from '#models/user'
 import UserTransformer from '#transformers/user_transformer'
 import { ModelAttributes } from '@adonisjs/lucid/types/model'
 import { activity } from '@holoyan/adonisjs-activitylog'
+import db from '@adonisjs/lucid/services/db'
 
 export default class UsersController {
   /**
@@ -157,5 +159,34 @@ export default class UsersController {
     await activity().by(authUser).making('delete').on(user).log('User successfully deleted')
 
     return response.status(200).send({ success: true, message: 'User deleted' })
+  }
+
+  async batchDestroy({ request, response, auth: { user: authUser } }: HttpContext) {
+    if (!authUser) {
+      return response.unauthorized()
+    }
+
+    if (authUser.role !== 'admin') {
+      return response.unauthorized()
+    }
+
+    const { idArr } = await request.validateUsing(batchUsersDeleteValidator)
+
+    const filteredIdArr = idArr.filter((id) => id != authUser.id)
+
+    await db.transaction(async (trx) => {
+      await User.query({ client: trx }).whereIn('id', filteredIdArr).delete()
+    })
+
+    await activity()
+      .by(authUser)
+      .making('batch-delete')
+      .havingCurrent({ idArr })
+      .log('Users deleted')
+
+    return response.ok({
+      message: 'Users deleted',
+      idArr,
+    })
   }
 }

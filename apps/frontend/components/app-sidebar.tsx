@@ -55,11 +55,11 @@ const data = {
       items: [
         {
           title: 'Users',
-          url: '#',
+          url: '/users',
         },
         {
           title: 'Activity Logs',
-          url: '#',
+          url: '/activity-logs',
         },
       ],
     },

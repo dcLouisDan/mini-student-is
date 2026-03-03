@@ -66,6 +66,12 @@ const routes = {
     tokens: [{"old":"/api/v1/users/:id","type":0,"val":"api","end":""},{"old":"/api/v1/users/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/users/:id","type":0,"val":"users","end":""},{"old":"/api/v1/users/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['users.destroy']['types'],
   },
+  'users.batch_destroy': {
+    methods: ["POST"],
+    pattern: '/api/v1/users/batch-delete',
+    tokens: [{"old":"/api/v1/users/batch-delete","type":0,"val":"api","end":""},{"old":"/api/v1/users/batch-delete","type":0,"val":"v1","end":""},{"old":"/api/v1/users/batch-delete","type":0,"val":"users","end":""},{"old":"/api/v1/users/batch-delete","type":0,"val":"batch-delete","end":""}],
+    types: placeholder as Registry['users.batch_destroy']['types'],
+  },
   'courses.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/courses',
@@ -137,6 +143,12 @@ const routes = {
     pattern: '/api/v1/subjects/batch-delete',
     tokens: [{"old":"/api/v1/subjects/batch-delete","type":0,"val":"api","end":""},{"old":"/api/v1/subjects/batch-delete","type":0,"val":"v1","end":""},{"old":"/api/v1/subjects/batch-delete","type":0,"val":"subjects","end":""},{"old":"/api/v1/subjects/batch-delete","type":0,"val":"batch-delete","end":""}],
     types: placeholder as Registry['subjects.batch_destroy']['types'],
+  },
+  'activity_logs.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/activity-logs',
+    tokens: [{"old":"/api/v1/activity-logs","type":0,"val":"api","end":""},{"old":"/api/v1/activity-logs","type":0,"val":"v1","end":""},{"old":"/api/v1/activity-logs","type":0,"val":"activity-logs","end":""}],
+    types: placeholder as Registry['activity_logs.index']['types'],
   },
   'subject_prerequisites.index': {
     methods: ["GET","HEAD"],

@@ -36,7 +36,7 @@ declare module '@tanstack/table-core' {
 interface DataTableProps<TData extends FieldValues, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  onRowSubmit: (data: TData) => Promise<boolean>
+  onRowSubmit?: (data: TData) => Promise<boolean>
   onBatchDelete?: (rows: Row<TData>[]) => void
 }
 

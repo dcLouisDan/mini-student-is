@@ -1,63 +1,57 @@
 'use client'
 
 import { columns } from './columns'
-import useCourses from '@/hooks/use-courses'
+import useActivityLogs from '@/hooks/use-activity-logs'
 import { PaginationBar } from '@/components/pagination-bar'
 import SortPopover from '@/components/sort-popover'
 import DebouncedInput from '@/components/debounced-input'
 import useQueryParams from '@/hooks/use-query-params'
-import { CoursesParams } from '@/lib/query-options/courses-query-options'
+import { ActivityLogsParams } from '@/lib/query-options/activity-logs-query-options'
 import { Field, FieldLabel } from '@/components/ui/field'
 import { EditableDataTable } from '@/components/editable-data-table'
 import { Data } from '@api-starter-kit/backend/data'
 import { toast } from 'sonner'
+import { DataTable } from '@/components/data-table'
 
-export default function CoursesTable() {
+export default function ActivityLogsTable() {
   const {
-    courses,
+    activitylogs,
     pagination: { total, currentPage, perPage },
     sortByOptions,
     sortBy,
     sortOrder,
-    code,
     name,
-    updateCourse,
-    batchDeleteCourse,
-  } = useCourses()
+    modelId,
+    modelType,
+    event,
+    entityId,
+    entityType,
+    description,
+  } = useActivityLogs()
 
-  const { updateParams } = useQueryParams<CoursesParams>()
-  const onRowSubmit = async (data: Data.Course) => {
-    return updateCourse(data)
-  }
+  const { updateParams } = useQueryParams<ActivityLogsParams>()
 
-  const onCourseBatchDelete = async (selectedRows: string[]) => {
-    const success = await batchDeleteCourse(selectedRows)
-
-    if (success) {
-      toast.success(`${selectedRows.length} rows have been deleted.`)
-    }
-  }
   return (
     <>
       <div className="flex flex-col md:flex-row items-center gap-2 justify-end  border rounded-lg p-2 bg-secondary">
         <Field orientation="horizontal">
-          <FieldLabel>Course Code</FieldLabel>
+          <FieldLabel>Activity Log Description</FieldLabel>
           <DebouncedInput
-            value={code ?? ''}
+            value={description ?? ''}
             onChange={(value) => {
-              updateParams({ code: value as string })
+              updateParams({ description: value as string })
             }}
-            placeholder="Search by course code..."
+            placeholder="Search by activity log description..."
           />
         </Field>
         <Field orientation="horizontal">
-          <FieldLabel>Course Name</FieldLabel>
+          <FieldLabel>ActivityLog Event</FieldLabel>
           <DebouncedInput
             value={name ?? ''}
             onChange={(value) => {
-              updateParams({ name: value as string })
+              updateParams({ event: value as string })
             }}
-            placeholder="Search by course name..."
+            placeholder="Search by activity log event..."
           />
         </Field>
         <div className="flex items-center gap-2">
@@ -69,16 +63,7 @@ export default function CoursesTable() {
           />
         </div>
       </div>
-      <EditableDataTable
-        onRowSubmit={onRowSubmit}
-        data={courses}
-        columns={columns}
-        onBatchDelete={async (rows) => {
-          const selected = rows.map((row) => row.original.id)
-
-          await onCourseBatchDelete(selected)
-        }}
-      />
+      <DataTable data={activitylogs} columns={columns} />
     </>
   )
 }
