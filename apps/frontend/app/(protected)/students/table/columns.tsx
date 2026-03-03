@@ -4,14 +4,15 @@ import { ColumnDef } from '@tanstack/react-table'
 
 import { Checkbox } from '@/components/ui/checkbox'
 import { Data } from '@api-starter-kit/backend/data'
-import { Button } from '@/components/ui/button'
-import { Edit, PencilOff, Save, Trash2 } from 'lucide-react'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Edit, Eye, PencilOff, Save, Trash2 } from 'lucide-react'
 import { useFormContext } from 'react-hook-form'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
 import { ConfirmationDialog } from '@/components/confirmation-dialog'
 import useStudents from '@/hooks/use-students'
 import CourseCombobox from '@/components/comboboxes/course-combobox'
+import Link from 'next/link'
 
 export const columns: ColumnDef<Data.Student>[] = [
   {
@@ -107,7 +108,7 @@ export const columns: ColumnDef<Data.Student>[] = [
       }
       return (
         <div className="flex items-center gap-1">
-          {isEditing && (
+          {isEditing ? (
             <Button
               title="Save changes"
               size="icon-sm"
@@ -124,7 +125,16 @@ export const columns: ColumnDef<Data.Student>[] = [
             >
               <Save />
             </Button>
+          ) : (
+            <Link
+              title="View details"
+              href={`/students/${item.id}`}
+              className={buttonVariants({ variant: 'default', size: 'icon-sm' })}
+            >
+              <Eye />
+            </Link>
           )}
+
           <Button
             title={!isEditing ? 'Edit' : 'Cancel'}
             size="icon-sm"

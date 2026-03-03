@@ -82,7 +82,13 @@ export default class StudentsController {
       params: { id },
     } = await request.validateUsing(showStudentValidator)
 
-    const student = await Student.query().preload('course').where('id', id).firstOrFail()
+    const student = await Student.query()
+      .preload('course')
+      .preload('reservedSubjects', (query) => {
+        query.pivotColumns(['status', 'reserved_at'])
+      })
+      .where('id', id)
+      .firstOrFail()
 
     return serialize(StudentTransformer.transform(student))
   }
@@ -152,8 +158,8 @@ export default class StudentsController {
       .orderBy('studentNo', 'desc')
       .first()
 
-    const lastNo = lastStudent ? lastStudent.studentNo : `${year}000000`
-    const nextNo = (Number(lastNo) + 1).toString().padStart(10, '0')
+    const lastNo = Number(lastStudent ? lastStudent.studentNo : `${year}000000`)
+    const nextNo = (lastNo + 1).toString().padStart(10, '0')
 
     return nextNo
   }

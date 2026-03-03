@@ -19,7 +19,7 @@ export default class SubjectTransformer extends BaseTransformer<Subject> {
         ? (this.resource.$extras.pivot_status as String)
         : undefined,
       reservedAt: this.resource.$extras.pivot_reserved_at
-        ? (this.resource.$extras.pivot_status as String)
+        ? (this.resource.$extras.pivot_reserved_at as String)
         : undefined,
     }
   }

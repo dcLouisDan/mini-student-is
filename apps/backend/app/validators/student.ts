@@ -29,7 +29,7 @@ const studentValidatorBase = {
   firstName: vine.string(),
   lastName: vine.string(),
   email: vine.string().email(),
-  birthDate: vine.date({ formats: [] }),
+  birthDate: vine.date(),
 }
 
 export const createStudentValidator = vine.create(studentValidatorBase)

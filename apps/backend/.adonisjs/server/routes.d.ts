@@ -35,6 +35,7 @@ export type ScannedRoutes = {
     'students.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'students.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'students.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'subject_reservations.eligible_subjects_index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_reservations.index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_reservations.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_reservations.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'subjectId': ParamValue} }
@@ -59,6 +60,7 @@ export type ScannedRoutes = {
     'subject_prerequisites.prereq_options_index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'students.index': { paramsTuple?: []; params?: {} }
     'students.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'subject_reservations.eligible_subjects_index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_reservations.index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'grades.index': { paramsTuple?: []; params?: {} }
     'grades.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -76,6 +78,7 @@ export type ScannedRoutes = {
     'subject_prerequisites.prereq_options_index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'students.index': { paramsTuple?: []; params?: {} }
     'students.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'subject_reservations.eligible_subjects_index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_reservations.index': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'grades.index': { paramsTuple?: []; params?: {} }
     'grades.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -92,7 +95,6 @@ export type ScannedRoutes = {
     'subject_prerequisites.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'students.store': { paramsTuple?: []; params?: {} }
     'subject_reservations.store': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'subject_reservations.cancel': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'subjectId': ParamValue} }
     'students.batch_destroy': { paramsTuple?: []; params?: {} }
     'grades.store': { paramsTuple?: []; params?: {} }
   }
@@ -117,6 +119,7 @@ export type ScannedRoutes = {
     'subject_prerequisites.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'prerequisiteSubjectId': ParamValue} }
     'students.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'subject_reservations.destroy': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'subjectId': ParamValue} }
+    'subject_reservations.cancel': { paramsTuple: [ParamValue,ParamValue]; params: {'id': ParamValue,'subjectId': ParamValue} }
     'grades.destroy': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
   }
 }

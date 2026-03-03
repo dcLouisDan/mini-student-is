@@ -348,6 +348,17 @@ export interface Registry {
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/students_controller').default['destroy']>>>
     }
   }
+  'subject_reservations.eligible_subjects_index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/students/:id/eligible-subjects'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQueryForGet<InferInput<(typeof import('#validators/student').showStudentValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/subject_reservations_controller').default['eligibleSubjectsIndex']>>>
+    }
+  }
   'subject_reservations.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/students/:id/reservations'
@@ -382,7 +393,7 @@ export interface Registry {
     }
   }
   'subject_reservations.cancel': {
-    methods: ["POST"]
+    methods: ["DELETE"]
     pattern: '/api/v1/students/:id/reservations/:subjectId/cancel'
     types: {
       body: ExtractBody<InferInput<(typeof import('#validators/student').showStudentReservationValidator)>>

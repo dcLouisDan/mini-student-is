@@ -192,6 +192,12 @@ const routes = {
     tokens: [{"old":"/api/v1/students/:id","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['students.destroy']['types'],
   },
+  'subject_reservations.eligible_subjects_index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/students/:id/eligible-subjects',
+    tokens: [{"old":"/api/v1/students/:id/eligible-subjects","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id/eligible-subjects","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id/eligible-subjects","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id/eligible-subjects","type":1,"val":"id","end":""},{"old":"/api/v1/students/:id/eligible-subjects","type":0,"val":"eligible-subjects","end":""}],
+    types: placeholder as Registry['subject_reservations.eligible_subjects_index']['types'],
+  },
   'subject_reservations.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/students/:id/reservations',
@@ -211,7 +217,7 @@ const routes = {
     types: placeholder as Registry['subject_reservations.destroy']['types'],
   },
   'subject_reservations.cancel': {
-    methods: ["POST"],
+    methods: ["DELETE"],
     pattern: '/api/v1/students/:id/reservations/:subjectId/cancel',
     tokens: [{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"api","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"v1","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"students","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":1,"val":"id","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"reservations","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":1,"val":"subjectId","end":""},{"old":"/api/v1/students/:id/reservations/:subjectId/cancel","type":0,"val":"cancel","end":""}],
     types: placeholder as Registry['subject_reservations.cancel']['types'],

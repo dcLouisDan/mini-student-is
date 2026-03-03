@@ -25,12 +25,30 @@ export default class StudentReservationsController {
     } = await request.validateUsing(showStudentValidator)
 
     const student = await Student.query()
-      .preload('reservedSubjects', (query) => query.pivotColumns(['status', 'reservedAt']))
+      .preload('reservedSubjects', (query) => query.pivotColumns(['status', 'reserved_at']))
       .where('id', id)
       .firstOrFail()
     const reservedSubjects = await student.related('reservedSubjects').query()
 
     return serialize(SubjectTransformer.transform(reservedSubjects).useVariant('withExtras'))
+  }
+
+  async eligibleSubjectsIndex({ request, serialize }: HttpContext) {
+    const {
+      params: { id },
+    } = await request.validateUsing(showStudentValidator)
+
+    const student = await Student.findOrFail(id)
+
+    const passedGradesArr = await this.subjectService.getPassedSubjectsIdArr(student.id)
+
+    const subjects = await Subject.query()
+      .doesntHave('prerequisites')
+      .orWhereHas('prerequisites', (query) => {
+        query.whereIn('id', passedGradesArr)
+      })
+
+    return serialize(SubjectTransformer.transform(subjects))
   }
 
   async store({ request, serialize, response, auth: { user: authUser } }: HttpContext) {
@@ -40,7 +58,7 @@ export default class StudentReservationsController {
     } = await request.validateUsing(attachStudentReservationValidator)
 
     const student = await Student.query()
-      .preload('reservedSubjects', (query) => query.pivotColumns(['status', 'reservedAt']))
+      .preload('reservedSubjects', (query) => query.pivotColumns(['status', 'reserved_at']))
       .where('id', id)
       .firstOrFail()
 
@@ -87,13 +105,23 @@ export default class StudentReservationsController {
     } = await request.validateUsing(showStudentReservationValidator)
 
     const student = await Student.query()
-      .preload('reservedSubjects', (query) => query.pivotColumns(['status', 'reservedAt']))
+      .preload('reservedSubjects', (query) => query.pivotColumns(['status', 'reserved_at']))
       .where('id', id)
       .firstOrFail()
 
     await student.related('reservedSubjects').detach([subjectId])
 
     const reservedSubjects = await student.related('reservedSubjects').query()
+
+    const gradeRecord = await student
+      .related('grades')
+      .query()
+      .where('subjectId', subjectId)
+      .first()
+
+    if (gradeRecord) {
+      await gradeRecord.delete()
+    }
 
     if (authUser) {
       await activity()
@@ -112,7 +140,7 @@ export default class StudentReservationsController {
     } = await request.validateUsing(showStudentReservationValidator)
 
     const student = await Student.query()
-      .preload('reservedSubjects', (query) => query.pivotColumns(['status', 'reservedAt']))
+      .preload('reservedSubjects', (query) => query.pivotColumns(['status', 'reserved_at']))
       .where('id', id)
       .firstOrFail()
 
@@ -146,11 +174,14 @@ export default class StudentReservationsController {
       values.push({
         subjectId: subject.id,
         courseId: student.courseId,
+        remarks: '',
       })
     }
     if (trx) {
       student.useTransaction(trx)
     }
-    await student.related('grades').createMany(values)
+    await student
+      .related('grades')
+      .updateOrCreateMany(values, ['studentId', 'subjectId', 'courseId'])
   }
 }

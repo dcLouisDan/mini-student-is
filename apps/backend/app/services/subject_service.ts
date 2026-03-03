@@ -12,7 +12,7 @@ export class SubjectService {
   }> {
     const subjects = await Subject.query().preload('prerequisites').whereIn('id', subjectIds)
     const invalidIds: Array<{ id: string; message: string }> = []
-    const passedSubjectIds = await this.getPassSubjectsIdArr(studentId)
+    const passedSubjectIds = await this.getPassedSubjectsIdArr(studentId)
 
     if (subjects.length !== subjectIds.length) {
       return { valid: false, invalidIds: [], subjects }
@@ -46,10 +46,10 @@ export class SubjectService {
         })
       })
       .select('subjects.*')
-      .where('grades.final_grade', '>=', 'subjects.passing_grade')
+      .whereColumn('grades.final_grade', '>=', 'subjects.passing_grade')
   }
 
-  async getPassSubjectsIdArr(studentId: string) {
+  async getPassedSubjectsIdArr(studentId: string) {
     const subjects = await this.getPassedSubjects(studentId)
 
     return subjects.map((subject) => subject.id)

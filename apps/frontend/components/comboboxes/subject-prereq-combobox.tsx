@@ -29,7 +29,6 @@ export default function SubjectPrereqCombobox({
     return selectOptions.find((item) => item.value == value) ?? null
   }, [data, value])
 
-  console.log(value)
   return (
     <QueryCombobox
       key={'prereq-combo'}

@@ -57,6 +57,7 @@ export interface ApiDefinition {
     batchDestroy: typeof routes['students.batch_destroy']
   }
   subjectReservations: {
+    eligibleSubjectsIndex: typeof routes['subject_reservations.eligible_subjects_index']
     index: typeof routes['subject_reservations.index']
     store: typeof routes['subject_reservations.store']
     destroy: typeof routes['subject_reservations.destroy']

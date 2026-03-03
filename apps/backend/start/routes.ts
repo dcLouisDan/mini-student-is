@@ -75,6 +75,13 @@ router
       .use(['store', 'update', 'destroy'], middleware.auth())
 
     router
+      .get('/students/:id/eligible-subjects', [
+        controllers.SubjectReservations,
+        'eligibleSubjectsIndex',
+      ])
+      .use(middleware.auth())
+
+    router
       .group(() => {
         router.get('/', [controllers.SubjectReservations, 'index'])
         router.post('/', [controllers.SubjectReservations, 'store']).use(middleware.auth())
@@ -82,7 +89,7 @@ router
           .delete('/:subjectId', [controllers.SubjectReservations, 'destroy'])
           .use(middleware.auth())
         router
-          .post('/:subjectId/cancel', [controllers.SubjectReservations, 'cancel'])
+          .delete('/:subjectId/cancel', [controllers.SubjectReservations, 'cancel'])
           .use(middleware.auth())
       })
       .prefix('/students/:id/reservations')
