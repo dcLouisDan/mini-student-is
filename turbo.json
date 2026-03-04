@@ -4,14 +4,8 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["build/**", ".adonisjs/**"],
-      "env": [
-        "NODE_ENV",
-        "APP_KEY",
-        "HOST",
-        "PORT",
-        "LOG_LEVEL"
-      ]
+      "outputs": ["build/**", ".adonisjs/**", ".next/**"],
+      "env": ["NODE_ENV", "APP_KEY", "HOST", "PORT", "LOG_LEVEL"]
     },
     "dev": {
       "cache": false,

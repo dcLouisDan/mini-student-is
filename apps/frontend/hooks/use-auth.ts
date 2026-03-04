@@ -21,7 +21,8 @@ export default function useAuth() {
 
       return data
     },
-    retry: false,
+    retry: 2,
+    retryDelay: 3000,
     staleTime: 1000 * 60 * 60,
     refetchOnMount: false,
     refetchOnWindowFocus: false,

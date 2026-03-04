@@ -7,6 +7,7 @@ export const controllers = {
   AccessToken: () => import('#controllers/access_token_controller'),
   ActivityLogs: () => import('#controllers/activity_logs_controller'),
   Courses: () => import('#controllers/courses_controller'),
+  Dashboard: () => import('#controllers/dashboard_controller'),
   Grades: () => import('#controllers/grades_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   Profile: () => import('#controllers/profile_controller'),
@@ -16,5 +17,4 @@ export const controllers = {
   SubjectReservations: () => import('#controllers/subject_reservations_controller'),
   Subjects: () => import('#controllers/subjects_controller'),
   Users: () => import('#controllers/users_controller'),
-  Dashboard: () => import('#controllers/dashboard_controller'),
 }
