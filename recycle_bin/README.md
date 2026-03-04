@@ -40,7 +40,7 @@ import { createTuyau } from '@tuyau/client'
 import type { registry } from '@api-starter-kit/backend/registry'
 
 export const api = createTuyau({
-  baseUrl: import.meta.env.VITE_API_URL || 'http://localhost:3333',
+  baseUrl: import.meta.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333',
   registry,
 })
 ```
@@ -327,7 +327,7 @@ type UserWithProfile = Data.User.Variants['withProfile']
 **TanStack Start** (`.env`):
 
 ```bash
-VITE_API_URL=http://localhost:3333
+NEXT_PUBLIC_API_URL=http://localhost:3333
 ```
 
 **Nuxt** (`.env`):

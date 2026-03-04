@@ -53,7 +53,7 @@ export default defineConfig({
     () => import('@adonisjs/cors/cors_provider'),
     () => import('@adonisjs/auth/auth_provider'),
     () => import('#providers/api_provider'),
-    () => import('@holoyan/adonisjs-activitylog/activity_log_provider')
+    () => import('@holoyan/adonisjs-activitylog/activity_log_provider'),
   ],
 
   /*
@@ -104,7 +104,12 @@ export default defineConfig({
   | the production build.
   |
   */
-  metaFiles: [],
+  metaFiles: [
+    {
+      pattern: '../../package-lock.json', // root lockfile
+      reloadServer: false,
+    },
+  ],
 
   hooks: {
     init: [
