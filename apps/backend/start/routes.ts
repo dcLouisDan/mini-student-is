@@ -27,6 +27,8 @@ router
       .prefix('auth')
       .as('auth')
 
+    router.get('/dashboard', [controllers.Dashboard, 'index']).use(middleware.auth())
+
     router
       .group(() => {
         router.get('/profile', [controllers.Profile, 'show'])

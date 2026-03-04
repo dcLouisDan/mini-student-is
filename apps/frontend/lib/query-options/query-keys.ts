@@ -7,4 +7,5 @@ export const QUERY_KEYS = {
   RESERVED_SUBJECTS: 'reserved_subjects',
   PREREQ_SUBJECTS: 'prereq_subjects',
   ACTIVITY_LOGS: 'activity_logs',
+  DASHBOARD: 'dashboard',
 } as const

@@ -8,6 +8,7 @@ export type ScannedRoutes = {
     'auth.session.store': { paramsTuple?: []; params?: {} }
     'auth.session.destroy': { paramsTuple?: []; params?: {} }
     'auth.profile.show': { paramsTuple?: []; params?: {} }
+    'dashboard.index': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
     'users.index': { paramsTuple?: []; params?: {} }
     'users.store': { paramsTuple?: []; params?: {} }
@@ -52,6 +53,7 @@ export type ScannedRoutes = {
   }
   GET: {
     'auth.profile.show': { paramsTuple?: []; params?: {} }
+    'dashboard.index': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
     'users.index': { paramsTuple?: []; params?: {} }
     'users.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -71,6 +73,7 @@ export type ScannedRoutes = {
   }
   HEAD: {
     'auth.profile.show': { paramsTuple?: []; params?: {} }
+    'dashboard.index': { paramsTuple?: []; params?: {} }
     'profile.profile.show': { paramsTuple?: []; params?: {} }
     'users.index': { paramsTuple?: []; params?: {} }
     'users.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

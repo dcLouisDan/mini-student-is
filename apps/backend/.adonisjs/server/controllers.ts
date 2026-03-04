@@ -16,4 +16,5 @@ export const controllers = {
   SubjectReservations: () => import('#controllers/subject_reservations_controller'),
   Subjects: () => import('#controllers/subjects_controller'),
   Users: () => import('#controllers/users_controller'),
+  Dashboard: () => import('#controllers/dashboard_controller'),
 }

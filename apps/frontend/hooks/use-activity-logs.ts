@@ -23,20 +23,21 @@ const sortableColumns = [
 ] as const
 const sortByOptions = stringArrToBasicSelectItems(Array.from(sortableColumns), camelCaseToTitleCase)
 
-export default function useActivityLogs() {
+export default function useActivityLogs(customParams: ActivityLogsParams = {}) {
   const { getParam } = useQueryParams<ActivityLogsParams>()
   const queryClient = useQueryClient()
-  const page = getParam<number>('page', 1)
-  const perPage = getParam<number>('perPage', PER_PAGE_DEFAULT)
-  const name = getParam<string>('name')
-  const sortBy = getParam<string>('sortBy')
-  const sortOrder = getParam<SortDirection>('sortOrder', 'desc')
-  const modelType = getParam<string>('modelType')
-  const modelId = getParam<string>('modelId')
-  const event = getParam<string>('event')
-  const entityType = getParam<string>('entityType')
-  const entityId = getParam<string>('entityId')
-  const description = getParam<string>('description')
+
+  const page = customParams.page ?? getParam<number>('page', 1)
+  const perPage = customParams.perPage ?? getParam<number>('perPage', PER_PAGE_DEFAULT)
+  const name = customParams.name ?? getParam<string>('name')
+  const sortBy = customParams.sortBy ?? getParam<string>('sortBy')
+  const sortOrder = customParams.sortOrder ?? getParam<SortDirection>('sortOrder', 'desc')
+  const modelType = customParams.modelType ?? getParam<string>('modelType')
+  const modelId = customParams.modelId ?? getParam<string>('modelId')
+  const event = customParams.event ?? getParam<string>('event')
+  const entityType = customParams.entityType ?? getParam<string>('entityType')
+  const entityId = customParams.entityId ?? getParam<string>('entityId')
+  const description = customParams.description ?? getParam<string>('description')
 
   const { data, isLoading } = useQuery(
     activitylogsQueryOptions({

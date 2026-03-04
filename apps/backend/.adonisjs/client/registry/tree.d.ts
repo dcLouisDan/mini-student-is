@@ -14,6 +14,9 @@ export interface ApiDefinition {
       show: typeof routes['auth.profile.show']
     }
   }
+  dashboard: {
+    index: typeof routes['dashboard.index']
+  }
   profile: {
     profile: {
       show: typeof routes['profile.profile.show']
