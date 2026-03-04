@@ -8,6 +8,7 @@ import Grade from './grade.ts'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import { MorphMap } from '@holoyan/adonisjs-activitylog'
 import { LogModelInterface } from '@holoyan/adonisjs-activitylog/types'
+import ActivityLog from './activity_log.ts'
 
 @MorphMap('users')
 export default class User
@@ -26,6 +27,11 @@ export default class User
   getModelId(): string {
     return String(this.id)
   }
+
+  @hasMany(() => ActivityLog, {
+    foreignKey: 'model_id',
+  })
+  declare activityLogs: HasMany<typeof ActivityLog>
 
   @hasMany(() => Grade, {
     foreignKey: 'encodedByUserId',

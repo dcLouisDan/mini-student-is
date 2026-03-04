@@ -70,7 +70,7 @@ function RecentActivitiesCard() {
           <div key={item.id} className="flex items-center border-y text-xs p-2">
             <div className=" border-e-2 pe-2 me-2">
               <strong>USER: </strong>
-              {(item.modelId ?? 'system').toUpperCase()}
+              {(item.user?.fullName ?? 'system').toUpperCase()}
             </div>{' '}
             <div className="w-24 font-bold border-e-2 me-2">
               {(item.entityType ?? 'unknown').toUpperCase()}

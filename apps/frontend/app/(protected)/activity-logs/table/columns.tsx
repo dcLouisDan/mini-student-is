@@ -19,8 +19,9 @@ export const columns: ColumnDef<Data.ActivityLog>[] = [
     header: 'ID',
   },
   {
-    accessorKey: 'modelId',
-    header: 'User ID',
+    id: 'user',
+    header: 'User Name',
+    accessorFn: (row) => row.user?.fullName ?? 'System',
   },
   {
     accessorKey: 'entityType',

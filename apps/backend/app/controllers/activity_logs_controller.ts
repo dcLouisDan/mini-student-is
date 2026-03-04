@@ -22,7 +22,7 @@ export default class ActivityLogsController {
     const order: SortOrder = (sortOrder as SortOrder) ?? 'desc'
     const ilikeFilters = { description, event }
     const filters = { entityType }
-    const activitylogsRaw = ActivityLog.query()
+    const activitylogsRaw = ActivityLog.query().preload('user')
 
     Object.entries(filters).forEach(([key, value]) => {
       if (value) activitylogsRaw.where(key, value)
